@@ -701,6 +701,13 @@ section#counter {
 #event .event_news {
     padding-bottom: 27px;
 }
+.event_board{
+    border: #aeadad;
+    border-width: 2px;
+    border-style: solid;
+    border-radius: 25px;
+    padding: 10px;
+}
 .event_news_text {
     display: block;
     overflow: hidden;
@@ -1186,3 +1193,4 @@ ul.entry-meta {
 .main-content.blog-w.rap,.main-content.container.blog-wrap.single-blog {
     margin-top: 80px;
 }
+
