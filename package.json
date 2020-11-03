@@ -1,7 +1,6 @@
 {
   "name": "uiui",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -13,5 +12,15 @@
   "dependencies": {
     "http-server": "^0.12.3",
     "ws": "^7.3.1"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zzerii/uiuiui.git"
+  },
+  "bugs": {
+    "url": "https://github.com/zzerii/uiuiui/issues"
+  },
+  "homepage": "https://github.com/zzerii/uiuiui#readme",
+  "description": ""
 }
