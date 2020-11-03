@@ -639,14 +639,13 @@ section#counter {
     padding: 80px 0px;
 }
 #event .event_header {
-    padding-bottom: 50px;
+    padding-bottom: 10px;
 }
 #event .event_header h2 {
     font-size: 36px;
     font-weight: 700;
     padding-bottom: 20px;
     text-transform: uppercase;
-    font-family: 'Roboto Slab', serif;
     color: #222222;
 }
 .event_header.text-center p {
