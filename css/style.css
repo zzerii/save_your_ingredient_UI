@@ -797,32 +797,67 @@ section#counter {
     flex-wrap: wrap;
 }
 
-/* Select Box */
+
+/* select box */
+/* *
+{
+    user-select: none;
+}
+
+*:focus
+{
+    outline: none;
+}
+
+html, body
+{
+    height: 100%;
+    min-height: 100%;
+} */
+
+body
+{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding-bottom: 100px;
+    margin: 0;
+    background-color: #ebf3f3;
+}
+
 .brd
 {
     border: 1px solid #e2eded;
     border-color: #eaf1f1 #e4eded #dbe7e7 #e4eded;
 }
-#app-cover
+
+#info
 {
-    line-height: 100px;
+    position: absolute;
     top: 0;
     right: 0;
     left: 0;
-    width: 100px;
-    height: 80px;
+    color: #2d3667;
+    font-size: 16px;
+    text-align: center;
+    padding: 14px;
+    background-color: #f3f9f9;
+}
 
-}
-#select-box
+#app-cover
 {
-    line-height: 100px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    width: 90px;
+    height: 42px;
+    margin: auto;
 }
+
 #select-button
 {
-    line-height: 100px;
     position: relative;
-    height: 16px;
-    padding: 25px;
+    height: 40px;
+    padding: 12px 14px;
     background-color: #fff;
     border-radius: 4px;
     cursor: pointer;
@@ -845,14 +880,12 @@ section#counter {
 
 #selected-value
 {
+    line-height: 50px;
     font-size: 16px;
     line-height: 1;
     margin-right: 26px;
 }
-#select-value span
-{
-    line-height: 50px;
-}
+
 .option i
 {
     width: 16px;
@@ -893,18 +926,19 @@ section#counter {
 {
     position: absolute;
     left: 0;
-    width: 250px;
+    width: 90px;
 }
 
 #options
 {
+    z-index: 20;
     position: absolute;
     top: 42px;
     right: 0;
     left: 0;
-    width: 298px;
+    width: 90px;
     margin: 0 auto;
-    background-color: #fff;
+    background-color: rgb(255, 255, 255);
     border-radius: 4px;
 }
 
@@ -1024,7 +1058,7 @@ input[type="radio"]
 {
     position: absolute;
     left: 14px;
-    width: 217px;
+    width: 60px;
     height: 21px;
     opacity: 0;
     background-color: #fff;
