@@ -764,12 +764,33 @@ section#counter {
     flex-direction: row;
     flex-wrap: wrap;
 }
-.list_text h2 {
-    margin-bottom: 20px;
-    vertical-align: middle;
-    color: #454444;
-}
 
+
+/*orderlist*/
+#orderlist {
+    min-height: 5px;
+    background: #fff;
+    color: #000;
+    /* padding: 80px 0px; */
+}
+.orderlist_board{
+    border: #aeadad;
+    border-width: 2px;
+    border-style: solid;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 10px;
+}
+#orderlist h2 {
+    line-height: 7px;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+#orderlist h4 {
+    line-height: 7px;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
 
 /* Select Box */
 .brd
