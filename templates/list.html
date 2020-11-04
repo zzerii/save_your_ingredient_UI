@@ -40,15 +40,49 @@
                                             <h3>2020-11-05</h3> 
                                         </li>
                                         <li class="col-lg-3 col-md-3 col-sm-3 col-xs-3 al">
-                                            <div><span id="amount"></span></div>
+                                            <div><span id="amount"></span>양</div>
                                         </li>
                                         <li class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                                            <select>
-                                            <option value="">=== 선택 ===</option>
-                                            <option value="lit" >적음</option>
-                                            <option value="mid">보통</option>
-                                            <option value="many">많음</option>
-                                            </select>
+                                            <!--selector-->
+                                            <form id="app-cover">
+                                                <div id="select-box">
+                                                        <input type="checkbox" id="options-view-button">
+                                                        <div id="select-button" class="brd">
+                                                                <div id="selected-value">
+                                                                    <span>Amount</span>
+                                                                </div>
+                                                                <div id="chevrons">
+                                                                        <i class="fas fa-chevron-up"></i>
+                                                                        <i class="fas fa-chevron-down"></i>
+                                                                </div>
+                                                        </div>
+                                                        <div id="options">
+                                                                <div class="option">
+                                                                        <input class="s-c top" type="radio" name="platform" value="codepen">
+                                                                        <input class="s-c bottom" type="radio" name="platform" value="codepen">
+                                                                        <i class="fab fa-codepen"></i>
+                                                                        <span class="label">적음</span>
+                                                                        <span class="opt-val">적음</span>
+                                                                </div>
+                                                                <div class="option">
+                                                                        <input class="s-c top" type="radio" name="platform" value="dribbble">
+                                                                        <input class="s-c bottom" type="radio" name="platform" value="dribbble">
+                                                                        <i class="fab fa-dribbble"></i>
+                                                                        <span class="label">보통</span>
+                                                                        <span class="opt-val">보통</span>
+                                                                </div>
+                                                                <div class="option">
+                                                                        <input class="s-c top" type="radio" name="platform" value="behance">
+                                                                        <input class="s-c bottom" type="radio" name="platform" value="behance">
+                                                                        <i class="fab fa-behance"></i>
+                                                                        <span class="label">많음</span>
+                                                                        <span class="opt-val">많음</span>
+                                                                </div>
+                                                                <div id="option-bg"></div>
+                                                        </div>
+                                                </div>
+                                             </form>
+                                            <!--end selector-->
                                         </li>
                                     </ul>
                                 </div>
@@ -67,16 +101,17 @@
                             <li class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
                                 <div class="list_board">
                                     <ul class="row ">
+                                        <li class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                            <a href="#"><h3>마늘아가</h3></a>
+                                        </li>
+                                        <li class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                            <h3>2020-11-08</h3> 
+                                        </li>
                                         <li class="col-lg-3 col-md-3 col-sm-3 col-xs-3 al">
-                                            <img src="/img/manel.jpg" alt="">
+                                            <div><span id="amount"></span>양</div>
                                         </li>
                                         <li class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                                            <a href="#"><h2>마늘아가</h2></a>
-                                        </li>
-                                        <li class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                                            <h2>2020-11-08</h2> 
-                                        </li>
-                                        <li class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                        <!--selector-->
                                             <form id="app-cover">
                                                 <div id="select-box">
                                                         <input type="checkbox" id="options-view-button">
@@ -91,30 +126,31 @@
                                                         </div>
                                                         <div id="options">
                                                                 <div class="option">
-                                                                        <input class="s-c top" type="radio" name="platform" value="적음">
-                                                                        <input class="s-c bottom" type="radio" name="platform" value="적음">
-                                                                        <i class="fab fa-behance"></i>
+                                                                        <input class="s-c top" type="radio" name="platform" value="codepen">
+                                                                        <input class="s-c bottom" type="radio" name="platform" value="codepen">
+                                                                        <i class="fab fa-codepen"></i>
                                                                         <span class="label">적음</span>
                                                                         <span class="opt-val">적음</span>
                                                                 </div>
                                                                 <div class="option">
-                                                                        <input class="s-c top" type="radio" name="platform" value="보통">
-                                                                        <input class="s-c bottom" type="radio" name="platform" value="보통">
-                                                                        <i class="fab fa-hackerrank"></i>
+                                                                        <input class="s-c top" type="radio" name="platform" value="dribbble">
+                                                                        <input class="s-c bottom" type="radio" name="platform" value="dribbble">
+                                                                        <i class="fab fa-dribbble"></i>
                                                                         <span class="label">보통</span>
                                                                         <span class="opt-val">보통</span>
                                                                 </div>
                                                                 <div class="option">
-                                                                        <input class="s-c top" type="radio" name="platform" value="많음">
-                                                                        <input class="s-c bottom" type="radio" name="platform" value="많음">
-                                                                        <i class="fab fa-stack-overflow"></i>
+                                                                        <input class="s-c top" type="radio" name="platform" value="behance">
+                                                                        <input class="s-c bottom" type="radio" name="platform" value="behance">
+                                                                        <i class="fab fa-behance"></i>
                                                                         <span class="label">많음</span>
                                                                         <span class="opt-val">많음</span>
                                                                 </div>
                                                                 <div id="option-bg"></div>
                                                         </div>
                                                 </div>
-                                        </form>
+                                             </form>
+                                            <!--end selector-->
                                         </li>
                                     </ul>
                                 </div>

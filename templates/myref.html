@@ -52,8 +52,7 @@
     <script>
         $(function() {
             includeHTML();
-
-            $('select').on('change', function(){
+            $('#myselector').on('change', function(){
                 let amount=$(this).text();
                 console.log(amount);
                 $('#amount').text(amount);
