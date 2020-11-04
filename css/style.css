@@ -731,7 +731,7 @@ section#counter {
 
 /*List*/
 #list {
-    min-height: 550px;
+    min-height: 100px;
     background: #fff;
     color: #000;
     /* padding: 80px 0px; */
@@ -749,6 +749,11 @@ section#counter {
     flex-direction: row;
     flex-wrap: wrap;
 }
+#list h3 {
+    line-height: 100px;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
 #list h4 {
     line-height: 100px;
     flex-direction: row;
@@ -759,7 +764,7 @@ section#counter {
     flex-direction: row;
     flex-wrap: wrap;
 }
-#list form {
+#list select {
     line-height: 100px;
     flex-direction: row;
     flex-wrap: wrap;
