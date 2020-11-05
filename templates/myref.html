@@ -36,29 +36,32 @@
           <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
         
-    </head>
-    <body>
-        <nav    class="include" include-html="./nav.html">1</nav>
-        <list   class="include" include-html="./list.html">2</list>
-        <footer class="include" include-html="./footer.html">3</footer>
+        <script src="../node_modules/jquery/dist/jquery.js"></script>
+        <script type="text/javascript" src="../js/list.js"></script>
+        <script src="../js/includeHTML.js"></script>
+    <!--여기부터 노답이야.-->
+        <script>
+            $(function() {
+                includeHTML();
+                $('#myselector').on('change', function(){
+                    let amount=$(this).text();
+                    console.log(amount);
+                    $('#amount').text(amount);
+                })
+            });
+        </script>
+
+        <script>$("#amount option:selected").val();</script>
+
+        </head>
+        <body>
+            <nav    class="include" include-html="./nav.html">1</nav>
+            <list   class="include" include-html="./list.html">2</list>
+            <footer class="include" include-html="./footer.html">3</footer>
         
     </body>
     
 
-    <script src="../node_modules/jquery/dist/jquery.js"></script>
-    <script type="text/javascript" src="../js/list.js"></script>
-    <script src="../js/includeHTML.js"></script>
-<!--여기부터 노답이야.-->
-    <script>
-        $(function() {
-            includeHTML();
-            $('#myselector').on('change', function(){
-                let amount=$(this).text();
-                console.log(amount);
-                $('#amount').text(amount);
-            })
-        });
-    </script>
-    <script>$("#amount option:selected").val();</script>
+    
 
 </html>
