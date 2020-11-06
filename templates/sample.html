@@ -1,0 +1,41 @@
+<button id="addbtn" type="button" class="btn btn-primary btn-lg">+</button>
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='../text/css'>
+
+<!--Fontawesom-->
+<link rel="stylesheet" href="../css/font-awesome.min.css">
+
+<!--Animated CSS-->
+<link rel="stylesheet" type="../text/css" href="../css/animate.min.css">
+
+<!-- Bootstrap -->
+<link href="../css/bootstrap.min.css" rel="stylesheet">
+<!--Bootstrap Carousel-->
+<link type="../text/css" rel="stylesheet" href="../css/carousel.css" />
+
+<link rel="stylesheet" href="../css/isotope/style.css">
+
+<!--Main Stylesheet-->
+<link href="../css/style.css" rel="stylesheet">
+<!--Responsive Framework-->
+<link href="../css/responsive.css" rel="stylesheet">
+<link href="../node_modules/jquery-modal/jquery.modal.css">
+<link href="../node_modules/animate.css/animate.min.css">
+<script src="../js/jquery-1.12.3.min.js"></script>
+<script type="text/javascript" src="../js/list.js"></script>
+<script src="../js/includeHTML.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../node_modules/jquery-modal/jquery.modal.js"></script>
+<script src="../js/modal.js"></script>
+<script>
+    $('#addbtn').click(function(event) {
+        event.preventDefault();
+        this.blur();
+
+        $.popup({
+            url: './modal1.html',
+            close: function(result) {
+                console.log(result);
+            }
+        });
+    });
+</script>
