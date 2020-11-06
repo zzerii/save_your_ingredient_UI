@@ -28,8 +28,9 @@
         <link href="../css/style.css" rel="stylesheet">
         <!--Responsive Framework-->
         <link href="../css/responsive.css" rel="stylesheet">
-        <link href="../node_modules/jquery-modal/jquery.modal.css">
         <link href="../node_modules/animate.css/animate.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+
 
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -62,7 +63,7 @@
                     </div>
                     <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
                         <div class="event_header">
-                            <button id="addbtn" type="button" class="btn btn-primary btn-lg">+</button>
+                            <p><a class="btn" href="#addbtn">+</a></p>
                         </div>
                     </div>
                 </div>
@@ -71,14 +72,58 @@
                 <div id="list">
                     <ul class="">
                         <li class="rm">
-                            <div class=list_board>
-                                <div>양파</div>
-                                <div>20-11-06</div>
-                                <div class="display">text</div>
-                                <div> <select></select></div>
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                                    <div id="list"class="list_board">
+                                        <div class="col-md-3"><h3>양파</h3></div>
+                                        <div class="col-md-3"><h3>20-11-06<h3></div>
+                                        <div class="col-md-3" id="display"><h3>text<h3></div>
+                                        <div class="col-md-3" id="select-box">
+<!-- 지마                                        <form id="app-cover"> -->
+                                                <input type="checkbox" id="options-view-button">
+                                                <div id="select-button" class="brd">
+                                                        <div id="selected-value">
+                                                            <span id="amount_text">Amount</span>
+                                                        </div>
+                                                        <div id="chevrons">
+                                                                <i class="fas fa-angle-up"></i>
+                                                                <i class="fas fa-angle-down"></i>
+                                                        </div>
+                                                </div>
+                                                <div id="options">
+                                                        <div class="option">
+                                                                <input class="s-c top" type="radio" name="platform" value="codepen">
+                                                                <input class="s-c bottom" type="radio" name="platform" value="codepen">
+                                                                <i class="glyphicon glyphicon-heart"></i>
+                                                                <span class="label">적음</span>
+                                                        </div>
+                                                        <div class="option">
+                                                                <input class="s-c top" type="radio" name="platform" value="dribbble">
+                                                                <input class="s-c bottom" type="radio" name="platform" value="dribbble">
+                                                                <i class="glyphicon glyphicon-heart"></i>
+                                                                <span class="label">보통</span>
+                                                        </div>
+                                                        <div class="option">
+                                                                <input class="s-c top" type="radio" name="platform" value="behance">
+                                                                <input class="s-c bottom" type="radio" name="platform" value="behance">
+                                                                <i class="glyphicon glyphicon-heart"></i>
+                                                                <span class="label">많음</span>
+                                                        </div>
+                                                        <div id="option-bg"></div>
+                                                </div>
+                                            <!-- </form> -->
+                                            <!--end selector-->
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                    <a href="#">주문하기</a>
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                    <button id="delbtn" type="button" class="btn btn-danger">X</button>
+                                </div>
                             </div>
-                            <div><a href="#">주문하기</div>
-                            <div><button id="delbtn" type="button" class="btn btn-danger btn-lg">X</button></div>
                         </li>
                     </ul>
                     
@@ -87,48 +132,51 @@
             </div>
         </section>
 <!--end of 재고목록-->
+<!-- 모달 창 띄우기 -->
+        <div id="addbtn">
+            <h3>안녕</h3>
+            <div class="text-center">
+                <button id="add_btn" type="button" class="btn btn-primary">추가</button>
+                <button id="close_btn" type="button" class="btn btn-danger">닫기</button>
+            </div>
+        </div>
         <footer class="include" include-html="./footer.html"></footer>
     
         <script src="../js/jquery-1.12.3.min.js"></script>
         <script type="text/javascript" src="../js/list.js"></script>
         <script src="../js/includeHTML.js"></script>
         <script src="../js/bootstrap.min.js"></script>
-        <script src="../node_modules/jquery-modal/jquery.modal.js"></script>
-        <script src="../js/modal.js"></script>
-    <!--여기부터 노답이야.-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+        <script>includeHTML();</script>
+    <!--선택박스 가져오기 노답이야.-->
         <script>
             $(function() {
-                includeHTML();
-                $('#myselector').on('change', function(){
-                    let amount=$(this).text();
+                $('#select-box').on('change', function(){
+                    let amount=$('#option span').text();
                     console.log(amount);
-                    $('#amount').text(amount);
+                    $('#display').text(amount);
                 })
             });
         </script>
-        <!--삭제-->
+        <!--리스트 삭제기능-->
         <script type="text/javascript">
             $( '#delbtn' ).click( function() {
                 $('li').remove('.rm');
                 });
         </script>
 
-        <script>$("#amount option:selected").val();</script>
-        
-        <!--추가-->
+        <!--추가를 위한 모달-->
         <script>
-            $('#addbtn').click(function(event) {
-                event.preventDefault();
-                this.blur();
-        
-                $.popup({
-                    url: './modal1.html',
-                    close: function(result) {
-                        console.log(result);
-                    }
-                });
+            $('a[href="#addbtn"]').click(function(event) {
+              event.preventDefault();
+         
+              $(this).modal({
+                fadeDuration: 250
+              });
             });
         </script>
+        
     </body>
     
 
