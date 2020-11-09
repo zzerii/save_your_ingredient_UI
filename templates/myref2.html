@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+    </head>
+    <body>
+        <!-- Modal start-->
+        <p><a class="btn" href="#ex7">모달창</a></p>
+        
+        <div id="ex7" class="modal">
+            <p>재료를 추가해 보자</p>
+            <!-- Input -->
+            <div id="input-Box">
+                <div>Food: <input type="text" id="inputed_food"></div>
+                <div>EXP: <input type="date" id="inputed_exp"></div>
+                <div>Amount:
+                    <select id="inputed_amount">
+                        <option value="" selected disabled hidden>==선택하시오==</option>
+                        <option value="amount-many">많음</option>
+                        <option value="amount-soso">보통</option>
+                        <option value="amount-lit">적음</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer" id="modal-footer">
+                <button type="button" class="modal_add_btn">추가</button>
+                <button type="button" class="modal_close_btn" >닫기</button>
+            </div>
+        </div>
+
+        <!-- list main -->
+        <ul id="formList" class="form_list">
+            <li>내용1<a href="#" id="btnDelete" class="btn btn_del">삭제</a></li>
+            <li>내용2<a href="#" id="btnDelete" class="btn btn_del">삭제</a></li>
+            <li>내용3<a href="#" id="btnDelete" class="btn btn_del">삭제</a></li>
+        </ul>
+
+        <!-- Select Box -->
+        <select id="amountList">
+            <option value="" selected disabled hidden>==선택하시오==</option>
+            <option value="amount-many">많음</option>
+            <option value="amount-soso">보통</option>
+            <option value="amount-lit">적음</option>
+        </select>
+
+        <!-- Select Box Display -->
+        <div id="output"></div>
+
+        <!-- Json List -->
+        <ul id="test_list"></ul>
+
+        
+
+        <!-- Script -->
+
+        <!-- Modal jQuery -->
+        <script>
+            $('a[href="#ex7"]').click(function(event) {
+            event.preventDefault();
+        
+            $(this).modal({
+                fadeDuration: 250
+            });
+            });
+            //Close btn in Modal
+            $(".modal_close_btn").on('click', $.modal.close)
+
+
+            $.post(url, data, function(jsonResponse) {
+            // Do something with  jsonResponse
+                $("#ex7>#modal-footer>.modal_add_btn").on("click", function(){
+                    var aJsonArray = new Array();
+                    var aJson = new Object();
+
+                    var input_food=$('#inputed_food').val();
+                    var input_exp=$('#inputed_exp').val();
+                    var input_amount=$('#inputed_amount option:selected').text();
+
+                    $.post(url, data, function(jsonResponse) {
+                        // Do something with  jsonResponse
+                    }, '../test-list.json')
+                    aJson.food = input_food;
+                    aJson.exp = input_exp;
+                    aJson.amount = input_amount;
+                    
+                    JSON.stringify(aJson);
+                 });
+            }, '../test-list.json')
+
+            //Add btn in Modal
+            // $("#ex7>#modal-footer>.modal_add_btn").on("click", function(){
+                    
+            //         var new_node = "<li>추가된 내용1</li>"
+            //         $("ul").append(new_node);
+            //         return false; 
+            //     });
+        </script>
+
+        <!-- Delete in List -->
+        <script type="text/javascript">
+            $(function(){
+                $("#test_list>li>#delbtn").on("click", function(){
+                    $(this).parent().remove();
+                    return false; 
+                 });
+            }); 
+        </script>
+
+        <!-- Show Select Box changed-->
+        <script>
+            $("#amountList").change(onSelectChange);
+
+            function onSelectChange(){ 
+                var selected = $("#amountList option:selected");      
+                var output = ""; 
+                if(selected.val() != 0){  
+                output =selected.text();
+                }
+                $("#output").html(output);
+            }
+        </script>
+
+        <!-- Read and GET Json -->
+        <script>
+            $(function(){
+                $.getJSON('../test-list.json', function(data){
+                    var html=[];
+
+                    $.each(data, function(i, item){
+                        for(var num=0; num<item.user_ref.length;num++){
+                            html.push('<li>');
+                            // html.push('<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">');
+                            html.push('<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8" style="margin-bottom:10px; border: 2px solid black ">');
+                            html.push('<div class="col-md-3">'+ item.user_ref[num].food+'</div>');
+                            html.push('<div class="col-md-3">'+ item.user_ref[num].exp+'</div>');
+                            html.push('<div class="col-md-3">'+ item.user_ref[num ].amount+'</div>');
+                            html.push('</div>');
+                            html.push('<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">');
+                            html.push('<a href="#">주문하기</a>');
+                            html.push('</div>');
+                            html.push('<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">');
+                            html.push('<button id="delbtn" type="button" class="btn btn-danger">X</button>');
+                            // html.push('</div>');
+                            html.push('</div>');
+                            html.push('</li>');
+                        }
+                    });
+                    // Show in HTML
+                    $('#test_list').html(html.join(''));
+                });
+            });
+        </script>
+        
+        <script>
+            $.post(url, data, function(jsonResponse) {
+            // Do something with  jsonResponse
+                $("#ex7>#input_amount").on("click", function(){
+                    var aJsonArray = new Array();
+                    var aJson = new Object();
+
+                    var input_food=$('#inputed_food').val();
+                    var input_exp=$('#inputed_exp').val();
+                    var input_amount=$('#inputed_amount').val();
+
+                    $.post(url, data, function(jsonResponse) {
+                        // Do something with  jsonResponse
+                    }, '../test-list.json')
+                    aJson.food = input_food;
+                    aJson.exp = input_exp;
+                    aJson.amount = input_amount;
+                    
+                    JSON.stringify(aJson);
+                 });
+            }, '../test-list.json')
+        </script>
+
+        
+    </body>
+    
+
+    
+
+</html>
