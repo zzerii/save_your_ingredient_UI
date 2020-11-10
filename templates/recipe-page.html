@@ -46,21 +46,30 @@
     <script src="../js/includeHTML.js"></script>
     <script>
         $(document).ready(function() {
-            $('#target').click(function() {
+            $('#more').click(function() {
                 $.getJSON('recipe_example.json', function(data) {
                     var html = '';
                     $.each(data, function(entryIndex, item) {
-                        html += '<div class="blog_news"> \
-                                      <div class="single_blog_item"> \
-                                        <div class="blog_img">';
-                        html += '<img src="' + item.thumbnail + '" alt="" /></div>';
-                        html += '<div class="blog_content"><a href=""><h3>' + item.name + '</h3></a>';
-                        html += '<div class="expert"> \
-                        <div class="left-side text-left"> \
-                          <p class="left_side"> \
-                            <span class="clock"><i class="fa fa-clock-o"></i></span> \
-                            <span class="time">' + item.time +'</span><a href=""><span class="admin"><i class="fa fa-user"></i> Admin</span></a> \
-                            </p></div></div></div></div>';
+                        html += '<div class="col-md-3" style="float: left;"><div class="blog_news"> \
+                                  <div class="single_blog_item" style="max-height: 400px; min-height: 400px;"> \
+                                    <div class="blog_img">';
+                        html +=      '<img src="' + item.thumbnail + '" alt="" /> \
+                                    </div>';
+                        html +=    '<div class="blog_content"><a href=""><h3>' + item.name + '</h3></a>';
+                        html +=      '<div class="expert"> \
+                                        <div class="left-side text-left"> \
+                                          <p class="left_side"> \
+                                          <span class="clock"><i class="fa fa-clock-o"></i></span> \
+                                          <span class="time">' + item.time +'</span><a href=""><span class="admin"><i class="fa fa-user"></i> Admin</span></a> \
+                                          </p> \
+                                        </div>\
+                                      </div>\
+                                    </div>\
+                                  </div>\
+                                  <div class="single_blog_item" style="margin-bottom: 30px">\
+                                    <button style="width: 100%">창고에 담기</button>\
+                                  </div>\
+                                </div></div>';
                     });
                     console.log(html);
                     $('#card').html(html);
@@ -69,47 +78,49 @@
             });
         });
     </script>
+
+    <script>
+      $(document).ready(function() {
+        $.getJSON('recipe_example.json', function(data) {
+          var html='';
+          $.each(data, function() {
+            html = '<div class="col-md-6"">\
+                  <div class="blog_news">\
+                    <div class="single_blog_item">\
+                      <div class="blog_img">\
+                        <img src="/img/chicken.jpg" alt="" />\
+                      </div>\
+                      <div class="blog_content">\
+                        <a href=""><h3>닭봉 간장 조림</h3></a>\
+                        <div class="expert">\
+                          <div class="left-side text-left">\
+                            <p class="left_side">\
+                              <span class="clock"><i class="fa fa-clock-o"></i></span>\
+                              <span class="time">Aug 19, 2020</span>\
+                              <a href=""><span class="admin"><i class="fa fa-user"></i> Admin</span></a>\
+                            </p></div></div></div></div></div></div>';
+          });
+          $('#recent').html(html);
+        });
+      });
+    </script>
   </head>
 
   <body>
-    <div id="container">
-        <div class="letters">
-          <div class="letter" id="target">
-            <h3><a href="#">클릭</a></h3>
-          </div>
-        </div>  
-      </div>
-  
-
     <nav class="include" include-html="./nav.html"></nav>
 
     <!-- 레시피 카드 -->
     <section id="blog">
         <div class="container">
-          <div class="row">
-            <div class="col-md-6">
-              <div class="latest_blog text-left">
-                <h3 style="padding-left: 10px">최근 레시피</h3>
-                <button class="more">더 보기</button>
-                <hr style="height: 2px; background-color: #ccc;">
-              </div>
+          <div class="col-md-6">
+            <div class="latest_blog text-left">
+                <h3 style="display: inline-block;">최근 레시피</h3>
+                <button id="more" style="float: right;">더보기</button>
             </div>
-      
-            <div class="col-md-6">
-              <div class="latest_blog text-left">
-                <h3 style="padding-left: 10px">인기 레시피</h3>
-                <hr style="height: 2px; background-color: #ccc;">
-            </div>
-            </div>
-          </div>
-          <!--End of row-->
-          
+            <hr class="col-md-12" style="width: 95%; height: 2px; background-color: #ccc;">
 
-          <div class="row">
-            <div class="col-md-6">
-              <div id="card"></div>
-            </div>
-      
+
+            <!-- 최근 레시피 -->
             <div class="col-md-6">
               <div class="col-md-6">
                 <div class="blog_news">
@@ -132,7 +143,50 @@
                   </div>
                 </div>
               </div>
-            </section>
+              <div class="col-md-6">
+                <div class="blog_news">
+                  <div class="single_blog_item">
+                    <div class="blog_img">
+                      <img src="/img/chicken.jpg" alt="" />
+                    </div>
+                    <div class="blog_content">
+                      <a href=""><h3>닭봉 간장 조림</h3></a>
+                      <div class="expert">
+                        <div class="left-side text-left">
+                          <p class="left_side">
+                            <span class="clock"><i class="fa fa-clock-o"></i></span>
+                            <span class="time">Aug 19, 2020</span>
+                            <a href=""><span class="admin"><i class="fa fa-user"></i> Admin</span></a>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          
+          </div>
+    
+          <div class="col-md-6">
+            <div class="latest_blog text-left">
+              <h3 style="padding-left: 10px">인기 레시피</h3>
+              <hr style="height: 2px; background-color: #ccc;">
+            </div>
+          </div>
+          <!--End of row-->
+          
+
+          <div class="row">
+            <!-- 더보기 -->
+            <div id="card">
+            </div>
+
+      
+            <div class="col-md-6">
+
+              
+            </div>
       
               <!-- 빈 div -->
               <div class="col-md-12" style="height: 30px"></div>
