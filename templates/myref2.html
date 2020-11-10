@@ -7,6 +7,17 @@
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+        
+        <!--Animated CSS-->
+        <link rel="stylesheet" type="../text/css" href="../css/animate.min.css">
+        <!-- Bootstrap -->
+        <link href="../css/bootstrap.min.css" rel="stylesheet">
+        <!--Bootstrap Carousel-->
+        <link type="../text/css" rel="stylesheet" href="../css/carousel.css" />
+        
+        <link rel="stylesheet" href="../css/isotope/style.css">
+        <!--Main Stylesheet-->
+        <link href="../css/style.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
     </head>
     <body>
@@ -34,11 +45,13 @@
             </div>
         </div>
 
+        <button onclick="sortListByName()">이름순</button>
+        <button onclick="sortListByDate()">날짜순</button>
         <!-- list main -->
         <ul id="formList" class="form_list">
-            <li>내용1<a href="#" id="btnDelete" class="btn btn_del">삭제</a></li>
-            <li>내용2<a href="#" id="btnDelete" class="btn btn_del">삭제</a></li>
-            <li>내용3<a href="#" id="btnDelete" class="btn btn_del">삭제</a></li>
+            <li>나<a href="#" id="btnDelete" class="btn btn_del">삭제</a></li>
+            <li>가<a href="#" id="btnDelete" class="btn btn_del">삭제</a></li>
+            <li>다<a href="#" id="btnDelete" class="btn btn_del">삭제</a></li>
         </ul>
 
         <!-- Select Box -->
@@ -105,12 +118,22 @@
         <!-- Delete in List -->
         <script type="text/javascript">
             $(function(){
-                $("#test_list>li>#delbtn").on("click", function(){
+                $("#formList>li>#btnDelete").on("click", function(){
                     $(this).parent().remove();
                     return false; 
                  });
             }); 
         </script>
+
+        <!-- Delete in List -->
+        <!-- <script type="text/javascript">
+            $(function(){
+                $("#test_list>li>#btnDel>#delbtn").on("click", function(){
+                    $(this).parent().remove();
+                    return false; 
+                 });
+            }); 
+        </script> -->
 
         <!-- Show Select Box changed-->
         <script>
@@ -134,29 +157,50 @@
 
                     $.each(data, function(i, item){
                         for(var num=0; num<item.user_ref.length;num++){
-                            html.push('<li>');
-                            // html.push('<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">');
-                            html.push('<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8" style="margin-bottom:10px; border: 2px solid black ">');
-                            html.push('<div class="col-md-3">'+ item.user_ref[num].food+'</div>');
-                            html.push('<div class="col-md-3">'+ item.user_ref[num].exp+'</div>');
-                            html.push('<div class="col-md-3">'+ item.user_ref[num ].amount+'</div>');
+                            html.push('<li id="list">');
+                            html.push('<div id="stockdiv" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">');
+                            html.push('<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 list_board">');
+                            html.push('<div class="col-md-3" style="float: left">'+ item.user_ref[num].food+'</div>');
+                            html.push('<div class="col-md-3" style="float: left">'+ item.user_ref[num].exp+'</div>');
+                            html.push('<div class="col-md-3" style="float: left">'+ item.user_ref[num ].amount+'</div>');
+                            html.push('<div class="col-md-3" style="float: left">');
+                            html.push('<select id="inputed_amount">');
+                            html.push('<option value="" selected disabled hidden>==선택하시오==</option>');
+                            html.push('<option value="amount-many">많음</option>');
+                            html.push('<option value="amount-soso">보통</option>');
+                            html.push('<option value="amount-lit">적음</option>');
+                            html.push('</select>');
+                            html.push('</div>')
                             html.push('</div>');
-                            html.push('<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">');
+                            html.push('<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">')
+                            html.push('<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">');
                             html.push('<a href="#">주문하기</a>');
                             html.push('</div>');
-                            html.push('<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">');
-                            html.push('<button id="delbtn" type="button" class="btn btn-danger">X</button>');
-                            // html.push('</div>');
+                            html.push('<div id="btnDel" class="col-lg-6 col-md-6 col-sm-6 col-xs-6 ">');
+                            html.push('<button id="delbtn" type="button" class="btn btn-danger" >X</button>');
+                            html.push('</div>');
+                            html.push('</div>');
                             html.push('</div>');
                             html.push('</li>');
                         }
                     });
+
+                    //Delete Btn in List
+                    $(function(){
+                        $("#test_list>#list>#stockdiv>div>#btnDel>#delbtn").on("click", function(){
+                            $(this).parent().parent().parent().parent().remove();
+                            return false; 
+                         });
+                    }); 
+                    
                     // Show in HTML
                     $('#test_list').html(html.join(''));
                 });
+                
             });
         </script>
         
+        <!-- Post in Jason ing.... -->
         <script>
             $.post(url, data, function(jsonResponse) {
             // Do something with  jsonResponse
@@ -180,7 +224,82 @@
             }, '../test-list.json')
         </script>
 
-        
+        <!-- Sort By Name -->
+        <script>
+            function sortListByName() {
+                var list, i, switching, b, shouldSwitch, dir, switchcount = 0;
+                list = document.getElementById("test_list");
+                switching = true;
+                dir = "asc";
+                while (switching) {
+                  switching = false;
+                  b = list.getElementsByTagName("LI");
+                  for (i = 0; i < (b.length - 1); i++) {
+                    shouldSwitch = false;
+                    if (dir == "asc") {
+                      if (b[i].innerHTML.toLowerCase() > b[i + 1].innerHTML.toLowerCase()) {
+                        shouldSwitch = true;
+                        break;
+                      }
+                    } else if (dir == "desc") {
+                      if (b[i].innerHTML.toLowerCase() < b[i + 1].innerHTML.toLowerCase()) {
+                        shouldSwitch= true;
+                        break;
+                      }
+                    }
+                  }
+                  if (shouldSwitch) {
+                    b[i].parentNode.insertBefore(b[i + 1], b[i]);
+                    switching = true;
+                    switchcount ++;
+                  } else {
+                    if (switchcount == 0 && dir == "asc") {
+                      dir = "desc";
+                      switching = true;
+                    }
+                  }
+                }
+              }
+        </script>
+
+        <!-- Sort By Date -->
+        <script>
+            function sortListByDate() {
+                var list, i, switching, b, shouldSwitch, dir, switchcount = 0;
+                list = document.getElementById("test_list");
+                switching = true;
+                dir = "asc";
+                while (switching) {
+                  switching = false;
+                  b = list.getElementsByTagName("LI");
+                  for (i = 0; i < (b.length - 1); i++) {
+                    shouldSwitch = false;
+                    if (dir == "asc") {
+                      if (b[i].innerHTML.toLowerCase() > b[i + 1].innerHTML.toLowerCase()) {
+                        shouldSwitch = true;
+                        break;
+                      }
+                    } else if (dir == "desc") {
+                      if (b[i].innerHTML.toLowerCase() < b[i + 1].innerHTML.toLowerCase()) {
+                        shouldSwitch= true;
+                        break;
+                      }
+                    }
+                  }
+                  if (shouldSwitch) {
+                    b[i].parentNode.insertBefore(b[i + 1], b[i]);
+                    switching = true;
+                    switchcount ++;
+                  } else {
+                    if (switchcount == 0 && dir == "asc") {
+                      dir = "desc";
+                      switching = true;
+                    }
+                  }
+                }
+              }
+        </script>
+
     </body>
     
 
