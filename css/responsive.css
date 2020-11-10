@@ -390,6 +390,9 @@
     }
     #blog .single_blog_item {
         margin: 8px 0;
+        max-height: 400px; 
+        min-height: 400px; 
+        margin-bottom: 30px
     }
     #blog .latest_blog {
         padding-top: 20px;
