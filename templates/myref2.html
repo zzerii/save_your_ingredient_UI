@@ -4,6 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://poiemaweb.com/assets/css/ajax.css" />
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
@@ -19,6 +20,8 @@
         <!--Main Stylesheet-->
         <link href="../css/style.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+        <!--Responsive Framework-->
+        <link href="../css/responsive.css" rel="stylesheet" />
     </head>
     <body>
         <!-- Modal start-->
@@ -45,8 +48,8 @@
             </div>
         </div>
 
-        <button onclick="sortListByName()">이름순</button>
-        <button onclick="sortListByDate()">날짜순</button>
+        <button id="sortByName" onclick="sortListByName()">이름순</button>
+        <button id="sortByDate" onclick="sortListByDate()">날짜순</button>
         <!-- list main -->
         <ul id="formList" class="form_list">
             <li>나<a href="#" id="btnDelete" class="btn btn_del">삭제</a></li>
@@ -66,7 +69,7 @@
         <div id="output"></div>
 
         <!-- Json List -->
-        <ul id="test_list"></ul>
+        <ul id="content"></ul>
 
         
 
@@ -152,8 +155,8 @@
         <!-- Read and GET Json -->
         <script>
             $(function(){
-                $.getJSON('../test-list.json', function(data){
-                    var html=[];
+                //$.getJSON('../test-list.json', function(data){
+                    //var html=[];
 
                     $.each(data, function(i, item){
                         for(var num=0; num<item.user_ref.length;num++){
@@ -170,7 +173,7 @@
                             html.push('<option value="amount-soso">보통</option>');
                             html.push('<option value="amount-lit">적음</option>');
                             html.push('</select>');
-                            html.push('</div>')
+                            html.push('</div>');
                             html.push('</div>');
                             html.push('<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">')
                             html.push('<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">');

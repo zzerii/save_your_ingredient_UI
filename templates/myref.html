@@ -30,50 +30,52 @@
 
     <body>
         <nav class="include" include-html="./nav.html"></nav>
-        <!--재고 목록-->
-        <div class="row">
-            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-                <div class="event_header text-left">
-                    <h2>재고 목록</h2>
+        <div class="container">
+            <!--재고 목록-->
+            <div class="list_header">
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                    <div class="event_header text-left">
+                        <h2>재고 목록</h2>
+                    </div>
                 </div>
-            </div>
-            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
-                <button onclick="sortListByName()">이름순</button>
-            </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                <button>유통기한순</button>
-            </div>
+                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                    <button id="sortByName" onclick="sortListByName()">이름순</button>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                    <button id="sortByDate">유통기한순</button>
+                </div>
 
-            <!-- Modal Start -->
-            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
-                <p><a class="btn" href="#ex7">+</a></p>
-                <div id="ex7" class="modal">
-                    <p>재료를 추가해 보자</p>
-                    <!-- Input -->
-                    <div id="input-Box">
-                        <div>Food: <input type="text" id="inputed_food"></div>
-                        <div>EXP: <input type="date" id="inputed_exp"></div>
-                        <div>Amount:
-                            <select id="inputed_amount">
-                                <option value="" selected disabled hidden>==선택하시오==</option>
-                                <option value="amount-many">많음</option>
-                                <option value="amount-soso">보통</option>
-                                <option value="amount-lit">적음</option>
-                            </select>
+                <!-- Modal Start -->
+                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                    <p><a id="modal_btn" class="modal_btn" href="#ex7" src="fas-fa-heart">+</a></p>
+                    <div id="ex7" class="modal">
+                        <p>재료를 추가해 보자</p>
+                        <!-- Input -->
+                        <form id="input-Box">
+                            <div>Food: <input type="text" id="inputed_food"></div>
+                            <div>EXP: <input type="date" id="inputed_exp"></div>
+                            <div>Amount:
+                                <select id="inputed_amount">
+                                    <option value="" selected disabled hidden>==선택하시오==</option>
+                                    <option value="amount-many">많음</option>
+                                    <option value="amount-soso">보통</option>
+                                    <option value="amount-lit">적음</option>
+                                </select>
+                            </div>
+                        </form>
+                        <div class="modal-footer" id="modal-footer">
+                            <button type="button" class="modal_add_btn">추가</button>
+                            <button type="button" class="modal_close_btn" >닫기</button>
                         </div>
                     </div>
-                    <div class="modal-footer" id="modal-footer">
-                        <button type="button" class="modal_add_btn">추가</button>
-                        <button type="button" class="modal_close_btn" >닫기</button>
-                    </div>
                 </div>
             </div>
+
+            <hr>
+
+            <!-- Json List -->
+            <ul id="stock_list"></ul>
         </div>
-
-        <hr>
-
-        <!-- Json List -->
-        <ul id="stock_list"></ul>
         
         <footer class="include" include-html="./footer.html"></footer>     
         
@@ -131,54 +133,68 @@
 
         <!-- Read and GET Json -->
         <script>
-            $(function(){
-                $.getJSON('../test-list.json', function(data){
-                    var html=[];
-
-                    $.each(data, function(i, item){
-                        for(var num=0; num<item.user_ref.length;num++){
-                            html.push('<li id="list">');
-                            html.push('<div id="stockdiv" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">');
-                            html.push('<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 list_board">');
-                            html.push('<div class="col-md-3" style="float: left">'+ item.user_ref[num].food+'</div>');
-                            html.push('<div class="col-md-3" style="float: left">'+ item.user_ref[num].exp+'</div>');
-                            html.push('<div class="col-md-3" style="float: left">'+ item.user_ref[num ].amount+'</div>');
-                            html.push('<div class="col-md-3" style="float: left">');
-                            html.push('<select id="inputed_amount">');
-                            html.push('<option value="" selected disabled hidden>==선택하시오==</option>');
-                            html.push('<option value="amount-many">많음</option>');
-                            html.push('<option value="amount-soso">보통</option>');
-                            html.push('<option value="amount-lit">적음</option>');
-                            html.push('</select>');
-                            html.push('</div>')
-                            html.push('</div>');
-                            html.push('<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">')
-                            html.push('<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">');
-                            html.push('<a href="#">주문하기</a>');
-                            html.push('</div>');
-                            html.push('<div id="btnDel" class="col-lg-6 col-md-6 col-sm-6 col-xs-6 ">');
-                            html.push('<button id="delbtn" type="button" class="btn btn-danger" >X</button>');
-                            html.push('</div>');
-                            html.push('</div>');
-                            html.push('</div>');
-                            html.push('</li>');
-                        }
-                    });
-
-                    //Delete Btn in List
-                    $(function(){
-                        $("#stock_list>#list>#stockdiv>div>#btnDel>#delbtn").on("click", function(){
-                            $(this).parent().parent().parent().parent().remove();
-                            return false; 
-                         });
-                    }); 
-                    
-                    // Show in HTML
-                    $('#stock_list').html(html.join(''));
+            // XMLHttpRequest 객체의 생성
+            var xhr = new XMLHttpRequest();
+      
+            // 비동기 방식으로 Request를 오픈한다
+            xhr.open("GET", "../data/test-list.json");
+            // Request를 전송한다
+            xhr.send();
+      
+            xhr.onreadystatechange = function () {
+              // 서버 응답 완료 && 정상 응답
+              if (xhr.readyState !== XMLHttpRequest.DONE) return;
+      
+              if (xhr.status === 200) {
+                console.log(xhr.responseText);
+      
+                // Deserializing (String → Object)
+                responseObject = JSON.parse(xhr.responseText);
+      
+                // JSON → HTML String
+                let newContent ='';
+                responseObject.user_ref.forEach((user_ref) => {
+                  newContent += `
+                  <li id="list">
+                    <div id="stockdiv" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 list_board">
+                        <div class="col-md-3" style="float: left">${user_ref.food}</div>\
+                        <div class="col-md-3" style="float: left">${user_ref.exp}</div>\
+                        <div class="col-md-3" id="amountOutput" style="float: left">${user_ref.amount}</div>
+                        <div class="col-md-3" style="float: left">
+                            <select id="inputed_amount">
+                            <option value="" selected disabled hidden>==선택하시오==</option>
+                            <option value="amount-many">많음</option>
+                            <option value="amount-soso">보통</option>
+                            <option value="amount-lit">적음</option>
+                            </select>
+                        </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                        <div id="order_btn" class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <a href="#">주문하기</a>
+                        </div>
+                        <div id="btnDel" class="col-lg-6 col-md-6 col-sm-6 col-xs-6 ">
+                            <button id="delbtn" type="button" class="delbtn btn-danger" >X</button>
+                        </div>
+                   `;
                 });
-                
-            });
-        </script>
+      
+                newContent += "</div></div></div></li>";
+      
+                document.getElementById("stock_list").innerHTML = newContent;
+              } else {
+                console.log(`[${xhr.status}] : ${xhr.statusText}`);
+              }
+            };
+            //Delete Btn in List
+            $(function(){
+                $("#stock_list>#list>#stockdiv>div>#btnDel>#delbtn").on("click", function(){
+                    $(this).parent().parent().parent().parent().remove();
+                    return false; 
+                 });
+            }); 
+          </script>
 
         <!-- Sort By Name -->
         <script>
@@ -217,6 +233,23 @@
                 }
               }
         </script>
+
+        <script>
+            $(".modal_add_btn").on('click', $.addStock);
+            function addStock(){
+                var getFood=document.getElementById('#inputed_food').val();
+                var getExp=document.getElementById('#inputed_exp').val();
+                var selected = $("#inputed_amount option:selected").text;
+                var addForm={
+                    "food":getFood,
+                    "exp":getExp,
+                    "amount":selected
+                };
+                fs.writeFileSync('../data/test-list.json',JSON.stringify(addForm));
+                $.modal.close();
+            }
+        </script>
+
         
     </body>
     
