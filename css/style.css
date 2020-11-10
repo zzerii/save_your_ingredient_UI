@@ -732,11 +732,16 @@ section#counter {
 }
 .list_board{
     border: #aeadad;
+    background-color: #fff;
     border-width: 2px;
     border-style: solid;
     border-radius: 25px;
     padding: 30px;
     margin-bottom: 20px;
+}
+.list_header{
+  margin-top: 20px;
+  padding: 30px;
 }
 #list h2 {
   line-height: 80px;
@@ -762,6 +767,68 @@ section#counter {
   line-height: 100px;
   flex-direction: row;
   flex-wrap: wrap;
+}
+.delbtn{
+  border: 1px solid #fff;
+  border-radius: 5px;
+  background-color: rgb(167, 46, 46);
+  color: #fff;
+  padding:5px 10px 5px 10px; 
+}
+#delbtn:hover{
+  color:  #fff;
+  background-color: rgb(221, 70, 0);
+  border: 1px solid rgb(167, 46, 46);
+}
+
+#sortByName{
+  border: 1px solid #fff;
+  border-radius: 5px;
+  background-color: rgb(134, 175, 250);
+  color: #fff;
+  padding: 5px; 
+}
+#sortByName:hover{
+  color:  rgb(134, 175, 250);
+  background-color: #fff;
+  border: 1px solid rgb(134, 175, 250);
+}
+#sortByDate{
+  border: 1px solid #fff;
+  border-radius: 5px;
+  background-color: rgb(198, 142, 235);
+  color: #fff;
+  padding: 5px; 
+}
+#sortByDate:hover{
+  color: rgb(198, 142, 235);
+  background-color: #fff;
+  border: 1px solid rgb(198, 142, 235);
+}
+#modal_btn{
+  text-decoration: none;
+  font-size:2rem;
+  color:white;
+  padding:5px 10px 5px 10px;
+  display:inline-block;
+  border-radius: 10px;
+  transition:all 0.1s;
+  background-color:rgb(134, 175, 250);
+  border: 1px solid #fff;
+}
+
+#order_btn{
+  margin-top: 20px;
+  line-height: 30px;
+  text-decoration: none;
+  font-size:2rem;
+  color:white;
+  padding:5px 10px 5px 10px;
+  display:inline-block;
+  border-radius: 10px;
+  transition:all 0.1s;
+  background-color:rgb(134, 175, 250);
+  border: 1px solid #fff;
 }
 
 /* modal */
