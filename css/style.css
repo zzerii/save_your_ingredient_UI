@@ -732,7 +732,6 @@ section#counter {
 /*List*/
 #list {
     min-height: 100px;
-    background: #fff;
     color: #000;
     /* padding: 80px 0px; */
 }
@@ -741,7 +740,7 @@ section#counter {
     border-width: 2px;
     border-style: solid;
     border-radius: 25px;
-    padding: 10px;
+    padding: 30px;
     margin-bottom: 20px;
 }
 #list h2 {
@@ -808,8 +807,6 @@ section#counter {
     text-indent: -9999px;
 }
 
-
-출처: https://ddorang-d.tistory.com/97 [도라미도라미]
 
 /*orderlist*/
 #orderlist {

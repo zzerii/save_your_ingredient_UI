@@ -6,14 +6,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-        <title>GreenFair</title>
+        <title>MyRef</title>
 
-        <!--    Google Fonts-->
-        <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='../text/css'>
-
-        <!--Fontawesom-->
-        <link rel="stylesheet" href="../css/font-awesome.min.css">
-
+        
         <!--Animated CSS-->
         <link rel="stylesheet" type="../text/css" href="../css/animate.min.css">
 
@@ -30,162 +25,197 @@
         <link href="../css/responsive.css" rel="stylesheet">
         <link href="../node_modules/animate.css/animate.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
-
-
-        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-        <!--[if lt IE 9]>
-          <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-        <![endif]-->
         
     </head>
+
     <body>
         <nav class="include" include-html="./nav.html"></nav>
         <!--재고 목록-->
-        <section id="event">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-                        <div class="event_header text-left">
-                            <h2>재고 목록</h2>
-                        </div>
-                    </div>
-                    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
-                        <div class="event_header">
-                            <button>이름순</button>
-                        </div>
-                    </div>
-                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                        <div class="event_header">
-                            <button>유통기한순</button>
-                        </div>
-                    </div>
-                    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
-                        <div class="event_header">
-                            <p><a class="btn" href="#addbtn">+</a></p>
-                        </div>
-                    </div>
+        <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                <div class="event_header text-left">
+                    <h2>재고 목록</h2>
                 </div>
-                <hr>
-                <!--End of row-->
-                <div id="list">
-                    <ul class="stock_list">
-                        <li class="rm">
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-                                    <div id="list"class="list_board">
-                                        <div class="col-md-3"><h3>양파</h3></div>
-                                        <div class="col-md-3"><h3>20-11-06<h3></div>
-                                        <div class="col-md-3" id="display"><h3>text<h3></div>
-                                            <!-- selector -->
-                                        <div class="col-md-3" id="select-box">
-                                                <input type="checkbox" id="options-view-button">
-                                                <div id="select-button" class="brd">
-                                                        <div id="selected-value">
-                                                            <span id="amount_text">Amount</span>
-                                                        </div>
-                                                        <div id="chevrons">
-                                                                <i class="fas fa-angle-up"></i>
-                                                                <i class="fas fa-angle-down"></i>
-                                                        </div>
-                                                </div>
-                                                <div id="options">
-                                                        <div class="option">
-                                                                <input class="s-c top" type="radio" name="platform" value="codepen">
-                                                                <input class="s-c bottom" type="radio" name="platform" value="codepen">
-                                                                <i class="glyphicon glyphicon-heart"></i>
-                                                                <span class="label">적음</span>
-                                                        </div>
-                                                        <div class="option">
-                                                                <input class="s-c top" type="radio" name="platform" value="dribbble">
-                                                                <input class="s-c bottom" type="radio" name="platform" value="dribbble">
-                                                                <i class="glyphicon glyphicon-heart"></i>
-                                                                <span class="label">보통</span>
-                                                        </div>
-                                                        <div class="option">
-                                                                <input class="s-c top" type="radio" name="platform" value="behance">
-                                                                <input class="s-c bottom" type="radio" name="platform" value="behance">
-                                                                <i class="glyphicon glyphicon-heart"></i>
-                                                                <span class="label">많음</span>
-                                                        </div>
-                                                        <div id="option-bg"></div>
-                                                </div>
-                                            <!--end selector-->
-                                        </div>
-                                    </div>
-                                    
-                                </div>
-                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                                    <a href="#">주문하기</a>
-                                </div>
-                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                                    <button id="delbtn" type="button" class="btn btn-danger">X</button>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                    
-                </div>
-                
             </div>
-            
-        </section>
-<!--end of 재고목록-->
-<!-- 모달 창 띄우기 -->
-        
-        <footer class="include" include-html="./footer.html"></footer>
-        
-        <div id="addbtn">
-            <div class="text-center">
-                <button id="add_btn" type="button" class="btn btn-primary">추가</button>
-                <button id="close_btn" type="button" class="btn btn-danger">닫기</button>
-            </div> -
+            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                <button onclick="sortListByName()">이름순</button>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                <button>유통기한순</button>
+            </div>
+
+            <!-- Modal Start -->
+            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                <p><a class="btn" href="#ex7">+</a></p>
+                <div id="ex7" class="modal">
+                    <p>재료를 추가해 보자</p>
+                    <!-- Input -->
+                    <div id="input-Box">
+                        <div>Food: <input type="text" id="inputed_food"></div>
+                        <div>EXP: <input type="date" id="inputed_exp"></div>
+                        <div>Amount:
+                            <select id="inputed_amount">
+                                <option value="" selected disabled hidden>==선택하시오==</option>
+                                <option value="amount-many">많음</option>
+                                <option value="amount-soso">보통</option>
+                                <option value="amount-lit">적음</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer" id="modal-footer">
+                        <button type="button" class="modal_add_btn">추가</button>
+                        <button type="button" class="modal_close_btn" >닫기</button>
+                    </div>
+                </div>
+            </div>
         </div>
-    
+
+        <hr>
+
+        <!-- Json List -->
+        <ul id="stock_list"></ul>
+        
+        <footer class="include" include-html="./footer.html"></footer>     
+        
+
+        <!-- Script -->
         <script src="../js/jquery-1.12.3.min.js"></script>
-        <script type="text/javascript" src="../js/list.js"></script>
         <script src="../js/includeHTML.js"></script>
         <script src="../js/bootstrap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
-
         <script>includeHTML();</script>
-    <!--선택박스 가져오기 노답이야.-->
-        <script>
-            $(function() {
-                $('#select-box').on('change', function(){
-                    let amount=$('#option span').text();
-                    console.log(amount);
-                    $('#display').text(amount);
-                })
-            });
-        </script>
-        <!--리스트 삭제기능-->
-        <script type="text/javascript">
-            $( '#delbtn' ).click( function() {
-                $('li').remove('.rm');
-            });
-        </script>
 
-        <!--추가를 위한 모달-->
+        <!-- Modal jQuery -->
         <script>
-            $('a[href="#addbtn"]').click(function(event) {
-              event.preventDefault();
-         
-              $(this).modal({
+            $('a[href="#ex7"]').click(function(event) {
+            event.preventDefault();
+        
+            $(this).modal({
                 fadeDuration: 250
-              });
+            });
+            });
+            //Close btn in Modal
+            $(".modal_close_btn").on('click', $.modal.close)
+
+
+            $.post(url, data, function(jsonResponse) {
+            // Do something with  jsonResponse
+                $("#ex7>#modal-footer>.modal_add_btn").on("click", function(){
+                    var aJsonArray = new Array();
+                    var aJson = new Object();
+
+                    var input_food=$('#inputed_food').val();
+                    var input_exp=$('#inputed_exp').val();
+                    var input_amount=$('#inputed_amount option:selected').text();
+
+                    $.post(url, data, function(jsonResponse) {
+                        // Do something with  jsonResponse
+                    }, '../test-list.json')
+                    aJson.food = input_food;
+                    aJson.exp = input_exp;
+                    aJson.amount = input_amount;
+                    
+                    JSON.stringify(aJson);
+                 });
+            }, '../test-list.json')
+
+            //Add btn in Modal
+            // $("#ex7>#modal-footer>.modal_add_btn").on("click", function(){
+                    
+            //         var new_node = "<li>추가된 내용1</li>"
+            //         $("ul").append(new_node);
+            //         return false; 
+            //     });
+        </script>
+
+        <!-- Read and GET Json -->
+        <script>
+            $(function(){
+                $.getJSON('../test-list.json', function(data){
+                    var html=[];
+
+                    $.each(data, function(i, item){
+                        for(var num=0; num<item.user_ref.length;num++){
+                            html.push('<li id="list">');
+                            html.push('<div id="stockdiv" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">');
+                            html.push('<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 list_board">');
+                            html.push('<div class="col-md-3" style="float: left">'+ item.user_ref[num].food+'</div>');
+                            html.push('<div class="col-md-3" style="float: left">'+ item.user_ref[num].exp+'</div>');
+                            html.push('<div class="col-md-3" style="float: left">'+ item.user_ref[num ].amount+'</div>');
+                            html.push('<div class="col-md-3" style="float: left">');
+                            html.push('<select id="inputed_amount">');
+                            html.push('<option value="" selected disabled hidden>==선택하시오==</option>');
+                            html.push('<option value="amount-many">많음</option>');
+                            html.push('<option value="amount-soso">보통</option>');
+                            html.push('<option value="amount-lit">적음</option>');
+                            html.push('</select>');
+                            html.push('</div>')
+                            html.push('</div>');
+                            html.push('<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">')
+                            html.push('<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">');
+                            html.push('<a href="#">주문하기</a>');
+                            html.push('</div>');
+                            html.push('<div id="btnDel" class="col-lg-6 col-md-6 col-sm-6 col-xs-6 ">');
+                            html.push('<button id="delbtn" type="button" class="btn btn-danger" >X</button>');
+                            html.push('</div>');
+                            html.push('</div>');
+                            html.push('</div>');
+                            html.push('</li>');
+                        }
+                    });
+
+                    //Delete Btn in List
+                    $(function(){
+                        $("#stock_list>#list>#stockdiv>div>#btnDel>#delbtn").on("click", function(){
+                            $(this).parent().parent().parent().parent().remove();
+                            return false; 
+                         });
+                    }); 
+                    
+                    // Show in HTML
+                    $('#stock_list').html(html.join(''));
+                });
+                
             });
         </script>
-        
-        
-        <script>
-            $("#addbtn").click(function(event){
-                event.preventDefault();
 
-                $('.rm').append("<li>새로 추가된 아이템</li>");
-            }
+        <!-- Sort By Name -->
+        <script>
+            function sortListByName() {
+                var list, i, switching, b, shouldSwitch, dir, switchcount = 0;
+                list = document.getElementById("stock_list");
+                switching = true;
+                dir = "asc";
+                while (switching) {
+                  switching = false;
+                  b = list.getElementsByTagName("LI");
+                  for (i = 0; i < (b.length - 1); i++) {
+                    shouldSwitch = false;
+                    if (dir == "asc") {
+                      if (b[i].innerHTML.toLowerCase() > b[i + 1].innerHTML.toLowerCase()) {
+                        shouldSwitch = true;
+                        break;
+                      }
+                    } else if (dir == "desc") {
+                      if (b[i].innerHTML.toLowerCase() < b[i + 1].innerHTML.toLowerCase()) {
+                        shouldSwitch= true;
+                        break;
+                      }
+                    }
+                  }
+                  if (shouldSwitch) {
+                    b[i].parentNode.insertBefore(b[i + 1], b[i]);
+                    switching = true;
+                    switchcount ++;
+                  } else {
+                    if (switchcount == 0 && dir == "asc") {
+                      dir = "desc";
+                      switching = true;
+                    }
+                  }
+                }
+              }
         </script>
         
     </body>
