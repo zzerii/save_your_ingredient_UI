@@ -726,18 +726,17 @@ section#counter {
 
 /*List*/
 #list {
-  min-height: 100px;
-  background: #fff;
-  color: #000;
-  /* padding: 80px 0px; */
+    min-height: 100px;
+    color: #000;
+    /* padding: 80px 0px; */
 }
-.list_board {
-  border: #aeadad;
-  border-width: 2px;
-  border-style: solid;
-  border-radius: 25px;
-  padding: 10px;
-  margin-bottom: 20px;
+.list_board{
+    border: #aeadad;
+    border-width: 2px;
+    border-style: solid;
+    border-radius: 25px;
+    padding: 30px;
+    margin-bottom: 20px;
 }
 #list h2 {
   line-height: 80px;
@@ -802,8 +801,6 @@ section#counter {
   background: url(https://img.icons8.com/metro/26/000000/close-window.png);
   text-indent: -9999px;
 }
-
-출처: https://ddorang-d.tistory.com/97 [도라미도라미]
 
 /*orderlist*/
 #orderlist {
