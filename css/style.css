@@ -881,7 +881,6 @@ section#counter {
 /*orderlist*/
 #orderlist {
   min-height: 5px;
-  background: #fff;
   color: #000;
   /* padding: 80px 0px; */
 }
@@ -1793,4 +1792,19 @@ ul.entry-meta {
 .main-content.blog-w.rap,
 .main-content.container.blog-wrap.single-blog {
   margin-top: 80px;
+}
+
+#stock_food, #stock_exp, #stock_amount{
+  color: #000;
+  text-emphasis:bold;
+  font-size: large;
+  margin-top: 25px;
+}
+
+#inputed_amount{
+  margin-top: 25px;
+  border-radius: 20px;
+  display: inline;
+  cursor: pointer;
+  position: relative;
 }
