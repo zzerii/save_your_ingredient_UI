@@ -47,14 +47,13 @@
         <nav class="include" include-html="./nav.html"></nav>
         <mypage class="include" include-html="./mypage.html"></mypage>
         <footer class="include" include-html="./footer.html"></footer>
-
-
         <script src="../js/jquery-1.12.3.min.js"></script>
         <!--Back To Top-->
         <script src="../js/backtotop.js"></script>
         <!--WOW With Animation-->
         <script src="../js/wow.min.js"></script>
         <!--WOW Activated-->
+        <script src="../js/countnumber.js"></script>
         <script>
             new WOW().init();
         </script>
@@ -62,10 +61,20 @@
         <script src="../js/bootstrap.min.js"></script>
         <!-- Custom JavaScript-->
         <script src="../js/main.js"></script>
-    
     </body>
     <script>
         includeHTML();
+
+
+        $(function() {
+            let loaded = false;
+            $('body').on('DOMNodeInserted', '#recp', function() {
+                if (!loaded) {
+                    loaded = true;
+                    dispCount($('.counter'));
+                }
+            })
+        });
     </script>
 
 </html>
