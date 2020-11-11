@@ -33,9 +33,6 @@
     <!--Responsive Framework-->
     <link href="../css/responsive.css" rel="stylesheet" />
 
-    <!-- TODO: 지워도 되는지 -->
-    <link href="../node_modules/jquery-modal/jquery.modal.css" />
-    <link href="../node_modules/animate.css/animate.min.css" />
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -284,79 +281,7 @@
           </div>
 
           <!-- 재료 주문 리스트 -->
-          <div id="orderlist">
-            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-              <div class="orderlist_board">
-                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                  <a href="#"><h4>진수국밥</h4></a>
-                </div>
-                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                  <a href="#"><h4>주문하기</h4></a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div id="orderlist">
-            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-              <div class="orderlist_board">
-                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                  <a href="#"><h4>동재칼국수</h4></a>
-                </div>
-                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                  <a href="#"><h4>주문하기</h4></a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div id="orderlist">
-            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-              <div class="orderlist_board">
-                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                  <a href="#"><h4>유라소주</h4></a>
-                </div>
-                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                  <a href="#"><h4>주문하기</h4></a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div id="orderlist">
-            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-              <div class="orderlist_board">
-                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                  <a href="#"><h4>채린민초</h4></a>
-                </div>
-                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                  <a href="#"><h4>주문하기</h4></a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div id="orderlist">
-            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-              <div class="orderlist_board">
-                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                  <a href="#"><h4>조미료치킨</h4></a>
-                </div>
-                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                  <a href="#"><h4>주문하기</h4></a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div id="orderlist">
-            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-              <div class="orderlist_board">
-                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                  <a href="#"><h4>비법간장</h4></a>
-                </div>
-                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                  <a href="#"><h4>주문하기</h4></a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+          <div id="orderlist"></div>
       </div>
       <!--End of container-->
     </section>
@@ -367,19 +292,8 @@
     <script type="text/javascript" src="../js/list.js"></script>
     <script src="../js/includeHTML.js"></script>
     <script src="../js/bootstrap.min.js"></script>
-    <script src="../node_modules/jquery-modal/jquery.modal.js"></script>
-    <script src="../js/modal.js"></script>
-    <!--여기부터 노답이야.-->
-    <script>
-      $(function () {
-        includeHTML();
-        $("#myselector").on("change", function () {
-          let amount = $(this).text();
-          console.log(amount);
-          $("#amount").text(amount);
-        });
-      });
-    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+    <script>includeHTML();</script>
     <!--삭제-->
     <script type="text/javascript">
       $("#delbtn").click(function () {
@@ -405,5 +319,39 @@
         });
       });
     </script>
+
+    <script>
+      var xhr=new XMLHttpRequest();
+      xhr.open("GET", "../data/order-list.json");
+      xhr.send();
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState !== XMLHttpRequest.DONE) return;
+        if (xhr.status === 200) {
+                console.log(xhr.responseText);
+                responseObject = JSON.parse(xhr.responseText);
+                let newContent ='';
+                responseObject.user_rec.forEach((user_rec) => {
+                  newContent += `
+                  <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                  <div class="orderlist_board">
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                      <a href="#"><h4>${user_rec.food}</h4></a>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                      <a href="${user_rec.link}"><h4>주문하기</h4></a>
+                    </div>
+                  </div>
+                </div>
+                  `;
+                });
+
+                document.getElementById("orderlist").innerHTML = newContent;
+              } else {
+                console.log(`[${xhr.status}] : ${xhr.statusText}`);
+              }
+            };
+    </script>
+
+
   </body>
 </html>

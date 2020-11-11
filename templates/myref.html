@@ -42,7 +42,7 @@
                     <button id="sortByName" onclick="sortListByName()">이름순</button>
                 </div>
                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                    <button id="sortByDate">유통기한순</button>
+                    <button id="sortByDate" onclick="sortListByDate()">유통기한순</button>
                 </div>
 
                 <!-- Modal Start -->
@@ -159,15 +159,15 @@
                     <div id="stockdiv" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 list_board">
                         <div class="col-md-2" style="float: left"><img src="../img/ingredient.png" style="width:70px"></div>
-                        <div class="col-md-2" style="float: left" style="">${user_ref.food}</div>\
-                        <div class="col-md-2" style="float: left">${user_ref.exp}</div>\
-                        <div class="col-md-2" id="amountOutput" style="float: left">${user_ref.amount}</div>
+                        <div id="stock_food" class="col-md-2" style="float: left" style="">${user_ref.food}</div>\
+                        <div id="stock_exp"class="col-md-2" style="float: left">${user_ref.exp}</div>\
+                        <div id="stock_amount" class="col-md-2" id="amountOutput" style="float: left">${user_ref.amount}</div>
                         <div class="col-md-2" style="float: left">
                             <select id="inputed_amount">
-                            <option value="" selected disabled hidden>==선택하시오==</option>
-                            <option value="amount-many">많음</option>
-                            <option value="amount-soso">보통</option>
-                            <option value="amount-lit">적음</option>
+                              <option value="" selected disabled hidden>==선택하시오==</option>
+                              <option value="amount-many">많음</option>
+                              <option value="amount-soso">보통</option>
+                              <option value="amount-lit">적음</option>
                             </select>
                         </div>
                         </div>
@@ -197,9 +197,9 @@
             }); 
           </script>
 
-        <!-- Sort By Name -->
+        <!-- Sort By Date -->
         <script>
-            function sortListByName() {
+            function sortListByDate() {
                 var list, i, switching, b, shouldSwitch, dir, switchcount = 0;
                 list = document.getElementById("stock_list");
                 switching = true;
@@ -209,13 +209,16 @@
                   b = list.getElementsByTagName("LI");
                   for (i = 0; i < (b.length - 1); i++) {
                     shouldSwitch = false;
+                    let curr = b[i].innerHTML.substr(b[i].innerHTML.indexOf('stock_exp')).toLowerCase();
+                    let next = b[i+1].innerHTML.substr(b[i+1].innerHTML.indexOf('stock_exp')).toLowerCase();
                     if (dir == "asc") {
-                      if (b[i].innerHTML.toLowerCase() > b[i + 1].innerHTML.toLowerCase()) {
+                      
+                      if (curr > next) {
                         shouldSwitch = true;
                         break;
                       }
                     } else if (dir == "desc") {
-                      if (b[i].innerHTML.toLowerCase() < b[i + 1].innerHTML.toLowerCase()) {
+                      if (curr < next) {
                         shouldSwitch= true;
                         break;
                       }
@@ -235,7 +238,45 @@
               }
         </script>
 
+        <!-- Sort By Name -->
         <script>
+          function sortListByName() {
+              var list, i, switching, b, shouldSwitch, dir, switchcount = 0;
+              list = document.getElementById("stock_list");
+              switching = true;
+              dir = "asc";
+              while (switching) {
+                switching = false;
+                b = list.getElementsByTagName("LI");
+                for (i = 0; i < (b.length - 1); i++) {
+                  shouldSwitch = false;
+                  if (dir == "asc") {
+                    if (b[i].innerHTML.toLowerCase() > b[i + 1].innerHTML.toLowerCase()) {
+                      shouldSwitch = true;
+                      break;
+                    }
+                  } else if (dir == "desc") {
+                    if (b[i].innerHTML.toLowerCase() < b[i + 1].innerHTML.toLowerCase()) {
+                      shouldSwitch= true;
+                      break;
+                    }
+                  }
+                }
+                if (shouldSwitch) {
+                  b[i].parentNode.insertBefore(b[i + 1], b[i]);
+                  switching = true;
+                  switchcount ++;
+                } else {
+                  if (switchcount == 0 && dir == "asc") {
+                    dir = "desc";
+                    switching = true;
+                  }
+                }
+              }
+            }
+      </script>
+
+        <!-- <script>
             $(".modal_add_btn").on('click', $.addStock);
             function addStock(){
                 var getFood=document.getElementById('#inputed_food').val();
@@ -249,7 +290,7 @@
                 fs.writeFileSync('../data/test-list.json',JSON.stringify(addForm));
                 $.modal.close();
             }
-        </script>
+        </script> -->
 
         
     </body>
