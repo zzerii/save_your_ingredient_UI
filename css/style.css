@@ -1807,4 +1807,7 @@ ul.entry-meta {
   display: inline;
   cursor: pointer;
   position: relative;
+  background-color: #2d3667;
+  color: #fff;
+  box-shadow: rgba(66, 66, 66, 0.664);
 }

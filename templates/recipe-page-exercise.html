@@ -110,20 +110,23 @@
                       '<div> \
                         <div class="blog_news" > \
                           <div class="recipe-card"> \
-                            <div class="blog_img"> \
-                              <img src="' + item.thumbnail + '" alt="" /> \
-                            </div> \
-                            <div class="blog_content"> \
-                              <a href=""><h3>' + item.name + '</h3></a> \
-                              <div class="expert"> \
-                                <div class="left-side text-left"> \
-                                  <p class="left_side"> \
-                                    <span class="clock"><i class="fa fa-clock-o"></i></span> \
-                                    <span class="time">' + item.time + '</span> \
-                                  </p> \
-                                </div> \
+                            <div id="fo_modal" href="#detail_modal">\<!--Modaldiv-->\
+                              <div class="blog_img"> \
+                                <img src="' + item.thumbnail + '" alt="" /> \
                               </div> \
+                              <div class="blog_content"> \
+                                <a href=""><h3>' + item.name + '</h3></a> \
+                                <div class="expert"> \
+                                  <div class="left-side text-left"> \
+                                    <p class="left_side"> \
+                                      <span class="clock"><i class="fa fa-clock-o"></i></span> \
+                                      <span class="time">' + item.time + '</span> \
+                                    </p> \
+                                  </div> \
+                                </div> \
+                              </div>\
                             </div> \
+                            </div>\
                             <button class="btn-storage">창고에 담기</button> \
                           </div> \
                         </div> \
@@ -207,5 +210,14 @@
   </body>
   <script>
     includeHTML();
+  </script>
+  <script>
+    $('div[href="#detail_modal"]').click(function(event) {
+    event.preventDefault();
+
+    $(this).modal({
+        fadeDuration: 250
+    });
+    });
   </script>
 </html>
