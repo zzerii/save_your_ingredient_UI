@@ -33,45 +33,44 @@
         <div class="container">
             <!--재고 목록-->
             <div class="list_header">
-                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-                    <div class="event_header text-left"><img src="../img/jaego.png" >
+                <div style="float: left;">
+                    <div class="event_header text-left"><img src="../img/jaego.png" style="width:280px;">
                     </div>
                 </div>
-                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
-                    <button id="sortByName" onclick="sortListByName()">이름순</button>
-                </div>
-                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                    <button id="sortByDate" onclick="sortListByDate()">유통기한순</button>
-                </div>
-
                 <!-- Modal Start -->
-                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
-                    <p><a id="modal_btn" class="modal_btn" href="#ex7" src="fas-fa-heart">+</a></p>
-                    <div id="ex7" class="modal">
-                        <p>재료를 추가해 보자</p>
-                        <!-- Input -->
-                        <form id="input-Box">
-                            <div>Food: <input type="text" id="inputed_food"></div>
-                            <div>EXP: <input type="date" id="inputed_exp"></div>
-                            <div>Amount:
-                                <select id="inputed_amount">
-                                    <option value="" selected disabled hidden>==선택하시오==</option>
-                                    <option value="amount-many">많음</option>
-                                    <option value="amount-soso">보통</option>
-                                    <option value="amount-lit">적음</option>
-                                </select>
-                            </div>
-                        </form>
-                        <div class="modal-footer" id="modal-footer">
-                            <button type="button" class="modal_add_btn">추가</button>
-                            <button type="button" class="modal_close_btn" >닫기</button>
-                        </div>
-                    </div>
+                <div style="float: right; margin-top: 50px; margin-left: 10px;">
+                  <p><a id="modal_btn" class="modal_btn" href="#ex7"><img src="../img/plus.png" ></a></p>
+                  <div id="ex7" class="modal">
+                      <p>재료를 추가해 보자</p>
+                      <!-- Input -->
+                      <form id="input-Box">
+                          <div>Food: <input type="text" id="inputed_food"></div>
+                          <div>EXP: <input type="date" id="inputed_exp"></div>
+                          <div>Amount:
+                              <select id="inputed_amount">
+                                  <option value="" selected disabled hidden>==선택하시오==</option>
+                                  <option value="amount-many">많음</option>
+                                  <option value="amount-soso">보통</option>
+                                  <option value="amount-lit">적음</option>
+                              </select>
+                          </div>
+                      </form>
+                      <div class="modal-footer" id="modal-footer">
+                          <button type="button" class="modal_add_btn">추가</button>
+                          <button type="button" class="modal_close_btn" >닫기</button>
+                      </div>
+                  </div>
                 </div>
-            </div>
+                <div style="float: right;">
+                  <button style="border: none; background-color: transparent; margin-top: 40px;" onclick="sortListByDate()"><img src="../img/expir.png" ></button>
+                </div>
+                <div style="float: right">
+                    <button style="border: none; background-color: transparent; margin-top: 40px; margin-bottom: 10px;" onclick="sortListByName()"><img src="../img/namesoon.png" ></button>
+                </div>
+                
 
-            <hr>
-
+                
+          </div>
             <!-- Json List -->
             <ul id="stock_list"></ul>
         </div>
@@ -157,7 +156,7 @@
                 let newContent ='';
                 responseObject.user_ref.forEach((user_ref) => {
                   newContent += `
-                  <li id="list">
+                  <li >
                     <div id="stockdiv" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 list_board">
                           <div class="col-md-2" style="float: left"><img src="../img/ingredient.png" style="width:70px"></div>
                           <div id="stock_food" class="col-md-2" style="float: left" style="">${user_ref.food}</div>\
