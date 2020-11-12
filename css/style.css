@@ -782,10 +782,11 @@ a.close-modal{
 }
 .delbtn{
   border: 1px solid #fff;
-  border-radius: 2px;
+  border-radius: 40px;
   background-color: rgb(167, 46, 46);
   color: #fff;
-  padding:5px 10px 5px 10px; 
+  padding:5px 10px 5px 10px;
+  margin-top: 23px;
 }
 #delbtn:hover{
   color:  #fff;
@@ -794,17 +795,17 @@ a.close-modal{
 }
 
 #order_btn{
-  margin-top: 20px;
+  margin-top: 23px;
   line-height: 30px;
   text-decoration: none;
-  font-size:2rem;
+  font-size:120%;
   color:white;
-  padding:5px 10px 5px 10px;
+  padding:0px 5px 0px 5px;
   display:inline-block;
   border-radius: 10px;
   transition:all 0.1s;
   background-color: rgb(247, 191, 9);
-  border: 1px solid #fff;
+  /* border: 1px solid #fff; */
 }
 
 /* modal */
@@ -1764,13 +1765,14 @@ ul.entry-meta {
 #stock_food, #stock_exp, #stock_amount{
   color: #000;
   text-emphasis:bold;
-  font-size: large;
-  margin-top: 25px;
+  font-size: 140%;
+  margin-top: 22px;
 }
 
 #inputed_amount{
   margin-top: 25px;
   border-radius: 20px;
+  font-size: 120%;
   display: inline;
   cursor: pointer;
   position: relative;
