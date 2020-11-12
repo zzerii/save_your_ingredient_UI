@@ -133,32 +133,12 @@
                     html +=
                       '<li> \
                         <div class="blog_news" > \
-                          <div class="recipe-card"> \
-<<<<<<< HEAD
-                            <div id="fo_modal" href="#detail_modal">\<!--Modaldiv-->\
-                              <div class="blog_img"> \
-                                <img src="' + item.thumbnail + '" alt="" /> \
-                              </div> \
-                              <div class="blog_content"> \
-                                <a href=""><h3>' + item.name + '</h3></a> \
-                                <div class="expert"> \
-                                  <div class="left-side text-left"> \
-                                    <p class="left_side"> \
-                                      <span class="clock"><i class="fa fa-clock-o"></i></span> \
-                                      <span class="time">' + item.time + '</span> \
-                                    </p> \
-                                  </div> \
-                                </div> \
-                              </div>\
-                            </div> \
-                            </div>\
-                            <button class="btn-storage">창고에 담기</button> \
-=======
+                          <div class="recipe-card" > \
                             <div class="blog_img"> \
-                                <img src="' + loadedJSON.thumbnail + '" alt="" /> \
+                              <a href="detail_recipe.html""><img src="' + loadedJSON.thumbnail + '" alt=""/></a> \
                             </div> \
                             <div class="blog_content" style="text-align: left;"> \
-                                <a href=""><h3 id="plz">' + loadedJSON.name + '</h3></a> \
+                                <a href="detail_recipe.html""><h3 id="plz">' + loadedJSON.name + '</h3></a> \
                                 <div class="expert"> \
                                   <div class="left-side text-left"> \
                                       <p class="left_side"> \
@@ -169,7 +149,6 @@
                                 </div> \
                             </div> \
                             <button id="'+ loadedJSON.id + '" class="btn-storage" onclick=btn_click(this.id)>창고에 담기</button> \
->>>>>>> 3b16890b950fe0d45ae2b1b1b5d029a84cca4b39
                           </div> \
                         </div> \
                       </li>';
@@ -211,7 +190,7 @@
                         <div class="blog_news" > \
                           <div class="recipe-card"> \
                             <div class="blog_img"> \
-                              <img src="' + item.thumbnail + '" alt="" /> \
+                              <a href="detail_recipe.html""><img src="' + item.thumbnail + '" alt="" /></a> \
                             </div> \
                             <div class="blog_content"> \
                               <a href=""><h3>' + item.name + '</h3></a> \
@@ -252,18 +231,6 @@
   <script>
     new WOW().init();
   </script>
-<<<<<<< HEAD
-  <script>
-    $('div[href="#detail_modal"]').click(function(event) {
-    event.preventDefault();
-
-    $(this).modal({
-        fadeDuration: 250
-    });
-    });
-  </script>
-</html>
-=======
   <!-- Include all compiled plugins (below), or include individual files as needed -->
   <script src="../js/bootstrap.min.js"></script>
   <!-- Custom JavaScript-->
@@ -274,4 +241,3 @@
 </script>
 
 </html>
->>>>>>> 3b16890b950fe0d45ae2b1b1b5d029a84cca4b39
