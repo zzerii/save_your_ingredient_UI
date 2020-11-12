@@ -187,7 +187,7 @@
             };
             //Delete Btn in List
             $(function(){
-                $("#delbtn").on("click", function(){
+                $("#stock_list>li>#stockdiv>#btnDel>#delbtn").on("click", function(){
                     $(this).parent().parent().parent().remove();
                     return false; 
                  });
