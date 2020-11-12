@@ -6,16 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-
-  <title>GreenFair</title>
-
-  <!--    Google Fonts-->
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800" rel="stylesheet"
-    type="../text/css" />
-
-  <!--Fontawesom-->
-  <link rel="stylesheet" href="../css/font-awesome.min.css" />
-
+  
   <!--Animated CSS-->
   <link rel="stylesheet" type="../text/css" href="../css/animate.min.css" />
 
@@ -52,7 +43,6 @@
     td {
         border-bottom: 1px solid #9b9b9b;
         padding: 10px;
-        text-align: center;
       }
   </style>
   
@@ -60,8 +50,8 @@
 <body>
     
     <nav class="include" include-html="./nav.html"></nav>
-    <div class="container">
-        <div id="detail_list"></div>
+    <div class="container" style="background-color: aliceblue;">
+        <div id="detail_list" style="text-align: center;"></div>
     </div>
     
     <footer class="include" include-html="./footer.html"></footer>
@@ -84,20 +74,21 @@
   
             // Deserializing (String → Object)
             responseObject = JSON.parse(xhr.responseText);
-  
+            //style="font-family: Nanum Gothic"
             // JSON → HTML String
             let newContent ='';
             newContent+=`
-            <div style="margin: 40px">
-            <h1>${responseObject.name}</h1>
+            <div style="margin: 40px ">
+            <h1 style="font-family:Jeju Gothic">${responseObject.name}</h1>
             </div>
-            <hr style="color:#000">
             <img src="${responseObject.thumbnail}" style="width: 700px">
             <div style="margin:20px 20px"><h1>[재료]</h1></div>
             <hr style="color:#000">
             <div id="detail_table">
+                <div>
                 <table>
                     <tr>
+                </div>
             `;
             responseObject.ingre_list.forEach((ingre_list) => {
               newContent += `
