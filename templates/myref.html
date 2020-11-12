@@ -149,38 +149,38 @@
       
                 // Deserializing (String → Object)
                 responseObject = JSON.parse(xhr.responseText);
-      
+
+                
+                //X버튼 크기 줄이기, 글씨 키우기, select박스 크기 키우기
+                
                 // JSON → HTML String
                 let newContent ='';
                 responseObject.user_ref.forEach((user_ref) => {
                   newContent += `
                   <li id="list">
-                    <div id="stockdiv" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 list_board">
-                        <div class="col-md-2" style="float: left"><img src="../img/ingredient.png" style="width:70px"></div>
-                        <div id="stock_food" class="col-md-2" style="float: left" style="">${user_ref.food}</div>\
-                        <div id="stock_exp"class="col-md-2" style="float: left">${user_ref.exp}</div>\
-                        <div id="stock_amount" class="col-md-2" id="amountOutput" style="float: left">${user_ref.amount}</div>
-                        <div class="col-md-2" style="float: left">
-                            <select id="inputed_amount">
-                              <option value="" selected disabled hidden>==선택하시오==</option>
-                              <option value="amount-many">많음</option>
-                              <option value="amount-soso">보통</option>
-                              <option value="amount-lit">적음</option>
-                            </select>
-                        </div>
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                        <div id="order_btn" class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                            <a href="#">주문하기</a>
-                        </div>
-                        <div id="btnDel" class="col-lg-6 col-md-6 col-sm-6 col-xs-6 ">
-                            <button id="delbtn" type="button" class="delbtn btn-danger" >X</button>
-                        </div>
+                    <div id="stockdiv" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 list_board">
+                          <div class="col-md-2" style="float: left"><img src="../img/ingredient.png" style="width:70px"></div>
+                          <div id="stock_food" class="col-md-2" style="float: left" style="">${user_ref.food}</div>\
+                          <div id="stock_exp"class="col-md-2" style="float: left">${user_ref.exp}</div>\
+                          <div id="stock_amount" class="col-md-1" id="amountOutput" style="float: left">${user_ref.amount}</div>
+                          <div class="col-md-2" style="float: left">
+                              <select id="inputed_amount">
+                                <option value="" selected disabled hidden>==수량변경==</option>
+                                <option value="amount-many">많음</option>
+                                <option value="amount-soso">보통</option>
+                                <option value="amount-lit">적음</option>
+                              </select>
+                          </div>
+                          <div id="order_btn" class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                              <a href="#">주문하기</a>
+                          </div>
+                          <div id="btnDel" class="col-lg-1 col-md-1 col-sm-1 col-xs-1 ">
+                              <button id="delbtn" type="button" class="delbtn btn-danger" >X</button>
+                          </div>
                    `;
                 });
       
-                newContent += "</div></div></div></li>";
+                newContent += "</div></li>";
       
                 document.getElementById("stock_list").innerHTML = newContent;
               } else {
@@ -189,8 +189,8 @@
             };
             //Delete Btn in List
             $(function(){
-                $("#stock_list>#list>#stockdiv>div>#btnDel>#delbtn").on("click", function(){
-                    $(this).parent().parent().parent().parent().remove();
+                $("#stock_list>#list>#stockdiv>#btnDel>#delbtn").on("click", function(){
+                    $(this).parent().parent().parent().remove();
                     return false; 
                  });
             }); 
