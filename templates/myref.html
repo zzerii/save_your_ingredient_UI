@@ -1,161 +1,164 @@
 <!DOCTYPE html>
 <html lang="ko">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-        <title>MyRef</title>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-        
-        <!--Animated CSS-->
-        <link rel="stylesheet" type="../text/css" href="../css/animate.min.css">
+  <title>MyRef</title>
 
-        <!-- Bootstrap -->
-        <link href="../css/bootstrap.min.css" rel="stylesheet">
-        <!--Bootstrap Carousel-->
-        <link type="../text/css" rel="stylesheet" href="../css/carousel.css" />
 
-        <link rel="stylesheet" href="../css/isotope/style.css">
+  <!--Animated CSS-->
+  <link rel="stylesheet" type="../text/css" href="../css/animate.min.css">
 
-        <!--Main Stylesheet-->
-        <link href="../css/style.css" rel="stylesheet">
-        <!--Responsive Framework-->
-        <link href="../css/responsive.css" rel="stylesheet">
-        <link href="../node_modules/animate.css/animate.min.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
-        
-    </head>
+  <!-- Bootstrap -->
+  <link href="../css/bootstrap.min.css" rel="stylesheet">
+  <!--Bootstrap Carousel-->
+  <link type="../text/css" rel="stylesheet" href="../css/carousel.css" />
 
-    <body>
-        <nav class="include" include-html="./nav.html"></nav>
-        <div class="container">
-            <!--재고 목록-->
-            <div class="list_header">
-                <div style="float: left;">
-                    <div class="event_header text-left"><img src="../img/jaego.png" style="width:280px;">
-                    </div>
-                </div>
-                <!-- Modal Start -->
-                <div style="float: right; margin-top: 50px; margin-left: 10px;">
-                  <p><a id="modal_btn" class="modal_btn" href="#ex7"><img src="../img/plus.png" ></a></p>
-                  <div id="ex7" class="modal">
-                      <p>재료를 추가해 보자</p>
-                      <!-- Input -->
-                      <form id="input-Box">
-                          <div>Food: <input type="text" id="inputed_food"></div>
-                          <div>EXP: <input type="date" id="inputed_exp"></div>
-                          <div>Amount:
-                              <select id="inputed_amount">
-                                  <option value="" selected disabled hidden>==선택하시오==</option>
-                                  <option value="amount-many">많음</option>
-                                  <option value="amount-soso">보통</option>
-                                  <option value="amount-lit">적음</option>
-                              </select>
-                          </div>
-                      </form>
-                      <div class="modal-footer" id="modal-footer">
-                          <button type="button" class="modal_add_btn">추가</button>
-                          <button type="button" class="modal_close_btn" >닫기</button>
-                      </div>
-                  </div>
-                </div>
-                <div style="float: right;">
-                  <button style="border: none; background-color: transparent; margin-top: 40px;" onclick="sortListByDate()"><img src="../img/expir.png" ></button>
-                </div>
-                <div style="float: right">
-                    <button style="border: none; background-color: transparent; margin-top: 40px; margin-bottom: 10px;" onclick="sortListByName()"><img src="../img/namesoon.png" ></button>
-                </div>
-                
+  <link rel="stylesheet" href="../css/isotope/style.css">
 
-                
-          </div>
-            <!-- Json List -->
-            <ul id="stock_list"></ul>
+  <!--Main Stylesheet-->
+  <link href="../css/style.css" rel="stylesheet">
+  <!--Responsive Framework-->
+  <link href="../css/responsive.css" rel="stylesheet">
+  <link href="../node_modules/animate.css/animate.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+
+</head>
+
+<body>
+  <nav class="include" include-html="./nav.html"></nav>
+  <div class="container">
+    <!--재고 목록-->
+    <div class="list_header">
+      <div style="float: left;">
+        <div class="event_header text-left"><img src="../img/jaego.png" style="width:280px;">
         </div>
-        
-        <footer class="include" include-html="./footer.html"></footer>     
-        
+      </div>
+      <!-- Modal Start -->
+      <div style="float: right; margin-top: 50px; margin-left: 10px;">
+        <p><a id="modal_btn" class="modal_btn" href="#ex7"><img src="../img/plus.png"></a></p>
+        <div id="ex7" class="modal">
+          <p>재료를 추가해 보자</p>
+          <!-- Input -->
+          <form id="input-Box">
+            <div>Food: <input type="text" id="inputed_food"></div>
+            <div>EXP: <input type="date" id="inputed_exp"></div>
+            <div>Amount:
+              <select id="inputed_amount">
+                <option value="" selected disabled hidden>==선택하시오==</option>
+                <option value="amount-many">많음</option>
+                <option value="amount-soso">보통</option>
+                <option value="amount-lit">적음</option>
+              </select>
+            </div>
+          </form>
+          <div class="modal-footer" id="modal-footer">
+            <button type="button" class="modal_add_btn">추가</button>
+            <button type="button" class="modal_close_btn">닫기</button>
+          </div>
+        </div>
+      </div>
+      <div style="float: right;">
+        <button style="border: none; background-color: transparent; margin-top: 40px;" onclick="sortListByDate()"><img
+            src="../img/expir.png"></button>
+      </div>
+      <div style="float: right">
+        <button style="border: none; background-color: transparent; margin-top: 40px; margin-bottom: 10px;"
+          onclick="sortListByName()"><img src="../img/namesoon.png"></button>
+      </div>
 
-        <!-- Script -->
-        <script src="../js/jquery-1.12.3.min.js"></script>
-        <script src="../js/includeHTML.js"></script>
-        <script src="../js/bootstrap.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
-        <script>includeHTML();</script>
-
-        <!-- Modal jQuery -->
-        <script>
-            $('a[href="#ex7"]').click(function(event) {
-            event.preventDefault();
-        
-            $(this).modal({
-                fadeDuration: 250
-            });
-            });
-            //Close btn in Modal
-            $(".modal_close_btn").on('click', $.modal.close)
 
 
-            $.post(url, data, function(jsonResponse) {
-            // Do something with  jsonResponse
-                $("#ex7>#modal-footer>.modal_add_btn").on("click", function(){
-                    var aJsonArray = new Array();
-                    var aJson = new Object();
+    </div>
+    <!-- Json List -->
+    <ul id="stock_list"></ul>
+  </div>
 
-                    var input_food=$('#inputed_food').val();
-                    var input_exp=$('#inputed_exp').val();
-                    var input_amount=$('#inputed_amount option:selected').text();
+  <footer class="include" include-html="./footer.html"></footer>
 
-                    $.post(url, data, function(jsonResponse) {
-                        // Do something with  jsonResponse
-                    }, '../test-list.json')
-                    aJson.food = input_food;
-                    aJson.exp = input_exp;
-                    aJson.amount = input_amount;
-                    
-                    JSON.stringify(aJson);
-                 });
-            }, '../test-list.json')
+
+  <!-- Script -->
+  <script src="../js/jquery-1.12.3.min.js"></script>
+  <script src="../js/includeHTML.js"></script>
+  <script src="../js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+  <script>includeHTML();</script>
+
+  <!-- Modal jQuery -->
+  <script>
+    $('a[href="#ex7"]').click(function (event) {
+      event.preventDefault();
+
+      $(this).modal({
+        fadeDuration: 250
+      });
+    });
+    //Close btn in Modal
+    $(".modal_close_btn").on('click', $.modal.close)
+
+
+    $.post(url, data, function (jsonResponse) {
+      // Do something with  jsonResponse
+      $("#ex7>#modal-footer>.modal_add_btn").on("click", function () {
+        var aJsonArray = new Array();
+        var aJson = new Object();
+
+        var input_food = $('#inputed_food').val();
+        var input_exp = $('#inputed_exp').val();
+        var input_amount = $('#inputed_amount option:selected').text();
+
+        $.post(url, data, function (jsonResponse) {
+          // Do something with  jsonResponse
+        }, '../test-list.json')
+        aJson.food = input_food;
+        aJson.exp = input_exp;
+        aJson.amount = input_amount;
+
+        JSON.stringify(aJson);
+      });
+    }, '../test-list.json')
 
             //Add btn in Modal
             // $("#ex7>#modal-footer>.modal_add_btn").on("click", function(){
-                    
+
             //         var new_node = "<li>추가된 내용1</li>"
             //         $("ul").append(new_node);
             //         return false; 
             //     });
-        </script>
+  </script>
 
-        <!-- Read and GET Json -->
-        <script>
-            // XMLHttpRequest 객체의 생성
-            var xhr = new XMLHttpRequest();
-      
-            // 비동기 방식으로 Request를 오픈한다
-            xhr.open("GET", "../data/test-list.json");
-            // Request를 전송한다
-            xhr.send();
-      
-            xhr.onreadystatechange = function () {
-              // 서버 응답 완료 && 정상 응답
-              if (xhr.readyState !== XMLHttpRequest.DONE) return;
-      
-              if (xhr.status === 200) {
-                console.log(xhr.responseText);
-      
-                // Deserializing (String → Object)
-                responseObject = JSON.parse(xhr.responseText);
+  <!-- Read and GET Json -->
+  <script>
+    // XMLHttpRequest 객체의 생성
+    var xhr = new XMLHttpRequest();
 
-                
-                //X버튼 크기 줄이기, 글씨 키우기, select박스 크기 키우기
-                
-                // JSON → HTML String
-                let newContent ='';
-                responseObject.user_ref.forEach((user_ref) => {
-                  newContent += `
+    // 비동기 방식으로 Request를 오픈한다
+    xhr.open("GET", "../data/test-list.json");
+    // Request를 전송한다
+    xhr.send();
+
+    xhr.onreadystatechange = function () {
+      // 서버 응답 완료 && 정상 응답
+      if (xhr.readyState !== XMLHttpRequest.DONE) return;
+
+      if (xhr.status === 200) {
+        console.log(xhr.responseText);
+
+        // Deserializing (String → Object)
+        responseObject = JSON.parse(xhr.responseText);
+
+
+        //X버튼 크기 줄이기, 글씨 키우기, select박스 크기 키우기
+
+        // JSON → HTML String
+        let newContent = '';
+        responseObject.user_ref.forEach((user_ref) => {
+          newContent += `
                   <li>
                     <div id="stockdiv" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 list_board">
                           <div class="col-md-2" style="float: left"><img src="../img/ingredient.png" style="width:70px"></div>
@@ -170,110 +173,129 @@
                                 <option value="amount-lit">적음</option>
                               </select>
                           </div>
-                          <div id="order_btn" class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                              <a href="#">주문하기</a>
-                          </div>
+                          <button id="order_btn" onclick=orderIngredient(this) class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                              주문하기
+                          </button>
                           <div id="btnDel" class="col-lg-1 col-md-1 col-sm-1 col-xs-1 ">
                               <button id="delbtn" type="button" class="delbtn btn-danger" >X</button>
                           </div>
                    `;
-                });
-                newContent += "</div></li>";
-      
-                document.getElementById("stock_list").innerHTML = newContent;
-              } else {
-                console.log(`[${xhr.status}] : ${xhr.statusText}`);
-              }
-            };
-            //Delete Btn in List
-            $(function(){
-                $("#stock_list>li>#stockdiv>#btnDel>#delbtn").on("click", function(){
-                    $(this).parent().parent().parent().remove();
-                    return false; 
-                 });
-            }); 
-          </script>
+        });
+        newContent += "</div></li>";
 
-        <!-- Sort By Date -->
-        <script>
-            function sortListByDate() {
-                var list, i, switching, b, shouldSwitch, dir, switchcount = 0;
-                list = document.getElementById("stock_list");
-                switching = true;
-                dir = "asc";
-                while (switching) {
-                  switching = false;
-                  b = list.getElementsByTagName("LI");
-                  for (i = 0; i < (b.length - 1); i++) {
-                    shouldSwitch = false;
-                    let curr = b[i].innerHTML.substr(b[i].innerHTML.indexOf('stock_exp')).toLowerCase();
-                    let next = b[i+1].innerHTML.substr(b[i+1].innerHTML.indexOf('stock_exp')).toLowerCase();
-                    if (dir == "asc") {
-                      
-                      if (curr > next) {
-                        shouldSwitch = true;
-                        break;
-                      }
-                    } else if (dir == "desc") {
-                      if (curr < next) {
-                        shouldSwitch= true;
-                        break;
-                      }
-                    }
-                  }
-                  if (shouldSwitch) {
-                    b[i].parentNode.insertBefore(b[i + 1], b[i]);
-                    switching = true;
-                    switchcount ++;
-                  } else {
-                    if (switchcount == 0 && dir == "asc") {
-                      dir = "desc";
-                      switching = true;
-                    }
-                  }
-                }
-              }
-        </script>
+        document.getElementById("stock_list").innerHTML = newContent;
+      } else {
+        console.log(`[${xhr.status}] : ${xhr.statusText}`);
+      }
+    };
+    //Delete Btn in List
+    $(function () {
+      $("#stock_list>li>#stockdiv>#btnDel>#delbtn").on("click", function () {
+        $(this).parent().parent().parent().remove();
+        return false;
+      });
+    });
 
-        <!-- Sort By Name -->
-        <script>
-          function sortListByName() {
-              var list, i, switching, b, shouldSwitch, dir, switchcount = 0;
-              list = document.getElementById("stock_list");
-              switching = true;
-              dir = "asc";
-              while (switching) {
-                switching = false;
-                b = list.getElementsByTagName("LI");
-                for (i = 0; i < (b.length - 1); i++) {
-                  shouldSwitch = false;
-                  if (dir == "asc") {
-                    if (b[i].innerHTML.toLowerCase() > b[i + 1].innerHTML.toLowerCase()) {
-                      shouldSwitch = true;
-                      break;
-                    }
-                  } else if (dir == "desc") {
-                    if (b[i].innerHTML.toLowerCase() < b[i + 1].innerHTML.toLowerCase()) {
-                      shouldSwitch= true;
-                      break;
-                    }
-                  }
-                }
-                if (shouldSwitch) {
-                  b[i].parentNode.insertBefore(b[i + 1], b[i]);
-                  switching = true;
-                  switchcount ++;
-                } else {
-                  if (switchcount == 0 && dir == "asc") {
-                    dir = "desc";
-                    switching = true;
-                  }
-                }
-              }
+    function replaceAll(strTemp, strValue1, strValue2) {
+      while (1) {
+        if (strTemp.indexOf(strValue1) != -1)
+          strTemp = strTemp.replace(strValue1, strValue2);
+        else
+          break;
+      }
+      return strTemp;
+    }
+
+
+    function orderIngredient(that) {
+
+      var url = 'https://www.kurly.com/shop/goods/goods_search.php?searched=Y&sword=%BE%E7%C6%C4';
+
+      var ret = window.open(url);
+
+    }
+  </script>
+
+  <!-- Sort By Date -->
+  <script>
+    function sortListByDate() {
+      var list, i, switching, b, shouldSwitch, dir, switchcount = 0;
+      list = document.getElementById("stock_list");
+      switching = true;
+      dir = "asc";
+      while (switching) {
+        switching = false;
+        b = list.getElementsByTagName("LI");
+        for (i = 0; i < (b.length - 1); i++) {
+          shouldSwitch = false;
+          let curr = b[i].innerHTML.substr(b[i].innerHTML.indexOf('stock_exp')).toLowerCase();
+          let next = b[i + 1].innerHTML.substr(b[i + 1].innerHTML.indexOf('stock_exp')).toLowerCase();
+          if (dir == "asc") {
+
+            if (curr > next) {
+              shouldSwitch = true;
+              break;
             }
-      </script>
+          } else if (dir == "desc") {
+            if (curr < next) {
+              shouldSwitch = true;
+              break;
+            }
+          }
+        }
+        if (shouldSwitch) {
+          b[i].parentNode.insertBefore(b[i + 1], b[i]);
+          switching = true;
+          switchcount++;
+        } else {
+          if (switchcount == 0 && dir == "asc") {
+            dir = "desc";
+            switching = true;
+          }
+        }
+      }
+    }
+  </script>
 
-        <!-- <script>
+  <!-- Sort By Name -->
+  <script>
+    function sortListByName() {
+      var list, i, switching, b, shouldSwitch, dir, switchcount = 0;
+      list = document.getElementById("stock_list");
+      switching = true;
+      dir = "asc";
+      while (switching) {
+        switching = false;
+        b = list.getElementsByTagName("LI");
+        for (i = 0; i < (b.length - 1); i++) {
+          shouldSwitch = false;
+          if (dir == "asc") {
+            if (b[i].innerHTML.toLowerCase() > b[i + 1].innerHTML.toLowerCase()) {
+              shouldSwitch = true;
+              break;
+            }
+          } else if (dir == "desc") {
+            if (b[i].innerHTML.toLowerCase() < b[i + 1].innerHTML.toLowerCase()) {
+              shouldSwitch = true;
+              break;
+            }
+          }
+        }
+        if (shouldSwitch) {
+          b[i].parentNode.insertBefore(b[i + 1], b[i]);
+          switching = true;
+          switchcount++;
+        } else {
+          if (switchcount == 0 && dir == "asc") {
+            dir = "desc";
+            switching = true;
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- <script>
             $(".modal_add_btn").on('click', $.addStock);
             function addStock(){
                 var getFood=document.getElementById('#inputed_food').val();
@@ -289,10 +311,10 @@
             }
         </script> -->
 
-        
-    </body>
-    
 
-    
+</body>
+
+
+
 
 </html>
