@@ -120,9 +120,10 @@
   <section id="blog">
     <div class="container">
       <!-- 최근 레시피 -->
+
       <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-        <div class="latest_blog text-left" style="margin-bottom: 30px;">
-          <h3 style="display: inline-block">최근 레시피</h3>
+        <div class="latest_blog text-left" style="margin-bottom: 10px;">
+          <img src="../img/latest_recipe.png" >
           <div id="more" style="float: right;"><a href="recent-more-page.html" class="more-button">더 보기</a></div>
         </div>
         <!-- latest_blog -->
@@ -152,12 +153,12 @@
                     html +=
                       '<li> \
                         <div class="blog_news" > \
-                          <div class="recipe-card"> \
+                          <div class="recipe-card" > \
                             <div class="blog_img"> \
-                                <img src="' + loadedJSON.thumbnail + '" alt="" /> \
+                              <a href="detail_recipe.html""><img src="' + loadedJSON.thumbnail + '" alt=""/></a> \
                             </div> \
                             <div class="blog_content" style="text-align: left;"> \
-                                <a href=""><h3 id="plz">' + loadedJSON.name + '</h3></a> \
+                                <a href="detail_recipe.html""><h3 id="plz">' + loadedJSON.name + '</h3></a> \
                                 <div class="expert"> \
                                   <div class="left-side text-left"> \
                                       <p class="left_side"> \
@@ -189,11 +190,11 @@
       <!-- col-md-6 -->
 
 
-      <!-- 인기 레시피 -->
+      
       <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-        <div class="latest_blog text-left" style="margin-bottom: 30px;">
-          <h3 style="display: inline-block">인기 레시피</h3>
-          <button id="more" style="float: right"><a href="recipe-page-exercise.html">더 보기</a></button>
+        <div class="latest_blog text-left" style="margin-bottom: 10px;">
+          <img src="../img/ingi_recipe.png" >
+          <div id="more" style="float: right;"><a href="recipe-page-exercise.html" class="more-button">더 보기</a></div>
         </div>
         <!-- latest_blog -->
 
@@ -209,7 +210,7 @@
                         <div class="blog_news" > \
                           <div class="recipe-card"> \
                             <div class="blog_img"> \
-                              <img src="' + item.thumbnail + '" alt="" /> \
+                              <a href="detail_recipe.html""><img src="' + item.thumbnail + '" alt="" /></a> \
                             </div> \
                             <div class="blog_content"> \
                               <a href=""><h3>' + item.name + '</h3></a> \

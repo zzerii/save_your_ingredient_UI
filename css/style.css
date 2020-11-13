@@ -23,16 +23,17 @@ Version: 1.2
 */
 
 /*
-font-family: 'Roboto Slab', serif;
+"font-family:Nanum Gothic;
 */
 
-@import url(https://fonts.googleapis.com/css?family=Roboto+Slab:400,700,300,100);
+@import url(//fonts.googleapis.com/earlyaccess/nanumgothic.css);
+
 
 /*
-font-family: 'Lato', sans-serif;
+font-family: 'Jeju Gothic', sans-serif;
 */
 
-@import url(https://fonts.googleapis.com/css?family=Lato:400,100,100italic,300,300italic,400italic,700,700italic,900,900italic);
+@import url(//fonts.googleapis.com/earlyaccess/jejugothic.css);
 
 /*
 font-family: 'Raleway', sans-serif;
@@ -239,7 +240,7 @@ input: -webkit-autofill:focus {
   background-color: rgba(255, 255, 255, 0);
 }
 #header .header_menu .main_menu {
-  padding-top: 20px;
+  padding-top: 15px;
 }
 #header .header_menu ul.main_menu li a {
   color: #393939;
@@ -732,7 +733,10 @@ section#counter {
 #event .event_news_img {
   padding-right: 10px;
 }
-
+a.close-modal{
+  margin-top: 20px;
+  margin-right: 20px
+}
 /*List*/
 #list {
     min-height: 100px;
@@ -750,7 +754,6 @@ section#counter {
 }
 .list_header{
   margin-top: 20px;
-  padding: 30px;
 }
 #list h2 {
   line-height: 80px;
@@ -779,10 +782,11 @@ section#counter {
 }
 .delbtn{
   border: 1px solid #fff;
-  border-radius: 2px;
+  border-radius: 40px;
   background-color: rgb(167, 46, 46);
   color: #fff;
-  padding:5px 10px 5px 10px; 
+  padding:5px 10px 5px 10px;
+  margin-top: 23px;
 }
 #delbtn:hover{
   color:  #fff;
@@ -790,54 +794,18 @@ section#counter {
   border: 1px solid rgb(167, 46, 46);
 }
 
-#sortByName{
-  border: 1px solid #fff;
-  border-radius: 20px;
-  background-color: rgb(247, 191, 9);
-  color: #fff;
-  padding: 5px; 
-}
-#sortByName:hover{
-  color:  #fff;
-  background-color: rgb(255, 137, 41);
-  border: 1px solid #fff;
-}
-#sortByDate{
-  border: 1px solid #fff;
-  border-radius: 20px;
-  background-color: rgb(247, 191, 9);
-  color: #fff;
-  padding: 5px; 
-}
-#sortByDate:hover{
-  color:  #fff;
-  background-color: rgb(255, 137, 41);
-  border: 1px solid #fff;
-}
-#modal_btn{
-  text-decoration: none;
-  font-size:2rem;
-  color:white;
-  padding:0px 10px 5px 10px;
-  display:inline-block;
-  border-radius: 20px;
-  transition:all 0.1s;
-  background-color: rgb(247, 191, 9);
-  border: 1px solid #fff;
-}
-
 #order_btn{
-  margin-top: 20px;
+  margin-top: 23px;
   line-height: 30px;
   text-decoration: none;
-  font-size:2rem;
+  font-size:120%;
   color:white;
-  padding:5px 10px 5px 10px;
+  padding:0px 5px 0px 5px;
   display:inline-block;
   border-radius: 10px;
   transition:all 0.1s;
   background-color: rgb(247, 191, 9);
-  border: 1px solid #fff;
+  /* border: 1px solid #fff; */
 }
 
 /* modal */
@@ -1797,14 +1765,19 @@ ul.entry-meta {
 #stock_food, #stock_exp, #stock_amount{
   color: #000;
   text-emphasis:bold;
-  font-size: large;
-  margin-top: 25px;
+  font-size: 140%;
+  margin-top: 22px;
 }
 
 #inputed_amount{
   margin-top: 25px;
   border-radius: 20px;
+  font-size: 120%;
   display: inline;
   cursor: pointer;
   position: relative;
+  background-color: #2d3667;
+  color: #fff;
+  box-shadow: rgba(66, 66, 66, 0.664);
 }
+

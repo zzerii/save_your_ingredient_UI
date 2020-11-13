@@ -8,7 +8,7 @@
         <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
         <title>GreenFair</title>
-
+        <link rel="stylesheet" href="../css/profile.css">
         <!--    Google Fonts-->
         <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='../text/css'>
 
@@ -40,20 +40,57 @@
 
         
         <script src="../js/includeHTML.js"></script>
-        
     </head>
     
     <body>
         <nav class="include" include-html="./nav.html"></nav>
         <slider class="include" include-html="./slider.html"></slider>
+        <div class="wrapper">
+            <ul class="team">
+                <li class="team-item">
+                    <div class="profile profile_red">
+                        <img src="../img/pink.png">
+                        <div class="profile-contents">
+                            <h2>Lee Dong Jae <span> 팀장</span></h2>
+                            <p> 돌리와 도트를 좋아해</p>
+                        </div>
+                    </div>
+                </li>
+                <li class="team-item">
+                    <div class="profile profile_beige">
+                        <img src="../img/pink.png">
+                        <div class="profile-contents">
+                            <h2>Jung Yu Ra <span>부팀장</span></h2>
+                            <p>술 절대 안취해</p>
+                        </div>
+                    </div>
+                </li>
+                <li class="team-item">
+                    <div class="profile profile_green">
+                        <img src="../img/pink.png">
+                        <div class="profile-contents">
+                            <h2>Kim Chae Lin <span>팀원</span></h2>
+                            <p>점심 먹으러 올거야</p>
+                        </div>
+                    </div>
+                </li>
+                <li class="team-item">
+                    <div class="profile profile_pink">
+                        <img src="../img/pink.png">
+                        <div class="profile-contents">
+                            <h2>Bae Jin Soo <span>팀원</span></h2>
+                            <p>국밥부장관</p>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
         <footer class="include" include-html="./footer.html"></footer>
 
         <script src="../js/jquery-1.12.3.min.js"></script>
         
      <!--Back To Top-->
         <script src="../js/backtotop.js"></script>
-
-
         
         <!--WOW With Animation-->
         <script src="../js/wow.min.js"></script>
@@ -71,6 +108,8 @@
     </body>
     <script>
         includeHTML();
+
+
     </script>
 
 </html>
