@@ -87,8 +87,27 @@
 
   <script>
     function btn_click(that) {
+      if (localStorage.getItem('recipeId') === null) {
+        //init array
+        var recipes = [];
+        //add to array
+        // bookmarks.push(bookmark);
+        //set to Localstorage
+        // localStorage.setItem('bookmarks',JSON.stringify(bookmarks));
+      } else {
+        var output = localStorage.getItem("recipeId");
+        var recipes = JSON.parse(output);
+      }
+
+
       console.log(that);
-      localStorage.setItem('id', that);
+      if (recipes.includes(that)) {
+        return;
+      } else {
+        recipes.push(that);
+      }
+      localStorage.setItem("recipeId", JSON.stringify(recipes));
+
     }
   </script>
 
@@ -101,7 +120,7 @@
   <section id="blog">
     <div class="container">
       <!-- 최근 레시피 -->
-      <div class="col-md-6">
+      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
         <div class="latest_blog text-left" style="margin-bottom: 30px;">
           <h3 style="display: inline-block">최근 레시피</h3>
           <div id="more" style="float: right;"><a href="recent-more-page.html" class="more-button">더 보기</a></div>
@@ -171,7 +190,7 @@
 
 
       <!-- 인기 레시피 -->
-      <div class="col-md-6">
+      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
         <div class="latest_blog text-left" style="margin-bottom: 30px;">
           <h3 style="display: inline-block">인기 레시피</h3>
           <button id="more" style="float: right"><a href="recipe-page-exercise.html">더 보기</a></button>
