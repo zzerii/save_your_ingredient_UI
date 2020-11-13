@@ -262,6 +262,7 @@
                 let newContent ='';
                 responseObject.user_ref.forEach((user_ref) => {
                   newContent += `
+
                   <li>
                     <div id="stockdiv" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 list_board">
                           <div class="col-md-2" style="float: left"><img src="../img/ingredient.png" style="width:70px"></div>
@@ -276,110 +277,129 @@
                                 <option value="amount-lit">적음</option>
                               </select>
                           </div>
-                          <div id="order_btn" class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                              <a href="#">주문하기</a>
-                          </div>
+                          <button id="order_btn" onclick=orderIngredient(this) class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                              주문하기
+                          </button>
                           <div id="btnDel" class="col-lg-1 col-md-1 col-sm-1 col-xs-1 ">
                               <button id="delbtn" type="button" class="delbtn btn-danger" >X</button>
                           </div>
                    `;
-                });
-                newContent += "</div></li>";
-      
-                document.getElementById("stock_list").innerHTML = newContent;
-              } else {
-                console.log(`[${xhr.status}] : ${xhr.statusText}`);
-              }
-            };
-            //Delete Btn in List
-            $(function(){
-                $("#stock_list>li>#stockdiv>#btnDel>#delbtn").on("click", function(){
-                    $(this).parent().parent().parent().remove();
-                    return false; 
-                 });
-            }); 
-          </script>
+        });
+        newContent += "</div></li>";
 
-        <!-- Sort By Date -->
-        <script>
-            function sortListByDate() {
-                var list, i, switching, b, shouldSwitch, dir, switchcount = 0;
-                list = document.getElementById("stock_list");
-                switching = true;
-                dir = "asc";
-                while (switching) {
-                  switching = false;
-                  b = list.getElementsByTagName("LI");
-                  for (i = 0; i < (b.length - 1); i++) {
-                    shouldSwitch = false;
-                    let curr = b[i].innerHTML.substr(b[i].innerHTML.indexOf('stock_exp')).toLowerCase();
-                    let next = b[i+1].innerHTML.substr(b[i+1].innerHTML.indexOf('stock_exp')).toLowerCase();
-                    if (dir == "asc") {
-                      
-                      if (curr > next) {
-                        shouldSwitch = true;
-                        break;
-                      }
-                    } else if (dir == "desc") {
-                      if (curr < next) {
-                        shouldSwitch= true;
-                        break;
-                      }
-                    }
-                  }
-                  if (shouldSwitch) {
-                    b[i].parentNode.insertBefore(b[i + 1], b[i]);
-                    switching = true;
-                    switchcount ++;
-                  } else {
-                    if (switchcount == 0 && dir == "asc") {
-                      dir = "desc";
-                      switching = true;
-                    }
-                  }
-                }
-              }
-        </script>
+        document.getElementById("stock_list").innerHTML = newContent;
+      } else {
+        console.log(`[${xhr.status}] : ${xhr.statusText}`);
+      }
+    };
+    //Delete Btn in List
+    $(function () {
+      $("#stock_list>li>#stockdiv>#btnDel>#delbtn").on("click", function () {
+        $(this).parent().parent().parent().remove();
+        return false;
+      });
+    });
 
-        <!-- Sort By Name -->
-        <script>
-          function sortListByName() {
-              var list, i, switching, b, shouldSwitch, dir, switchcount = 0;
-              list = document.getElementById("stock_list");
-              switching = true;
-              dir = "asc";
-              while (switching) {
-                switching = false;
-                b = list.getElementsByTagName("LI");
-                for (i = 0; i < (b.length - 1); i++) {
-                  shouldSwitch = false;
-                  if (dir == "asc") {
-                    if (b[i].innerHTML.toLowerCase() > b[i + 1].innerHTML.toLowerCase()) {
-                      shouldSwitch = true;
-                      break;
-                    }
-                  } else if (dir == "desc") {
-                    if (b[i].innerHTML.toLowerCase() < b[i + 1].innerHTML.toLowerCase()) {
-                      shouldSwitch= true;
-                      break;
-                    }
-                  }
-                }
-                if (shouldSwitch) {
-                  b[i].parentNode.insertBefore(b[i + 1], b[i]);
-                  switching = true;
-                  switchcount ++;
-                } else {
-                  if (switchcount == 0 && dir == "asc") {
-                    dir = "desc";
-                    switching = true;
-                  }
-                }
-              }
+    function replaceAll(strTemp, strValue1, strValue2) {
+      while (1) {
+        if (strTemp.indexOf(strValue1) != -1)
+          strTemp = strTemp.replace(strValue1, strValue2);
+        else
+          break;
+      }
+      return strTemp;
+    }
+
+
+    function orderIngredient(that) {
+
+      var url = 'https://www.kurly.com/shop/goods/goods_search.php?searched=Y&sword=%BE%E7%C6%C4';
+
+      var ret = window.open(url);
+
+    }
+  </script>
+
+  <!-- Sort By Date -->
+  <script>
+    function sortListByDate() {
+      var list, i, switching, b, shouldSwitch, dir, switchcount = 0;
+      list = document.getElementById("stock_list");
+      switching = true;
+      dir = "asc";
+      while (switching) {
+        switching = false;
+        b = list.getElementsByTagName("LI");
+        for (i = 0; i < (b.length - 1); i++) {
+          shouldSwitch = false;
+          let curr = b[i].innerHTML.substr(b[i].innerHTML.indexOf('stock_exp')).toLowerCase();
+          let next = b[i + 1].innerHTML.substr(b[i + 1].innerHTML.indexOf('stock_exp')).toLowerCase();
+          if (dir == "asc") {
+
+            if (curr > next) {
+              shouldSwitch = true;
+              break;
             }
-      </script>
+          } else if (dir == "desc") {
+            if (curr < next) {
+              shouldSwitch = true;
+              break;
+            }
+          }
+        }
+        if (shouldSwitch) {
+          b[i].parentNode.insertBefore(b[i + 1], b[i]);
+          switching = true;
+          switchcount++;
+        } else {
+          if (switchcount == 0 && dir == "asc") {
+            dir = "desc";
+            switching = true;
+          }
+        }
+      }
+    }
+  </script>
 
-        <!-- <script>
+  <!-- Sort By Name -->
+  <script>
+    function sortListByName() {
+      var list, i, switching, b, shouldSwitch, dir, switchcount = 0;
+      list = document.getElementById("stock_list");
+      switching = true;
+      dir = "asc";
+      while (switching) {
+        switching = false;
+        b = list.getElementsByTagName("LI");
+        for (i = 0; i < (b.length - 1); i++) {
+          shouldSwitch = false;
+          if (dir == "asc") {
+            if (b[i].innerHTML.toLowerCase() > b[i + 1].innerHTML.toLowerCase()) {
+              shouldSwitch = true;
+              break;
+            }
+          } else if (dir == "desc") {
+            if (b[i].innerHTML.toLowerCase() < b[i + 1].innerHTML.toLowerCase()) {
+              shouldSwitch = true;
+              break;
+            }
+          }
+        }
+        if (shouldSwitch) {
+          b[i].parentNode.insertBefore(b[i + 1], b[i]);
+          switching = true;
+          switchcount++;
+        } else {
+          if (switchcount == 0 && dir == "asc") {
+            dir = "desc";
+            switching = true;
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- <script>
             $(".modal_add_btn").on('click', $.addStock);
             function addStock(){
                 var getFood=document.getElementById('#inputed_food').val();
@@ -395,10 +415,10 @@
             }
         </script> -->
 
-        
-    </body>
-    
 
-    
+</body>
+
+
+
 
 </html>
