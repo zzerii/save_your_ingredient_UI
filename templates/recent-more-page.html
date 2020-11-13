@@ -73,6 +73,31 @@
 </head>
 
 <body>
+  <script>
+    function btn_click(that) {
+      if (localStorage.getItem('recipeId') === null) {
+        //init array
+        var recipes = [];
+        //add to array
+        // bookmarks.push(bookmark);
+        //set to Localstorage
+        // localStorage.setItem('bookmarks',JSON.stringify(bookmarks));
+      } else {
+        var output = localStorage.getItem("recipeId");
+        var recipes = JSON.parse(output);
+      }
+
+
+      console.log(that);
+      if (recipes.includes(that)) {
+        return;
+      } else {
+        recipes.push(that);
+      }
+      localStorage.setItem("recipeId", JSON.stringify(recipes));
+
+    }
+  </script>
   <nav class="include" include-html="./nav.html"></nav>
 
   <section id="blog">
@@ -127,7 +152,7 @@
                                     </div> \
                                     </div> \
                                 </div> \
-                                <button class="btn-storage">창고에 담기</button> \
+                                <button id="'+ loadedJSON.id + '" class="btn-storage" onclick=btn_click(this.id)>창고에 담기</button> \
                                 </div> \
                             </div> \
                             </li>';
@@ -135,7 +160,7 @@
 
                     $("#recent").append(html);
                   } else {
-                    console.log("nooooooooooooo!!");
+                    console.log("error!!");
                   }
 
                 }

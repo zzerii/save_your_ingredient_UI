@@ -846,6 +846,7 @@ a.close-modal{
   text-indent: -9999px;
 }
 
+
 /*orderlist*/
 #orderlist {
   min-height: 5px;
@@ -1780,4 +1781,52 @@ ul.entry-meta {
   color: #fff;
   box-shadow: rgba(66, 66, 66, 0.664);
 }
+/* search*/
+#modal_input_val{
+  border: none;
+  background: #d1c99c;
+  padding: 6px;
+  font-size: 18px;
+  width: fit-content;
+  border-radius: 20px;
+  color: white;
+}
+#modal_input_val:focus{
+  outline: none;
+}
+/* 달력 */
+.custom_calendar_table td {
+  text-align: center;
+}
 
+.custom_calendar_table thead.cal_date th {
+  font-size: 1.5rem;
+}
+
+.custom_calendar_table thead.cal_date th button {
+  font-size: 1.5rem;
+  background: none;
+  border: none;
+}
+
+.custom_calendar_table thead.cal_week th {
+  background-color: #dbc26e;
+  color: #fff;
+}
+
+.custom_calendar_table tbody td {
+  cursor: pointer;
+}
+
+.custom_calendar_table tbody td:nth-child(1) {
+  color: red;
+}
+
+.custom_calendar_table tbody td:nth-child(7) {
+  color: #dbc26e;
+}
+
+.custom_calendar_table tbody td.select_day {
+  background-color: #dbc26e;
+  color: #fff;
+}
