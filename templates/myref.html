@@ -249,7 +249,7 @@
 
     // 비동기 방식으로 Request를 오픈한다
     xhr.open("GET", "http://127.0.0.1:8000/stock/");
-    xhr.setRequestHeader('Authorization', 'jwt eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjozLCJ1c2VybmFtZSI6ImRqYW5nbyIsImV4cCI6MTYwNTI1MDMxMSwiZW1haWwiOiJhQG5hdmVyLmNvbSJ9.J_kEjhdvLtf08YC31pA6rKElolN2eJL6GyDMEGzVw0c');
+    xhr.setRequestHeader('Authorization', 'jwt '+localStorage.getItem('token'));
     // Request를 전송한다
     xhr.send();
 
