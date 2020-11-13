@@ -140,7 +140,7 @@
                 responseObject.ingre.forEach((ingre) => {
                   newContent += `
                         <div class="item">
-                            <span class="name">${ingre.item}</span>
+                            <a class="name"href="#" onclick="getFood()">${ingre.item}</a>
                         </div>`;
                 });
                 console.log(newContent);
@@ -254,6 +254,15 @@
                     });
                 }
             }
+
+            $(function getFood(){
+                var foodname=document.getElementsByClassName('name');
+                var output = ""; 
+                if(foodname.text() != 0){  
+                output =selected.text();
+                }
+                $("#output").html(output);
+            });
         </script>
 
         <!-- Delete in List -->
