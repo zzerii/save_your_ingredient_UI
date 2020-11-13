@@ -108,7 +108,29 @@
     </body>
     <script>
         includeHTML();
+        function isLogin(){
+                if ( !localStorage.getItem('token')){
+                    window.location.href = "login.html";
+                } 
+                console.log(localStorage.getItem('token'))
+            }
+            isLogin();
 
+        function logout(){
+            localStorage.removeItem('token');
+            window.location.href = "login.html";
+            // console.log(localStorage.getItem('token'))
+        }
+
+        $(function() {
+        let loaded = false;
+        $('body').on('DOMNodeInserted', '#logout', function() {
+            if (!loaded) {
+                loaded = true;
+                logout();
+            }
+        })
+        });
 
     </script>
 
