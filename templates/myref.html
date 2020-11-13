@@ -1,164 +1,268 @@
 <!DOCTYPE html>
 <html lang="ko">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+        <title>MyRef</title>
 
-  <title>MyRef</title>
+        
+        <!--Animated CSS-->
+        <link rel="stylesheet" type="../text/css" href="../css/animate.min.css">
 
+        <!-- Bootstrap -->
+        <link href="../css/bootstrap.min.css" rel="stylesheet">
+        <!--Bootstrap Carousel-->
+        <link type="../text/css" rel="stylesheet" href="../css/carousel.css" />
 
-  <!--Animated CSS-->
-  <link rel="stylesheet" type="../text/css" href="../css/animate.min.css">
+        <link rel="stylesheet" href="../css/isotope/style.css">
 
-  <!-- Bootstrap -->
-  <link href="../css/bootstrap.min.css" rel="stylesheet">
-  <!--Bootstrap Carousel-->
-  <link type="../text/css" rel="stylesheet" href="../css/carousel.css" />
+        <!--Main Stylesheet-->
+        <link href="../css/style.css" rel="stylesheet">
+        <!--Responsive Framework-->
+        <link href="../css/responsive.css" rel="stylesheet">
+        <link href="../node_modules/animate.css/animate.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+        
+    </head>
 
-  <link rel="stylesheet" href="../css/isotope/style.css">
-
-  <!--Main Stylesheet-->
-  <link href="../css/style.css" rel="stylesheet">
-  <!--Responsive Framework-->
-  <link href="../css/responsive.css" rel="stylesheet">
-  <link href="../node_modules/animate.css/animate.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
-
-</head>
-
-<body>
-  <nav class="include" include-html="./nav.html"></nav>
-  <div class="container">
-    <!--재고 목록-->
-    <div class="list_header">
-      <div style="float: left;">
-        <div class="event_header text-left"><img src="../img/jaego.png" style="width:280px;">
-        </div>
-      </div>
-      <!-- Modal Start -->
-      <div style="float: right; margin-top: 50px; margin-left: 10px;">
-        <p><a id="modal_btn" class="modal_btn" href="#ex7"><img src="../img/plus.png"></a></p>
-        <div id="ex7" class="modal">
-          <p>재료를 추가해 보자</p>
-          <!-- Input -->
-          <form id="input-Box">
-            <div>Food: <input type="text" id="inputed_food"></div>
-            <div>EXP: <input type="date" id="inputed_exp"></div>
-            <div>Amount:
-              <select id="inputed_amount">
-                <option value="" selected disabled hidden>==선택하시오==</option>
-                <option value="amount-many">많음</option>
-                <option value="amount-soso">보통</option>
-                <option value="amount-lit">적음</option>
-              </select>
+    <body>
+        <nav class="include" include-html="./nav.html"></nav>
+        <div class="container">
+            <!--재고 목록-->
+            <div class="list_header">
+                <div style="float: left;">
+                    <div class="event_header text-left"><img src="../img/jaego.png" style="width:280px;">
+                    </div>
+                </div>
+                <!-- Modal Start -->
+                <div style="float: right; margin-top: 50px; margin-left: 10px;">
+                  <p><a id="modal_btn" class="modal_btn" href="#ex7"><img src="../img/plus.png" ></a></p>
+                    <div id="ex7" class="modal" style="max-width: 1000px;">
+                        <img src="../img/add_ingre.png" style="width: 200px;">
+                        <!-- Input -->
+                        <div id="input-Box" class="row" >
+                            <!-- search -->
+                            <div class="searchbox col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                <input onkeyup="filter()" type="text" id="modal_input_val" placeholder="재료를 검색하세요">
+                                
+                                <div id="search_list"></div>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                <div>유통기한</div>
+                                <div id="calendarForm"></div>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                <select id="inputed_amount"style="font-size:180%; float: right">
+                                    <option value="" selected disabled hidden>==수량 선택==</option>
+                                    <option value="amount-many">많음</option>
+                                    <option value="amount-soso">보통</option>
+                                    <option value="amount-lit">적음</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer" id="modal-footer">
+                            <button type="button" class="modal_add_btn" style="border: none; background-color: transparent; margin-top: 40px;" ><img src="../img/add_btn.png" style="width: 90px;"></button>
+                            <button type="button" class="modal_close_btn" style="border: none; background-color: transparent; margin-top: 40px;"><img src="../img/close_btn.png" style="width: 90px;"></button>
+                        </div>
+                    </div>
+                    </div>
+                    <div style="float: right;">
+                    <button style="border: none; background-color: transparent; margin-top: 40px;" onclick="sortListByDate()"><img src="../img/expir.png" ></button>
+                    </div>
+                    <div style="float: right">
+                        <button style="border: none; background-color: transparent; margin-top: 40px; margin-bottom: 10px;" onclick="sortListByName()"><img src="../img/namesoon.png" ></button>
+                    </div>
+                </div>
+                <!-- Json List -->
+                <ul id="stock_list"></ul>
             </div>
-          </form>
-          <div class="modal-footer" id="modal-footer">
-            <button type="button" class="modal_add_btn">추가</button>
-            <button type="button" class="modal_close_btn">닫기</button>
-          </div>
-        </div>
-      </div>
-      <div style="float: right;">
-        <button style="border: none; background-color: transparent; margin-top: 40px;" onclick="sortListByDate()"><img
-            src="../img/expir.png"></button>
-      </div>
-      <div style="float: right">
-        <button style="border: none; background-color: transparent; margin-top: 40px; margin-bottom: 10px;"
-          onclick="sortListByName()"><img src="../img/namesoon.png"></button>
-      </div>
+        
+        <footer class="include" include-html="./footer.html"></footer>     
+        
+
+        <!-- Script -->
+        <script src="../js/jquery-1.12.3.min.js"></script>
+        <script src="../js/includeHTML.js"></script>
+        <script src="../js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+        <script>includeHTML();</script>
+
+        <!-- Modal jQuery -->
+        <script>
+            $('a[href="#ex7"]').click(function(event) {
+            event.preventDefault();
+        
+            $(this).modal({
+                fadeDuration: 250
+            });
+            });
+            //Close btn in Modal
+            $(".modal_close_btn").on('click', $.modal.close)
+
+            //<!-- get item -->
+            var modal_xhr = new XMLHttpRequest();
+            modal_xhr.open("GET", "../data/searchtest.json");
+            modal_xhr.send();
+            modal_xhr.onreadystatechange = function () {
+              if (modal_xhr.readyState !== XMLHttpRequest.DONE) return;
+              if (modal_xhr.status === 200) {
+                console.log(modal_xhr.responseText);
+                // Deserializing (String → Object)
+                responseObject = JSON.parse(modal_xhr.responseText);
+                // JSON → HTML String
+                let newContent ='';
+                responseObject.ingre.forEach((ingre) => {
+                  newContent += `
+                        <div class="item" >
+                            <span class="name">${ingre.item}</span>
+                        </div>`;
+                });
+                console.log(newContent);
+                document.getElementById("search_list").innerHTML = newContent;
+              } else {
+                console.log(`[${modal_xhr.status}] : ${modal_xhr.statusText}`);
+              }
+            };
+        //<!-- Search -->
+            function filter(){
+                var value, name, item, i;
+      
+                value = document.getElementById("modal_input_val").value.toUpperCase();
+                item = document.getElementsByClassName("item");
+                for(i=0;i<item.length;i++){
+                    name = item[i].getElementsByClassName("name");
+                    if(name[0].innerHTML.toUpperCase().indexOf(value) > -1){
+                    item[i].style.display = "flex";
+                    }else{
+                    item[i].style.display = "none";
+                    }
+                }
+            }
+
+             // 달력
+             $(function () {
+                calendarMaker($("#calendarForm"), new Date());
+            })();
+
+            var nowDate = new Date();
+            function calendarMaker(target, date) {
+                if (date == null || date == undefined) {
+                    date = new Date();
+                }
+                nowDate = date;
+                if ($(target).length > 0) {
+                    var year = nowDate.getFullYear();
+                    var month = nowDate.getMonth() + 1;
+                    $(target).empty().append(assembly(year, month));
+                } else {
+                    console.error("custom_calendar Target is empty!!!");
+                    return;
+                }
+
+                var thisMonth = new Date(nowDate.getFullYear(), nowDate.getMonth(), 1);
+                var thisLastDay = new Date(nowDate.getFullYear(), nowDate.getMonth() + 1, 0);
 
 
+                var tag = "<tr>";
+                var cnt = 0;
+                //빈 공백 만들어주기
+                for (i = 0; i < thisMonth.getDay(); i++) {
+                    tag += "<td></td>";
+                    cnt++;
+                }
 
-    </div>
-    <!-- Json List -->
-    <ul id="stock_list"></ul>
-  </div>
+                //날짜 채우기
+                for (i = 1; i <= thisLastDay.getDate(); i++) {
+                    if (cnt % 7 == 0) { tag += "<tr>"; }
 
-  <footer class="include" include-html="./footer.html"></footer>
+                    tag += "<td>" + i + "</td>";
+                    cnt++;
+                    if (cnt % 7 == 0) {
+                        tag += "</tr>";
+                    }
+                }
+                $(target).find("#custom_set_date").append(tag);
+                calMoveEvtFn();
 
+                function assembly(year, month) {
+                    var calendar_html_code =
+                        "<table class='custom_calendar_table'>" +
+                        "<colgroup>" +
+                        "<col style='width:81px'/>" +
+                        "<col style='width:81px'/>" +
+                        "<col style='width:81px'/>" +
+                        "<col style='width:81px'/>" +
+                        "<col style='width:81px'/>" +
+                        "<col style='width:81px'/>" +
+                        "<col style='width:81px'/>" +
+                        "</colgroup>" +
+                        "<thead class='cal_date'>" +
+                        "<th><button type='button' class='prev'><</button></th>" +
+                        "<th colspan='5'><p><span>" + year + "</span>년 <span>" + month + "</span>월</p></th>" +
+                        "<th><button type='button' class='next'>></button></th>" +
+                        "</thead>" +
+                        "<thead  class='cal_week'>" +
+                        "<th>일</th><th>월</th><th>화</th><th>수</th><th>목</th><th>금</th><th>토</th>" +
+                        "</thead>" +
+                        "<tbody id='custom_set_date'>" +
+                        "</tbody>" +
+                        "</table>";
+                    return calendar_html_code;
+                }
 
-  <!-- Script -->
-  <script src="../js/jquery-1.12.3.min.js"></script>
-  <script src="../js/includeHTML.js"></script>
-  <script src="../js/bootstrap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
-  <script>includeHTML();</script>
+                function calMoveEvtFn() {
+                    //전달 클릭
+                    $(".custom_calendar_table").on("click", ".prev", function () {
+                        nowDate = new Date(nowDate.getFullYear(), nowDate.getMonth() - 1, nowDate.getDate());
+                        calendarMaker($(target), nowDate);
+                    });
+                    //다음날 클릭
+                    $(".custom_calendar_table").on("click", ".next", function () {
+                        nowDate = new Date(nowDate.getFullYear(), nowDate.getMonth() + 1, nowDate.getDate());
+                        calendarMaker($(target), nowDate);
+                    });
+                    //일자 선택 클릭
+                    $(".custom_calendar_table").on("click", "td", function () {
+                        $(".custom_calendar_table .select_day").removeClass("select_day");
+                        $(this).removeClass("select_day").addClass("select_day");
+                    });
+                }
+            }
 
-  <!-- Modal jQuery -->
-  <script>
-    $('a[href="#ex7"]').click(function (event) {
-      event.preventDefault();
+        </script>
 
-      $(this).modal({
-        fadeDuration: 250
-      });
-    });
-    //Close btn in Modal
-    $(".modal_close_btn").on('click', $.modal.close)
+        <!-- Read and GET Json -->
+        <script>
+            // XMLHttpRequest 객체의 생성
+            var xhr = new XMLHttpRequest();
+      
+            // 비동기 방식으로 Request를 오픈한다
+            xhr.open("GET", "../data/test-list.json");
+            // Request를 전송한다
+            xhr.send();
+      
+            xhr.onreadystatechange = function () {
+              // 서버 응답 완료 && 정상 응답
+              if (xhr.readyState !== XMLHttpRequest.DONE) return;
+      
+              if (xhr.status === 200) {
+                console.log(xhr.responseText);
+      
+                // Deserializing (String → Object)
+                responseObject = JSON.parse(xhr.responseText);
 
+                
+                //X버튼 크기 줄이기, 글씨 키우기, select박스 크기 키우기
+                
+                // JSON → HTML String
+                let newContent ='';
+                responseObject.user_ref.forEach((user_ref) => {
+                  newContent += `
 
-    $.post(url, data, function (jsonResponse) {
-      // Do something with  jsonResponse
-      $("#ex7>#modal-footer>.modal_add_btn").on("click", function () {
-        var aJsonArray = new Array();
-        var aJson = new Object();
-
-        var input_food = $('#inputed_food').val();
-        var input_exp = $('#inputed_exp').val();
-        var input_amount = $('#inputed_amount option:selected').text();
-
-        $.post(url, data, function (jsonResponse) {
-          // Do something with  jsonResponse
-        }, '../test-list.json')
-        aJson.food = input_food;
-        aJson.exp = input_exp;
-        aJson.amount = input_amount;
-
-        JSON.stringify(aJson);
-      });
-    }, '../test-list.json')
-
-            //Add btn in Modal
-            // $("#ex7>#modal-footer>.modal_add_btn").on("click", function(){
-
-            //         var new_node = "<li>추가된 내용1</li>"
-            //         $("ul").append(new_node);
-            //         return false; 
-            //     });
-  </script>
-
-  <!-- Read and GET Json -->
-  <script>
-    // XMLHttpRequest 객체의 생성
-    var xhr = new XMLHttpRequest();
-
-    // 비동기 방식으로 Request를 오픈한다
-    xhr.open("GET", "../data/test-list.json");
-    // Request를 전송한다
-    xhr.send();
-
-    xhr.onreadystatechange = function () {
-      // 서버 응답 완료 && 정상 응답
-      if (xhr.readyState !== XMLHttpRequest.DONE) return;
-
-      if (xhr.status === 200) {
-        console.log(xhr.responseText);
-
-        // Deserializing (String → Object)
-        responseObject = JSON.parse(xhr.responseText);
-
-
-        //X버튼 크기 줄이기, 글씨 키우기, select박스 크기 키우기
-
-        // JSON → HTML String
-        let newContent = '';
-        responseObject.user_ref.forEach((user_ref) => {
-          newContent += `
                   <li>
                     <div id="stockdiv" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 list_board">
                           <div class="col-md-2" style="float: left"><img src="../img/ingredient.png" style="width:70px"></div>

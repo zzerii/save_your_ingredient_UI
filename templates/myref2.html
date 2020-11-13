@@ -32,8 +32,16 @@
             <p>재료를 추가해 보자</p>
             <!-- Input -->
             <div id="input-Box">
-                <div>Food: <input type="text" id="inputed_food"></div>
+                <!-- search -->
+                <div class="searchbox">
+                    <div class="header">
+                        <input onkeyup="filter()" type="text" id="value" placeholder="Type to Search">
+                    </div>
+            
+                    <div id="search_list"></div>
+                </div>
                 <div>EXP: <input type="date" id="inputed_exp"></div>
+                <div id="calendarForm"></div>
                 <div>Amount:
                     <select id="inputed_amount">
                         <option value="" selected disabled hidden>==선택하시오==</option>
@@ -69,12 +77,11 @@
         <!-- Select Box Display -->
         <div id="output"></div>
 
-        <!-- Json List -->
-        <ul id="content"></ul>
-
         
-
+        
         <!-- Script -->
+        <script type="text/javascript" src="../node_modules/hangul-js/hangul.js"></script>
+        
 
         <!-- Modal jQuery -->
         <script>
@@ -89,26 +96,26 @@
             $(".modal_close_btn").on('click', $.modal.close)
 
 
-            $.post(url, data, function(jsonResponse) {
-            // Do something with  jsonResponse
-                $("#ex7>#modal-footer>.modal_add_btn").on("click", function(){
-                    var aJsonArray = new Array();
-                    var aJson = new Object();
+            // $.post(url, data, function(jsonResponse) {
+            // // Do something with  jsonResponse
+            //     $("#ex7>#modal-footer>.modal_add_btn").on("click", function(){
+            //         var aJsonArray = new Array();
+            //         var aJson = new Object();
 
-                    var input_food=$('#inputed_food').val();
-                    var input_exp=$('#inputed_exp').val();
-                    var input_amount=$('#inputed_amount option:selected').text();
+            //         var input_food=$('#inputed_food').val();
+            //         var input_exp=$('#inputed_exp').val();
+            //         var input_amount=$('#inputed_amount option:selected').text();
 
-                    $.post(url, data, function(jsonResponse) {
-                        // Do something with  jsonResponse
-                    }, '../test-list.json')
-                    aJson.food = input_food;
-                    aJson.exp = input_exp;
-                    aJson.amount = input_amount;
+            //         $.post(url, data, function(jsonResponse) {
+            //             // Do something with  jsonResponse
+            //         }, '../test-list.json')
+            //         aJson.food = input_food;
+            //         aJson.exp = input_exp;
+            //         aJson.amount = input_amount;
                     
-                    JSON.stringify(aJson);
-                 });
-            }, '../test-list.json')
+            //         JSON.stringify(aJson);
+            //      });
+            // }, '../test-list.json')
 
             //Add btn in Modal
             // $("#ex7>#modal-footer>.modal_add_btn").on("click", function(){
@@ -117,6 +124,136 @@
             //         $("ul").append(new_node);
             //         return false; 
             //     });
+
+            //<!-- get item -->
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "../data/searchtest.json");
+            xhr.send();
+            xhr.onreadystatechange = function () {
+              if (xhr.readyState !== XMLHttpRequest.DONE) return;
+              if (xhr.status === 200) {
+                console.log(xhr.responseText);
+                // Deserializing (String → Object)
+                responseObject = JSON.parse(xhr.responseText);
+                // JSON → HTML String
+                let newContent ='';
+                responseObject.ingre.forEach((ingre) => {
+                  newContent += `
+                        <div class="item">
+                            <span class="name">${ingre.item}</span>
+                        </div>`;
+                });
+                console.log(newContent);
+                document.getElementById("search_list").innerHTML = newContent;
+              } else {
+                console.log(`[${xhr.status}] : ${xhr.statusText}`);
+              }
+            };
+        //<!-- Search -->
+            function filter(){
+                var value, name, item, i;
+      
+                value = document.getElementById("value").value.toUpperCase();
+                item = document.getElementsByClassName("item");
+                for(i=0;i<item.length;i++){
+                    name = item[i].getElementsByClassName("name");
+                    if(name[0].innerHTML.toUpperCase().indexOf(value) > -1){
+                    item[i].style.display = "flex";
+                    }else{
+                    item[i].style.display = "none";
+                    }
+                }
+            }
+
+            // 달력
+            $(function () {
+                calendarMaker($("#calendarForm"), new Date());
+            })();
+
+            var nowDate = new Date();
+            function calendarMaker(target, date) {
+                if (date == null || date == undefined) {
+                    date = new Date();
+                }
+                nowDate = date;
+                if ($(target).length > 0) {
+                    var year = nowDate.getFullYear();
+                    var month = nowDate.getMonth() + 1;
+                    $(target).empty().append(assembly(year, month));
+                } else {
+                    console.error("custom_calendar Target is empty!!!");
+                    return;
+                }
+
+                var thisMonth = new Date(nowDate.getFullYear(), nowDate.getMonth(), 1);
+                var thisLastDay = new Date(nowDate.getFullYear(), nowDate.getMonth() + 1, 0);
+
+
+                var tag = "<tr>";
+                var cnt = 0;
+                //빈 공백 만들어주기
+                for (i = 0; i < thisMonth.getDay(); i++) {
+                    tag += "<td></td>";
+                    cnt++;
+                }
+
+                //날짜 채우기
+                for (i = 1; i <= thisLastDay.getDate(); i++) {
+                    if (cnt % 7 == 0) { tag += "<tr>"; }
+
+                    tag += "<td>" + i + "</td>";
+                    cnt++;
+                    if (cnt % 7 == 0) {
+                        tag += "</tr>";
+                    }
+                }
+                $(target).find("#custom_set_date").append(tag);
+                calMoveEvtFn();
+
+                function assembly(year, month) {
+                    var calendar_html_code =
+                        "<table class='custom_calendar_table'>" +
+                        "<colgroup>" +
+                        "<col style='width:81px'/>" +
+                        "<col style='width:81px'/>" +
+                        "<col style='width:81px'/>" +
+                        "<col style='width:81px'/>" +
+                        "<col style='width:81px'/>" +
+                        "<col style='width:81px'/>" +
+                        "<col style='width:81px'/>" +
+                        "</colgroup>" +
+                        "<thead class='cal_date'>" +
+                        "<th><button type='button' class='prev'><</button></th>" +
+                        "<th colspan='5'><p><span>" + year + "</span>년 <span>" + month + "</span>월</p></th>" +
+                        "<th><button type='button' class='next'>></button></th>" +
+                        "</thead>" +
+                        "<thead  class='cal_week'>" +
+                        "<th>일</th><th>월</th><th>화</th><th>수</th><th>목</th><th>금</th><th>토</th>" +
+                        "</thead>" +
+                        "<tbody id='custom_set_date'>" +
+                        "</tbody>" +
+                        "</table>";
+                    return calendar_html_code;
+                }
+
+                function calMoveEvtFn() {
+                    //전달 클릭
+                    $(".custom_calendar_table").on("click", ".prev", function () {
+                        nowDate = new Date(nowDate.getFullYear(), nowDate.getMonth() - 1, nowDate.getDate());
+                        calendarMaker($(target), nowDate);
+                    });
+                    //다음날 클릭
+                    $(".custom_calendar_table").on("click", ".next", function () {
+                        nowDate = new Date(nowDate.getFullYear(), nowDate.getMonth() + 1, nowDate.getDate());
+                        calendarMaker($(target), nowDate);
+                    });
+                    //일자 선택 클릭
+                    $(".custom_calendar_table").on("click", "td", function () {
+                        $(".custom_calendar_table .select_day").removeClass("select_day");
+                        $(this).removeClass("select_day").addClass("select_day");
+                    });
+                }
+            }
         </script>
 
         <!-- Delete in List -->
@@ -203,7 +340,7 @@
         </script>
         
         <!-- Post in Jason ing.... -->
-        <script>
+        <!-- <script>
             $.post(url, data, function(jsonResponse) {
             // Do something with  jsonResponse
                 $("#ex7>#input_amount").on("click", function(){
@@ -224,7 +361,7 @@
                     JSON.stringify(aJson);
                  });
             }, '../test-list.json')
-        </script>
+        </script> -->
 
         <!-- Sort By Name -->
         <script>
