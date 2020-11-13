@@ -74,11 +74,53 @@
       });
     });
   </script>
+  <script>
+    // 레시피 완료 
+    // TODO : 완료 클릭시 사라지게 
+    function completeBtn(that) {
+      if (localStorage.getItem('completeRecipeId') === null) {
+        //init array
+        var completeRecipes = [];
+        //add to array
+        // bookmarks.push(bookmark);
+        //set to Localstorage
+        // localStorage.setItem('bookmarks',JSON.stringify(bookmarks));
+      } else {
+        var output = localStorage.getItem("completeRecipeId");
+        var completeRecipes = JSON.parse(output);
+      }
+
+
+      console.log(that);
+      if (completeRecipes.includes(that)) {
+        return;
+      } else {
+        completeRecipes.push(that);
+      }
+      localStorage.setItem("completeRecipeId", JSON.stringify(completeRecipes));
+
+    }
+
+    // 창고에서 삭제
+    function deleteBtn(that) {
+      var output = localStorage.getItem("recipeId");
+      var recipes = JSON.parse(output);
+      console.log("before ", recipes);
+
+      const idx = recipes.indexOf(that);
+      if (idx > -1) {
+        recipes.splice(idx, 1);
+
+      }
+      console.log("after ", recipes);
+      localStorage.setItem("recipeId", JSON.stringify(recipes));
+    }
+  </script>
 
   <nav class="include" include-html="./nav.html"></nav>
 
   <!-- storage.html 페이지 -->
-  <section id="blog">
+  <section id="blog" style="padding: 20px;">
     <div class="container">
       <div class="row">
         <div class="col-md-8">
@@ -132,6 +174,8 @@
                                             </div> \
                                           </div> \
                                         </div> \
+                                        <button id="'+ loadedJSON.id + '" class="btn-storage" onclick=completeBtn(this.id)>완료</button> \
+                                        <button id="'+ loadedJSON.id + '" class="btn-storage" onclick=deleteBtn(this.id)>삭제</button> \
                                       </div> \
                                     </div> \
                               </li>';

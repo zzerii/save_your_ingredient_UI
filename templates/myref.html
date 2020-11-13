@@ -244,12 +244,15 @@
 
   <!-- Read and GET Json -->
   <script>
+
+
+
     // XMLHttpRequest 객체의 생성
     var xhr = new XMLHttpRequest();
 
     // 비동기 방식으로 Request를 오픈한다
     xhr.open("GET", "http://127.0.0.1:8000/stock/");
-    xhr.setRequestHeader('Authorization', 'jwt '+localStorage.getItem('token'));
+    xhr.setRequestHeader('Authorization', 'jwt ' + localStorage.getItem('token'));
     // Request를 전송한다
     xhr.send();
 
@@ -267,6 +270,7 @@
 
         // JSON → HTML String
         let newContent = '';
+        // 
         responseObject.forEach((user_ref) => {
           newContent += `
 
@@ -277,14 +281,16 @@
                           <div id="stock_exp"class="col-md-2" style="float: left">${user_ref.expiration_date}</div>\
                           <div id="stock_amount" class="col-md-1" id="amountOutput" style="float: left">${user_ref.amount}</div>
                           <div class="col-md-2" style="float: left">
-                              <select id="inputed_amount">
+                              <select id="change_amount">
                                 <option value="" selected disabled hidden>==수량변경==</option>
-                                <option value="amount-many">많음</option>
-                                <option value="amount-soso">보통</option>
-                                <option value="amount-lit">적음</option>
+                                <option value="많음">많음</option>
+                                <option value="보통">보통</option>
+                                <option value="적음">적음</option>
                               </select>
                           </div>
-                          <button id="order_btn" onclick=orderIngredient(this) class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+
+
+                          <button id="order_btn" onclick=orderIngredient(this) class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
                               주문하기
                           </button>
                           <div id="btnDel" class="col-lg-1 col-md-1 col-sm-1 col-xs-1 ">
@@ -298,7 +304,49 @@
       } else {
         console.log(`[${xhr.status}] : ${xhr.statusText}`);
       }
-    };
+    }
+
+    // Change Stock Amount
+    $(document).on("change", "#change_amount", function () {
+      var amount = $(this).select().val();
+      console.log(">>>>>>>>>>>>", amount);
+      // var str = String($(this).parent().parent().text())
+      console.log("parent", $(this).parent().prev().prev().prev().text());
+      // $(this).closest('#check').append(amount);
+      // $(this).closestOne('.check_btn').attr({ "value": amount });
+
+
+      var data = {};
+      data.id = 3;
+      data.amount = amount;
+      data.expiration_date = "2020-11-13";
+      data.user_id = 3;
+      data.ingredient_id = 1
+      var jason_data = JSON.stringify(data);
+      var xhr = new XMLHttpRequest();
+      console.log(jason_data);
+      // 비동기 방식으로 Request를 오픈한다
+      var url = 'http://127.0.0.1:8000/stock/' + $(this).parent().prev().prev().prev().text();
+      console.log("urllll", url);
+      xhr.open("PUT", url);
+      xhr.setRequestHeader('Content-type', 'application/json');
+      xhr.setRequestHeader('Authorization', 'jwt ' + localStorage.getItem('token'));
+
+      // Request를 전송한다
+      xhr.send(jason_data);
+
+      xhr.onreadystatechange = function (e) {
+        if (xhr.readyState !== XMLHttpRequest.DONE) return;
+
+        if (xhr.status === 200) {
+          console.log(xhr.responseText);
+        } else {
+          console.log("Error!");
+        }
+      };
+    });
+
+
     //Delete Btn in List
     $(function () {
       $("#stock_list>li>#stockdiv>#btnDel>#delbtn").on("click", function () {
@@ -307,17 +355,7 @@
       });
     });
 
-    function replaceAll(strTemp, strValue1, strValue2) {
-      while (1) {
-        if (strTemp.indexOf(strValue1) != -1)
-          strTemp = strTemp.replace(strValue1, strValue2);
-        else
-          break;
-      }
-      return strTemp;
-    }
-
-
+    // Order Ingredient
     function orderIngredient(that) {
 
       var url = 'https://www.kurly.com/shop/goods/goods_search.php?searched=Y&sword=%BE%E7%C6%C4';
