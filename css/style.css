@@ -808,6 +808,19 @@ a.close-modal{
   /* border: 1px solid #fff; */
 }
 
+.check_btn {
+  margin-top: 23px;
+  line-height: 30px;
+  text-decoration: none;
+  font-size:120%;
+  color:white;
+  padding:0px 5px 0px 5px;
+  display:inline-block;
+  border-radius: 10px;
+  transition:all 0.1s;
+  background-color: rgb(247, 191, 9);
+}
+
 /* modal */
 .modal_wrap {
   display: none;
@@ -1770,7 +1783,7 @@ ul.entry-meta {
   margin-top: 22px;
 }
 
-#inputed_amount{
+#inputed_amount, #change_amount{
   margin-top: 25px;
   border-radius: 20px;
   font-size: 120%;
