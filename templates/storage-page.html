@@ -58,6 +58,20 @@
       margin: 0 20px 20px 10px;
       float: left;
     }
+
+    .btn-storage {
+      border: 1px solid #ffd518;
+      background-color: #ffd518;
+      display: block;
+      overflow: hidden;
+      width: 50%;
+      height: 30px;
+      border-radius: 0 0 6px 6px;
+      font-size: 13px;
+      float: left;
+      position: relative;
+      bottom: 0px;
+    }
   </style>
 
 
@@ -78,13 +92,9 @@
     // 레시피 완료 
     // TODO : 완료 클릭시 사라지게 
     function completeBtn(that) {
+      // 완료한 것들 completeRecipeId로 localStorage에 저장
       if (localStorage.getItem('completeRecipeId') === null) {
-        //init array
         var completeRecipes = [];
-        //add to array
-        // bookmarks.push(bookmark);
-        //set to Localstorage
-        // localStorage.setItem('bookmarks',JSON.stringify(bookmarks));
       } else {
         var output = localStorage.getItem("completeRecipeId");
         var completeRecipes = JSON.parse(output);
@@ -99,10 +109,13 @@
       }
       localStorage.setItem("completeRecipeId", JSON.stringify(completeRecipes));
 
+      // 완료한 것들 창고에서 삭제
+      deleteBtn(that);
     }
 
     // 창고에서 삭제
     function deleteBtn(that) {
+      console.log("delete come in");
       var output = localStorage.getItem("recipeId");
       var recipes = JSON.parse(output);
       console.log("before ", recipes);
@@ -114,6 +127,8 @@
       }
       console.log("after ", recipes);
       localStorage.setItem("recipeId", JSON.stringify(recipes));
+      $('#stored_recipe').empty();
+      card("recipeId", "#stored_recipe");
     }
   </script>
 
@@ -142,22 +157,25 @@
       <div class="row">
         <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
           <ul id="stored_recipe">
+
             <script>
-              var output = localStorage.getItem("recipeId");
-              var recipes = JSON.parse(output);
-              $.each(recipes, function (index, recipeNumber) {
-                var xhr = new XMLHttpRequest();
-                var url = 'https://save-your-ingredient.s3.amazonaws.com/recipes/' + recipeNumber + '.json';
+              var card = function (localStorage_recipe, selector) {
+                console.log("come in");
+                var output = localStorage.getItem(localStorage_recipe);
+                var recipes = JSON.parse(output);
+                $.each(recipes, function (index, recipeNumber) {
+                  var xhr = new XMLHttpRequest();
+                  var url = 'https://save-your-ingredient.s3.amazonaws.com/recipes/' + recipeNumber + '.json';
+                  console.log("url::", url);
+                  xhr.open('GET', url);
+                  xhr.send();
 
-                xhr.open('GET', url);
-                xhr.send();
-
-                xhr.onreadystatechange = function () {
-                  if (xhr.readyState === XMLHttpRequest.DONE) {
-                    if (xhr.status === 200) {
-                      let loadedJSON = JSON.parse(xhr.responseText);
-                      console.log(loadedJSON);
-                      var html = '<li> \
+                  xhr.onreadystatechange = function () {
+                    if (xhr.readyState === XMLHttpRequest.DONE) {
+                      if (xhr.status === 200) {
+                        let loadedJSON = JSON.parse(xhr.responseText);
+                        console.log(loadedJSON);
+                        var html = '<li> \
                                     <div class="blog_news" > \
                                       <div class="recipe-card"> \
                                         <div class="blog_img"> \
@@ -179,13 +197,17 @@
                                       </div> \
                                     </div> \
                               </li>';
-                      $("#stored_recipe").append(html);
-                    } else {
-                      console.log("error");
+                        $(selector).append(html);
+                      } else {
+                        console.log("error");
+                      }
                     }
                   }
-                }
-              });
+                });
+              }
+            </script>
+            <script>
+              card("recipeId", "#stored_recipe");
             </script>
           </ul>
         </div>
