@@ -257,7 +257,7 @@
     var xhr = new XMLHttpRequest();
     xhr.open("GET", "http://127.0.0.1:8000/stock/");
 
-    xhr.setRequestHeader('Authorization', 'jwt eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjozLCJ1c2VybmFtZSI6ImRqYW5nbyIsImV4cCI6MTYwNTI0OTkxOSwiZW1haWwiOiJhQG5hdmVyLmNvbSJ9.J74WPlP4dN6yOmLb5UuNACNVfgilFguX4q2iBhO87c0');
+    xhr.setRequestHeader('Authorization', 'jwt ' + localStorage.getItem('token'));
 
     xhr.send();
 
