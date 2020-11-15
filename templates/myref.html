@@ -245,7 +245,7 @@
   <!-- Read and GET Json -->
   <script>
 
-
+    // Stock List
     var stockList = function () {
       // XMLHttpRequest 객체의 생성
       var xhr = new XMLHttpRequest();
@@ -328,7 +328,6 @@
 
       var xhr = new XMLHttpRequest();
       // 비동기 방식으로 Request를 오픈한다
-
       var url = 'http://127.0.0.1:8000/stock/' + $(this).parent().prev().prev().prev().text();
 
       xhr.open("PUT", url);
@@ -362,13 +361,19 @@
     // Order Ingredient
     function orderIngredient(that) {
 
-      var url = 'https://www.kurly.com/shop/goods/goods_search.php?searched=Y&sword=%BE%E7%C6%C4';
+      var stockName = '한글';
+      var url = 'https://www.kurly.com/shop/goods/goods_search.php?searched=Y&sword='.concat(encodeURI(stockName));
 
-      var ret = window.open(url);
+      console.log('url::: ', url);
+      // var ret = window.open(url);
 
     }
   </script>
-
+  <script>
+    // For Test
+    encodedStockName = escape(encodeURIComponent("한글"));
+    console.log(encodedStockName);
+  </script>
   <!-- Sort By Date -->
   <script>
     function sortListByDate() {
