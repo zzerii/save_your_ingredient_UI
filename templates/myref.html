@@ -153,7 +153,7 @@
     // 달력
     $(function () {
       calendarMaker($("#calendarForm"), new Date());
-    })();
+    });
 
     var nowDate = new Date();
     function calendarMaker(target, date) {
@@ -266,8 +266,6 @@
         responseObject = JSON.parse(xhr.responseText);
 
 
-        //X버튼 크기 줄이기, 글씨 키우기, select박스 크기 키우기
-
         // JSON → HTML String
         let newContent = '';
         // 
@@ -288,13 +286,11 @@
                                 <option value="적음">적음</option>
                               </select>
                           </div>
-
-
                           <button id="order_btn" onclick=orderIngredient(this) class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
                               주문하기
                           </button>
                           <div id="btnDel" class="col-lg-1 col-md-1 col-sm-1 col-xs-1 ">
-                              <button id="delbtn" type="button" class="delbtn btn-danger" >X</button>
+                              <button id="delbtn" type="button" onclick=delete_stock(this) class="delbtn btn-danger" >X</button>
                           </div>
                    `;
         });
@@ -347,13 +343,7 @@
     });
 
 
-    //Delete Btn in List
-    $(function () {
-      $("#stock_list>li>#stockdiv>#btnDel>#delbtn").on("click", function () {
-        $(this).parent().parent().parent().remove();
-        return false;
-      });
-    });
+    
 
     // Order Ingredient
     function orderIngredient(that) {
@@ -364,7 +354,28 @@
 
     }
   </script>
+  <script>
+    
+    const de_xhr = new XMLHttpRequest();
+    de_xhr.open('POST', 'http://127.0.0.1:8000/stock/');
+    de_xhr.setRequestHeader('Content-type', 'application/json');
 
+    function add_stock(modal_input_val, password1, inputed_amount){
+      de_xhr.send(JSON.stringify({ingredient_id: modal_input_val, expiration_date: inputed_amount, amount: password2}));
+
+      de_xhr.onreadystatechange = function (e) {
+          if (xhr.readyState !== XMLHttpRequest.DONE) return;
+      };
+    }
+
+    //Delete Btn in List
+    function delete_stock() {
+      JSON.splice(this,1);
+        // $(this).parent().parent().parent().remove();
+        alert("hi");
+        return false;
+      };
+  </script>
   <!-- Sort By Date -->
   <script>
     function sortListByDate() {
