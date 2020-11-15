@@ -246,33 +246,32 @@
   <script>
 
 
+    var stockList = function () {
+      // XMLHttpRequest 객체의 생성
+      var xhr = new XMLHttpRequest();
 
-    // XMLHttpRequest 객체의 생성
-    var xhr = new XMLHttpRequest();
+      // 비동기 방식으로 Request를 오픈한다
+      xhr.open("GET", "http://127.0.0.1:8000/stock/");
+      xhr.setRequestHeader('Authorization', 'jwt ' + localStorage.getItem('token'));
+      // Request를 전송한다
+      xhr.send();
 
-    // 비동기 방식으로 Request를 오픈한다
-    xhr.open("GET", "http://127.0.0.1:8000/stock/");
-    xhr.setRequestHeader('Authorization', 'jwt ' + localStorage.getItem('token'));
-    // Request를 전송한다
-    xhr.send();
+      xhr.onreadystatechange = function () {
+        // 서버 응답 완료 && 정상 응답
+        if (xhr.readyState !== XMLHttpRequest.DONE) return;
 
-    xhr.onreadystatechange = function () {
-      // 서버 응답 완료 && 정상 응답
-      if (xhr.readyState !== XMLHttpRequest.DONE) return;
+        if (xhr.status === 200) {
 
-      if (xhr.status === 200) {
+          // Deserializing (String → Object)
+          responseObject = JSON.parse(xhr.responseText);
 
-        // Deserializing (String → Object)
-        responseObject = JSON.parse(xhr.responseText);
+          //X버튼 크기 줄이기, 글씨 키우기, select박스 크기 키우기
 
-
-        //X버튼 크기 줄이기, 글씨 키우기, select박스 크기 키우기
-
-        // JSON → HTML String
-        let newContent = '';
-        // 
-        responseObject.forEach((user_ref) => {
-          newContent += `
+          // JSON → HTML String
+          let newContent = '';
+          // 
+          responseObject.forEach((user_ref) => {
+            newContent += `
 
                   <li>
                     <div id="stockdiv" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 list_board">
@@ -297,37 +296,41 @@
                               <button id="delbtn" type="button" class="delbtn btn-danger" >X</button>
                           </div>
                    `;
-        });
-        newContent += "</div></li>";
+          });
+          newContent += "</div></li>";
 
-        document.getElementById("stock_list").innerHTML = newContent;
-      } else {
-        console.log(`[${xhr.status}] : ${xhr.statusText}`);
+          document.getElementById("stock_list").innerHTML = newContent;
+        } else {
+          console.log(`[${xhr.status}] : ${xhr.statusText}`);
+        }
       }
     }
+    stockList();
+
+
 
     // Change Stock Amount
     $(document).on("change", "#change_amount", function () {
       var amount = $(this).select().val();
-      console.log(">>>>>>>>>>>>", amount);
-      // var str = String($(this).parent().parent().text())
-      console.log("parent", $(this).parent().prev().prev().prev().text());
-      // $(this).closest('#check').append(amount);
-      // $(this).closestOne('.check_btn').attr({ "value": amount });
+      var expiration_date = $(this).parent().prev().prev().text();
+      var id = $(this).parent().prev().prev().prev().text();
 
 
       var data = {};
-      data.id = 3;
+      data.id = id;
       data.amount = amount;
-      data.expiration_date = "2020-11-13";
+      data.expiration_date = expiration_date;
       data.user_id = 3;
       data.ingredient_id = 1
+
       var jason_data = JSON.stringify(data);
+
+
       var xhr = new XMLHttpRequest();
-      console.log(jason_data);
       // 비동기 방식으로 Request를 오픈한다
+
       var url = 'http://127.0.0.1:8000/stock/' + $(this).parent().prev().prev().prev().text();
-      console.log("urllll", url);
+
       xhr.open("PUT", url);
       xhr.setRequestHeader('Content-type', 'application/json');
       xhr.setRequestHeader('Authorization', 'jwt ' + localStorage.getItem('token'));
@@ -338,12 +341,13 @@
       xhr.onreadystatechange = function (e) {
         if (xhr.readyState !== XMLHttpRequest.DONE) return;
 
-        if (xhr.status === 200) {
-          console.log(xhr.responseText);
+        if (xhr.status === 201) {
+          stockList();
         } else {
           console.log("Error!");
         }
       };
+
     });
 
 
