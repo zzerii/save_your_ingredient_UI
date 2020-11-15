@@ -1338,10 +1338,19 @@ input[type="radio"] {
 }
 
 /*Latest Blog*/
-
+.more-button {
+  border: 1px solid #ffd91d;
+  background-color: #ffd91d;
+  color: black;
+  font-size: 13px;
+  padding: 5px 8px;
+  margin-right: 20px;
+  margin-top: 10px;
+  border-radius: 6px;
+}
 #blog {
   min-height: 500px;
-  padding: 80px 0;
+  padding: 20px 80px 0 80px;
 }
 #blog p {
   display: inline-block;
