@@ -66,11 +66,11 @@
       overflow: hidden;
       width: 50%;
       height: 30px;
-      border-radius: 0 0 6px 6px;
       font-size: 13px;
       float: left;
       position: relative;
       bottom: 0px;
+
     }
   </style>
 
@@ -103,6 +103,7 @@
 
       console.log(that);
       if (completeRecipes.includes(that)) {
+        deleteBtn(that);
         return;
       } else {
         completeRecipes.push(that);
@@ -141,7 +142,7 @@
         <div class="col-md-8">
           <div class="latest_blog text-left">
             <img src="../img/recipe_chango.png">
-            <button style="float: right;" id="deleteAllRecipe">창고 삭제</button>
+            <button class="more-button" style="float: right;" id="deleteAllRecipe">창고 삭제</button>
             <hr />
           </div>
         </div>
@@ -192,8 +193,8 @@
                                             </div> \
                                           </div> \
                                         </div> \
-                                        <button id="'+ loadedJSON.id + '" class="btn-storage" onclick=completeBtn(this.id)>완료</button> \
-                                        <button id="'+ loadedJSON.id + '" class="btn-storage" onclick=deleteBtn(this.id)>삭제</button> \
+                                        <button id="'+ loadedJSON.id + '" class="btn-storage" style="border-bottom-left-radius: 6px; border-right-color: #d1d3d1;" onclick=completeBtn(this.id)>완료</button> \
+                                        <button id="'+ loadedJSON.id + '" class="btn-storage" style="border-bottom-right-radius: 6px;" onclick=deleteBtn(this.id)>삭제</button> \
                                       </div> \
                                     </div> \
                               </li>';
@@ -257,7 +258,7 @@
     var xhr = new XMLHttpRequest();
     xhr.open("GET", "http://127.0.0.1:8000/stock/");
 
-    xhr.setRequestHeader('Authorization', 'jwt eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjozLCJ1c2VybmFtZSI6ImRqYW5nbyIsImV4cCI6MTYwNTI0OTkxOSwiZW1haWwiOiJhQG5hdmVyLmNvbSJ9.J74WPlP4dN6yOmLb5UuNACNVfgilFguX4q2iBhO87c0');
+    xhr.setRequestHeader('Authorization', 'jwt ' + localStorage.getItem('token'));
 
     xhr.send();
 
