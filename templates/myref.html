@@ -41,12 +41,15 @@
       <!-- Modal Start -->
       <div style="float: right; margin-top: 50px; margin-left: 10px;">
         <p><a id="modal_btn" class="modal_btn" href="#ex7"><img src="../img/plus.png"></a></p>
-        <div id="ex7" class="modal" style="max-width: 1000px;">
+        <div id="ex7" class="modal" style="max-width: 1000px; ">
           <img src="../img/add_ingre.png" style="width: 200px;">
           <!-- Input -->
           <div id="input-Box" class="row">
             <!-- search -->
-            <div class="searchbox col-lg-4 col-md-4 col-sm-4 col-xs-4">
+            <div class="searchbox col-lg-4 col-md-4 col-sm-4 col-xs-4" style="
+            overflow: scroll;
+            height: 300px;
+        ">
               <input onkeyup="filter()" type="text" id="modal_input_val" placeholder="재료를 검색하세요">
 
               <div id="search_list"></div>
@@ -65,7 +68,7 @@
             </div>
           </div>
           <div class="modal-footer" id="modal-footer">
-            <button type="button" class="modal_add_btn"
+            <button type="button" onclick="addStockData()" class="modal_add_btn"
               style="border: none; background-color: transparent; margin-top: 40px;"><img src="../img/add_btn.png"
                 style="width: 90px;"></button>
             <button type="button" class="modal_close_btn"
@@ -96,7 +99,11 @@
   <script src="../js/bootstrap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
   <script>includeHTML();</script>
+  <script>
+    console.log(localStorage.getItem('user_pk'))
+  </script>
 
   <!-- Modal jQuery -->
   <script>
@@ -111,44 +118,69 @@
     $(".modal_close_btn").on('click', $.modal.close)
 
     //<!-- get item -->
+    var addId;
+    var addName;
+    var addAmount;
+    var addExp;
+
     var modal_xhr = new XMLHttpRequest();
-    modal_xhr.open("GET", "../data/searchtest.json");
+    modal_xhr.open("GET", "../data/ingredient.json");
     modal_xhr.send();
     modal_xhr.onreadystatechange = function () {
       if (modal_xhr.readyState !== XMLHttpRequest.DONE) return;
       if (modal_xhr.status === 200) {
-        console.log(modal_xhr.responseText);
+        //console.log(modal_xhr.responseText);
         // Deserializing (String → Object)
         responseObject = JSON.parse(modal_xhr.responseText);
         // JSON → HTML String
+        var count=0;
         let newContent = '';
-        responseObject.ingre.forEach((ingre) => {
-          newContent += `
+        responseObject.forEach((responseObject) => {
+          
+            newContent += `
                         <div class="item" >
-                            <span class="name">${ingre.item}</span>
+                            <a class="name" href="#" id="getName">${responseObject.name}</a>
                         </div>`;
         });
-        console.log(newContent);
+        //console.log(newContent);
         document.getElementById("search_list").innerHTML = newContent;
       } else {
         console.log(`[${modal_xhr.status}] : ${modal_xhr.statusText}`);
       }
     };
+    
+    
     //<!-- Search -->
     function filter() {
       var value, name, item, i;
+      
 
       value = document.getElementById("modal_input_val").value.toUpperCase();
       item = document.getElementsByClassName("item");
       for (i = 0; i < item.length; i++) {
         name = item[i].getElementsByClassName("name");
         if (name[0].innerHTML.toUpperCase().indexOf(value) > -1) {
-          item[i].style.display = "flex";
+            item[i].style.display = "flex";
         } else {
           item[i].style.display = "none";
         }
       }
     }
+
+    //이름 가져오기
+    $(document).on("click", "#getName", function () {
+      addName = $(this).text();
+      console.log(addName);
+    });
+
+    $("#inputed_amount").change(onSelectChange);
+            function onSelectChange(){ 
+                var selected = $("#inputed_amount option:selected");
+                if(selected.val() != 0){  
+                addAmount =selected.text();
+                }
+                //console.log(addAmount);
+            }
 
     // 달력
     $(function () {
@@ -223,30 +255,134 @@
 
       function calMoveEvtFn() {
         //전달 클릭
+        addExp=moment(nowDate).format('YYYY-MM-DD');
         $(".custom_calendar_table").on("click", ".prev", function () {
           nowDate = new Date(nowDate.getFullYear(), nowDate.getMonth() - 1, nowDate.getDate());
+          addExp=moment(nowDate).format('YYYY-MM-DD');
+          console.log(addExp);
           calendarMaker($(target), nowDate);
         });
         //다음날 클릭
         $(".custom_calendar_table").on("click", ".next", function () {
           nowDate = new Date(nowDate.getFullYear(), nowDate.getMonth() + 1, nowDate.getDate());
+          addExp=moment(nowDate).format('YYYY-MM-DD');
+          console.log(addExp);
           calendarMaker($(target), nowDate);
         });
         //일자 선택 클릭
         $(".custom_calendar_table").on("click", "td", function () {
           $(".custom_calendar_table .select_day").removeClass("select_day");
           $(this).removeClass("select_day").addClass("select_day");
+          addExp = new Date(nowDate.getFullYear(), nowDate.getMonth(), document.getElementsByClassName('select_day')[0].textContent);
+          addExp=moment(addExp).format('YYYY-MM-DD');
+          //console.log( document.getElementsByClassName('select_day')[0].textContent )
+          //console.log(nowDate)
+          //addExp=nowDate;
+          console.log(addExp);
         });
       }
     }
+    //날짜 가져오기
+    $(document).on("click", "#getName", function () {
+      addExp = $(this).text();
+      //console.log(addName);
+    });
 
+    //get Id
+    function getingreId(){
+        var idxhr = new XMLHttpRequest();
+        idxhr.open("GET", "../data/ingredient.json")
+        idxhr.send();
+        idxhr.onreadystatechange = function () {
+          if (idxhr.readyState !== XMLHttpRequest.DONE) return;
+          if (idxhr.status === 200) {
+            console.log("success");
+            idObject = JSON.parse(idxhr.responseText);
+            idObject.forEach((idObject) => {
+            if (idObject.name==addName){
+              addId=idObject.id
+            }
+          });
+        }
+      }
+    }
+    
+  //console.log(addId);
+
+    function addStockData(){
+      getingreId();
+      var data = {};
+      //data.name = addName;
+      data.amount = addAmount;
+      data.expiration_date = addExp;
+      data.user_id = localStorage.getItem('user_pk');
+      data.ingredient_id = addId;
+      
+
+      const addxhr = new XMLHttpRequest();
+      addxhr.open('POST', 'http://127.0.0.1:8000/stock/');
+      addxhr.setRequestHeader('Content-type', 'application/json');
+      addxhr.setRequestHeader('Authorization', 'jwt ' + localStorage.getItem('token'));
+      console.log(data);
+      addxhr.send(JSON.stringify(data));
+      //addxhr.send(data);
+    }
   </script>
+
+  <script>
+    {
+      var idxhr = new XMLHttpRequest();
+      idxhr.open("GET", "../data/ingredient.json")
+      idxhr.send();
+      idxhr.onreadystatechange = function () {
+        if (idxhr.readyState !== XMLHttpRequest.DONE) return;
+        if (idxhr.status === 200) {
+          localStorage.setItem('ingredient', idxhr.responseText);
+        }
+      }
+    }
+    function getIngredientName(ingId) {
+      let myIngreName = "";
+      let ing = localStorage.getItem('ingredient');
+      let idObject = JSON.parse(ing);
+          idObject.forEach((idObject) => {
+            if (idObject.id == ingId) {
+              myIngreName = idObject.name;
+            }
+          });
+      return myIngreName;
+    }
+  </script>
+
 
   <!-- Read and GET Json -->
   <script>
+    var myIngreName, myIngreId;
+    function getingreName(myIngreId){
+      var idxhr = new XMLHttpRequest();
+      idxhr.open("GET", "../data/ingredient.json")
+      idxhr.send();
+      idxhr.onreadystatechange = function () {
+        if (idxhr.readyState !== XMLHttpRequest.DONE) return;
+        if (idxhr.status === 200) {
+          //console.log("success");
+          idObject = JSON.parse(idxhr.responseText);
+          //console.log(idObject);
+          idObject.forEach((idObject) => {
+            if (idObject.id==myIngreId){
+              myIngreName=idObject.name;
+              //console.log(myIngreName);
+            }
+          });
+        }
+        //console.log("name=");
+        console.log(new Date().toISOString(), myIngreName);
+        return myIngreName;
+      }
+    }
 
     // Stock List
-    var stockList = function () {
+      var stockList = function () {
       // XMLHttpRequest 객체의 생성
       var xhr = new XMLHttpRequest();
 
@@ -261,22 +397,25 @@
         if (xhr.readyState !== XMLHttpRequest.DONE) return;
 
         if (xhr.status === 200) {
-
           // Deserializing (String → Object)
-          responseObject = JSON.parse(xhr.responseText);
-
+          stockresponseObject = JSON.parse(xhr.responseText);
           //X버튼 크기 줄이기, 글씨 키우기, select박스 크기 키우기
-
+          //console.log(stockresponseObject)
           // JSON → HTML String
           let newContent = '';
           // 
-          responseObject.forEach((user_ref) => {
+          stockresponseObject.forEach((stockresponseObject) => {
+            console.log("재료 아이디 ",stockresponseObject.ingredient_id);
+            // var realIngreName=getingreName(stockresponseObject.ingredient_id);
+            var realIngreName = getIngredientName(stockresponseObject.ingredient_id);
+            console.log(realIngreName);
+            //console.log(realIngreName)
             newContent += '<li>\
                     <div id="stockdiv" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 list_board">\
                           <div class="col-md-2" style="float: left"><img src="../img/ingredient.png" style="width:70px"></div>\
-                          <div id="stock_food" class="col-md-2" style="float: left" >'+ user_ref.id + '</div>\
-                          <div id="stock_exp"class="col-md-2" style="float: left">'+ user_ref.expiration_date + '</div>\
-                          <div id="stock_amount" class="col-md-1" id="amountOutput" style="float: left">'+ user_ref.amount + '</div>\
+                          <div id="stock_food" class="col-md-2" style="float: left" >'+ realIngreName + '</div>\
+                          <div id="stock_exp"class="col-md-2" style="float: left">'+ stockresponseObject.expiration_date + '</div>\
+                          <div id="stock_amount" class="col-md-1" id="amountOutput" style="float: left">'+ stockresponseObject.amount + '</div>\
                           <div class="col-md-2" style="float: left">\
                               <select id="change_amount">\
                                 <option value="" selected disabled hidden>==수량변경==</option>\
@@ -285,7 +424,8 @@
                                 <option value="적음">적음</option>\
                               </select>\
                           </div>\
-                          <button id='+ user_ref.id + ' onclick=orderStock(this.id) class="col-lg-1 col-md-1 col-sm-1 col-xs-1 order_btn">\
+                          <div class="col-md-1" style="float: left; display:none">'+stockresponseObject.id+'</div>\
+                          <button id='+ stockresponseObject.ingredient_id + ' onclick=orderStock(this.id) value='+stockresponseObject.ingredient_id+' class="col-lg-1 col-md-1 col-sm-1 col-xs-1 order_btn">\
                               주문하기\
                           </button>\
                           <div id="btnDel" class="col-lg-1 col-md-1 col-sm-1 col-xs-1 ">\
@@ -303,28 +443,27 @@
     stockList();
 
 
-
     // Change Stock Amount
     $(document).on("change", "#change_amount", function () {
       var amount = $(this).select().val();
       var expiration_date = $(this).parent().prev().prev().text();
-      var id = $(this).parent().prev().prev().prev().text();
-
+      var id = $(this).parent().next().text();
+      var ingredient_id=$(this).parent().next().next().val();
 
       var data = {};
       data.id = id;
       data.amount = amount;
       data.expiration_date = expiration_date;
-      data.user_id = 3;
-      data.ingredient_id = 1
+      data.user_id = localStorage.getItem('user_pk');
+      data.ingredient_id = ingredient_id;
 
       var jason_data = JSON.stringify(data);
-
+      console.log("json-data", jason_data);
 
       var xhr = new XMLHttpRequest();
       // 비동기 방식으로 Request를 오픈한다
-      var url = 'http://127.0.0.1:8000/stock/' + $(this).parent().prev().prev().prev().text() + '/';
-
+      var url = 'http://127.0.0.1:8000/stock/' + id + '/';
+      console.log(url);
       xhr.open("PUT", url);
       xhr.setRequestHeader('Content-type', 'application/json');
       xhr.setRequestHeader('Authorization', 'jwt ' + localStorage.getItem('token'));
@@ -346,9 +485,9 @@
 
 
 
-    //Delete Btn in List
-    $(document).on("click", "#deleteBtn", function () {
-      var id = $(this).parent().prev().prev().prev().prev().prev().text();
+     //Delete Btn in List
+     $(document).on("click", "#deleteBtn", function () {
+      var id = $(this).parent().prev().prev().text();
       var xhr = new XMLHttpRequest();
 
       var url = 'http://127.0.0.1:8000/stock/' + id;
@@ -369,6 +508,7 @@
         }
       };
     });
+
 
 
     // Order Stock
@@ -394,18 +534,6 @@
           if (xhr.readyState !== XMLHttpRequest.DONE) return;
       };
     }
-
-    //Delete Btn in List
-    function delete_stock() {
-      JSON.splice(this,1);
-      JSON.stringify(JSON);
-        // $(this).parent().parent().parent().remove();
-        alert("hi");
-        return false;
-      };
-    // For Test
-    encodedStockName = escape(encodeURIComponent("한글"));
-    console.log(encodedStockName);
   </script>
   <!-- Sort By Date -->
   <script>
