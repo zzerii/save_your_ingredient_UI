@@ -223,17 +223,15 @@
       <div class="row">
         <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
           <ul id="stored_recipe">
-
             <script>
 
               var filteredArr = new Array;
               // 내 냉장고 재료 아이디 배열 가져오는 부분
               var refxhr = new XMLHttpRequest();
-              refxhr.open("GET", "http://127.0.0.1:8000/stock/");
-
+              refxhr.open("GET", "http://127.0.0.1:8000/stock/")
               refxhr.setRequestHeader('Authorization', 'jwt ' + localStorage.getItem('token'));
-
               refxhr.send();
+          
               //재료 배열
               var myStockArr = new Array;
               refxhr.onreadystatechange = function () {
@@ -249,7 +247,9 @@
                   });
                 };
               };
-              var reIngreArr = new Array;
+              //창고 레시피 기준 재료 아이디 가져오기위한 배열 선언
+              var reIngreArr=new Array;
+              //카드 생성
               var card = function (localStorage_recipe, selector) {
                 console.log("come in");
                 var output = localStorage.getItem(localStorage_recipe);
@@ -260,7 +260,7 @@
                   // console.log("url::", url);
                   xhr.open('GET', url);
                   xhr.send();
-
+          
                   xhr.onreadystatechange = function () {
                     if (xhr.readyState === XMLHttpRequest.DONE) {
                       if (xhr.status === 200) {
@@ -308,16 +308,15 @@
                                     </div>
                                   </div>`;
                         });
-
                         document.getElementById("orderlist").innerHTML = newContent;
-
+          
                       } else {
                         console.log("error");
                       }
-                    }
+                    } 
                   }
                 });
-              }
+              };
               console.log(filteredArr);
             </script>
           </ul>
@@ -338,6 +337,9 @@
   <script src="../js/bootstrap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
   <script>includeHTML();</script>
+
+
+  
   <!--삭제-->
   <script type="text/javascript">
     $("#delbtn").click(function () {
