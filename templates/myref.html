@@ -265,33 +265,32 @@
           // Deserializing (String → Object)
           responseObject = JSON.parse(xhr.responseText);
 
-        // JSON → HTML String
-        let newContent = '';
-        // 
-        responseObject.forEach((user_ref) => {
-          newContent += `
+          //X버튼 크기 줄이기, 글씨 키우기, select박스 크기 키우기
 
-                  <li>
-                    <div id="stockdiv" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 list_board">
-                          <div class="col-md-2" style="float: left"><img src="../img/ingredient.png" style="width:70px"></div>
-                          <div id="stock_food" class="col-md-2" style="float: left" >${user_ref.id}</div>\
-                          <div id="stock_exp"class="col-md-2" style="float: left">${user_ref.expiration_date}</div>\
-                          <div id="stock_amount" class="col-md-1" id="amountOutput" style="float: left">${user_ref.amount}</div>
-                          <div class="col-md-2" style="float: left">
-                              <select id="change_amount">
-                                <option value="" selected disabled hidden>==수량변경==</option>
-                                <option value="많음">많음</option>
-                                <option value="보통">보통</option>
-                                <option value="적음">적음</option>
-                              </select>
-                          </div>
-                          <button id="order_btn" onclick=orderIngredient(this) class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
-                              주문하기
-                          </button>
-                          <div id="btnDel" class="col-lg-1 col-md-1 col-sm-1 col-xs-1 ">
-                              <button id="delbtn" type="button" onclick=delete_stock(this) class="delbtn btn-danger" >X</button>
-                          </div>
-                   `;
+          // JSON → HTML String
+          let newContent = '';
+          // 
+          responseObject.forEach((user_ref) => {
+            newContent += '<li>\
+                    <div id="stockdiv" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 list_board">\
+                          <div class="col-md-2" style="float: left"><img src="../img/ingredient.png" style="width:70px"></div>\
+                          <div id="stock_food" class="col-md-2" style="float: left" >'+ user_ref.id + '</div>\
+                          <div id="stock_exp"class="col-md-2" style="float: left">'+ user_ref.expiration_date + '</div>\
+                          <div id="stock_amount" class="col-md-1" id="amountOutput" style="float: left">'+ user_ref.amount + '</div>\
+                          <div class="col-md-2" style="float: left">\
+                              <select id="change_amount">\
+                                <option value="" selected disabled hidden>==수량변경==</option>\
+                                <option value="많음">많음</option>\
+                                <option value="보통">보통</option>\
+                                <option value="적음">적음</option>\
+                              </select>\
+                          </div>\
+                          <button id='+ user_ref.id + ' onclick=orderStock(this.id) class="col-lg-1 col-md-1 col-sm-1 col-xs-1 order_btn">\
+                              주문하기\
+                          </button>\
+                          <div id="btnDel" class="col-lg-1 col-md-1 col-sm-1 col-xs-1 ">\
+                              <button id="deleteBtn" type="button" class="delbtn btn-danger" >X</button> \
+                          </div>';
           });
           newContent += "</div></li>";
 
@@ -324,7 +323,7 @@
 
       var xhr = new XMLHttpRequest();
       // 비동기 방식으로 Request를 오픈한다
-      var url = 'http://127.0.0.1:8000/stock/' + $(this).parent().prev().prev().prev().text();
+      var url = 'http://127.0.0.1:8000/stock/' + $(this).parent().prev().prev().prev().text() + '/';
 
       xhr.open("PUT", url);
       xhr.setRequestHeader('Content-type', 'application/json');
@@ -346,16 +345,39 @@
     });
 
 
-    
 
-    // Order Ingredient
-    function orderIngredient(that) {
+    //Delete Btn in List
+    $(document).on("click", "#deleteBtn", function () {
+      var id = $(this).parent().prev().prev().prev().prev().prev().text();
+      var xhr = new XMLHttpRequest();
 
+      var url = 'http://127.0.0.1:8000/stock/' + id;
+      xhr.open("DELETE", url);
+      xhr.setRequestHeader('Authorization', 'jwt ' + localStorage.getItem('token'));
+      console.log("url", url);
+
+      // Request를 전송한다
+      xhr.send();
+
+      xhr.onreadystatechange = function (e) {
+        if (xhr.readyState !== XMLHttpRequest.DONE) return;
+
+        if (xhr.status === 204) {
+          stockList();
+        } else {
+          console.log("안 지워짐!");
+        }
+      };
+    });
+
+
+    // Order Stock
+    function orderStock(that) {
       var stockName = '한글';
-      var url = 'https://www.kurly.com/shop/goods/goods_search.php?searched=Y&sword='.concat(encodeURI(stockName));
+      var url = 'https://www.kurly.com/shop/goods/goods_search.php?searched=Y&sword='.concat(stockName);
 
       console.log('url::: ', url);
-      // var ret = window.open(url);
+      var ret = window.open(url);
 
     }
   </script>

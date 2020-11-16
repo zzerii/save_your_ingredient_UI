@@ -40,27 +40,42 @@
       <ul id="completeRecipes">
         <!-- 최근에 해 먹은 레시피 -->
         <script>
-          // TODO: json random으로 받아오기 
-          var output = localStorage.getItem("completeRecipeId");
-          var completeRecipes = JSON.parse(output);
-          console.log("my page", completeRecipes);
-          $.each(completeRecipes, function (index, recipeNumber) {
-            // var num = Math.floor(Math.random() * 1000000);
-
+          var mypage_recipe_id = [];
+          var showRecipes = function () {
             var xhr = new XMLHttpRequest();
-            var url = 'https://save-your-ingredient.s3.amazonaws.com/recipes/' + recipeNumber + '.json';
-            console.log("my page url: ", url);
-            xhr.open('GET', url);
+            xhr.open("GET", "http://127.0.0.1:5502/data/user_detail_ex.json");
             xhr.send();
-
             xhr.onreadystatechange = function () {
-              if (xhr.readyState === XMLHttpRequest.DONE) {
-                if (xhr.status === 200) {
-                  let loadedJSON = JSON.parse(xhr.responseText);
-                  console.log("success");
-                  var html = "";
-                  html +=
-                    '<li> \
+              if (xhr.readyState !== XMLHttpRequest.DONE) {
+                return;
+              }
+
+              if (xhr.status === 200) {
+                responseObject = JSON.parse(xhr.responseText);
+                responseObject.forEach(element => {
+                  var mypage_recipe_size = element.experience_recipes.length;
+                  console.log(mypage_recipe_size);
+                  for (var i = 0; i < mypage_recipe_size; i++) {
+                    mypage_recipe_id.push(element.experience_recipes[i].recipe_id);
+                  }
+                });
+              } else {
+                console.log("ERROR");
+              }
+
+              console.log("arr", mypage_recipe_id);
+              $.each(mypage_recipe_id, function (index, recipeNumber) {
+                var xhr2 = new XMLHttpRequest();
+                var url = 'https://save-your-ingredient.s3.amazonaws.com/recipes/' + recipeNumber + '.json';
+                xhr2.open('GET', url);
+                xhr2.send();
+
+                xhr2.onreadystatechange = function () {
+                  if (xhr2.readyState === XMLHttpRequest.DONE) {
+                    if (xhr2.status === 200) {
+                      let loadedJSON = JSON.parse(xhr2.responseText);
+                      var html = "";
+                      html += '<li> \
                         <div class="blog_news" > \
                           <div class="recipe-card" > \
                             <div class="blog_img"> \
@@ -68,34 +83,28 @@
                             </div> \
                             <div class="blog_content" style="text-align: left;"> \
                                 <a href="detail_recipe.html""><h3 id="plz">' + loadedJSON.name + '</h3></a> \
-                                <div class="expert"> \
-                                  <div class="left-side text-left"> \
-                                      <p class="left_side"> \
-                                      <span class="clock"><i class="fa fa-clock-o"></i></span> \
-                                      <span class="time">' + loadedJSON.time + '</span> \
-                                      </p> \
-                                  </div> \
-                                </div> \
                             </div> \
                             <button id="'+ loadedJSON.id + '" class="btn-storage" onclick=btn_click(this.id)>창고에 담기</button> \
                           </div> \
                         </div> \
                       </li>';
 
-                  $("#completeRecipes").append(html);
-                } else {
-                  console.log("error!!");
+                      $("#completeRecipes").append(html);
+                    } else {
+                      console.log("ERROR");
+                    }
+                  }
                 }
-              }
+              });
             }
-          });
+          }
+
+          showRecipes();
         </script>
       </ul>
     </div>
     <!--End of row-->
-    <div class="row">
 
-    </div>
   </div>
   <!--End of container-->
 </section>
