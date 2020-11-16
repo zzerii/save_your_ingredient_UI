@@ -513,27 +513,52 @@
 
     // Order Stock
     function orderStock(that) {
-      var stockName = '한글';
-      var url = 'https://www.kurly.com/shop/goods/goods_search.php?searched=Y&sword='.concat(stockName);
+      var stockName;
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', 'http://localhost:5502/data/ingredient_euckr.json');
+      xhr.send();
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState !== XMLHttpRequest.DONE) return;
 
-      console.log('url::: ', url);
-      var ret = window.open(url);
+        if (xhr.status === 200) {
+          var responseObject = JSON.parse(xhr.responseText);
+          stockName = responseObject[that];
+          var url = 'https://www.kurly.com/shop/goods/goods_search.php?searched=Y&sword=' + stockName;
+
+          var ret = window.open(url);
+        } else {
+          console.log("Error!");
+        }
+      }
+
+
+
 
     }
   </script>
   <script>
-    //add data 뽑아와야해
     const de_xhr = new XMLHttpRequest();
     de_xhr.open('POST', 'http://127.0.0.1:8000/stock/');
     de_xhr.setRequestHeader('Content-type', 'application/json');
 
-    function add_stock(modal_input_val, password1, inputed_amount){
-      de_xhr.send(JSON.stringify({ingredient_id: modal_input_val, expiration_date: inputed_amount, amount: password2}));
+    function add_stock(modal_input_val, password1, inputed_amount) {
+      de_xhr.send(JSON.stringify({ ingredient_id: modal_input_val, expiration_date: inputed_amount, amount: password2 }));
 
       de_xhr.onreadystatechange = function (e) {
-          if (xhr.readyState !== XMLHttpRequest.DONE) return;
+        if (xhr.readyState !== XMLHttpRequest.DONE) return;
       };
     }
+
+    //Delete Btn in List
+    function delete_stock() {
+      JSON.splice(this, 1);
+      // $(this).parent().parent().parent().remove();
+      alert("hi");
+      return false;
+    };
+    // For Test
+    encodedStockName = escape(encodeURIComponent("한글"));
+    console.log(encodedStockName);
   </script>
   <!-- Sort By Date -->
   <script>
