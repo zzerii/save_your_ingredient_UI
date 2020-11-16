@@ -794,7 +794,7 @@ a.close-modal{
   border: 1px solid rgb(167, 46, 46);
 }
 
-#order_btn{
+.order_btn{
   margin-top: 23px;
   line-height: 30px;
   text-decoration: none;
