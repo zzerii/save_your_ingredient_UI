@@ -215,7 +215,7 @@
 
         <div class="col-md-4">
           <div class="latest_blog text-left">
-            <h3 style="padding-left: 10px">이거 필요해?</h3>
+            <img src="../img/need.png">
           </div>
         </div>
       </div>
@@ -239,7 +239,34 @@
   <script src="../js/bootstrap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
   <script>includeHTML();</script>
+  <script>
+    includeHTML();
+    function isLogin() {
+        if (!localStorage.getItem('token')) {
+            window.location.href = "login.html";
+        }
+        console.log(localStorage.getItem('token'))
+    }
+    isLogin();
 
+    function logout() {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user_pk')
+        window.location.href = "login.html";
+        // console.log(localStorage.getItem('token'))
+    }
+
+    $(function () {
+        let loaded = false;
+        $('body').on('DOMNodeInserted', '#logout', function () {
+            if (!loaded) {
+                loaded = true;
+                logout();
+            }
+        })
+    });
+
+</script>
 
   
   <!--삭제-->

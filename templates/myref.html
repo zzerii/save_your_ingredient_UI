@@ -101,10 +101,35 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
   <script>includeHTML();</script>
+  
   <script>
-    console.log(localStorage.getItem('user_pk'))
-  </script>
+    includeHTML();
+    function isLogin() {
+        if (!localStorage.getItem('token')) {
+            window.location.href = "login.html";
+        }
+        console.log(localStorage.getItem('token'))
+    }
+    isLogin();
 
+    function logout() {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user_pk')
+        window.location.href = "login.html";
+        // console.log(localStorage.getItem('token'))
+    }
+
+    $(function () {
+        let loaded = false;
+        $('body').on('DOMNodeInserted', '#logout', function () {
+            if (!loaded) {
+                loaded = true;
+                logout();
+            }
+        })
+    });
+
+</script>
   <!-- Modal jQuery -->
   <script>
     $('a[href="#ex7"]').click(function (event) {
