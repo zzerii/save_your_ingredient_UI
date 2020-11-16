@@ -59,9 +59,11 @@
     <script>
         // XMLHttpRequest 객체의 생성
         var xhr = new XMLHttpRequest();
-  
+        var para = document.location.href.split("?");
+        console.log(para);
         // 비동기 방식으로 Request를 오픈한다
-        xhr.open("GET", "https://save-your-ingredient.s3.amazonaws.com/recipes/1002689.json");
+        var url = 'https://save-your-ingredient.s3.amazonaws.com/recipes/' + recipeNumber.reci_id + '.json';
+        xhr.open('GET', url);
         // Request를 전송한다
         xhr.send();
   
