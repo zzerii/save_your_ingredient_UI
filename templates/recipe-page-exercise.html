@@ -90,27 +90,17 @@
   <script>
     // 창고에 담기
     function btn_click(that) {
-      if (localStorage.getItem('recipeId') === null) {
-        //init array
-        var recipes = [];
-        //add to array
-        // bookmarks.push(bookmark);
-        //set to Localstorage
-        // localStorage.setItem('bookmarks',JSON.stringify(bookmarks));
-      } else {
-        var output = localStorage.getItem("recipeId");
-        var recipes = JSON.parse(output);
-      }
+      // that : reci_id
+      console.log("레시피 번호", that);
+      var data = {};
+      data.reci_id = that;
+      var json_data = JSON.stringify(data);
 
-
-      console.log(that);
-      if (recipes.includes(that)) {
-        return;
-      } else {
-        recipes.push(that);
-      }
-      localStorage.setItem("recipeId", JSON.stringify(recipes));
-
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', 'http://localhost:8000/wish-recipe/');
+      xhr.setRequestHeader('Content-type', 'application/json');
+      xhr.setRequestHeader('Authorization', 'jwt ' + localStorage.getItem('token'));
+      xhr.send(json_data);
     }
   </script>
 
@@ -158,7 +148,7 @@
                             <div class="blog_content" style="text-align: left;"> \
                                 <a href="detail_recipe.html""><h3 id="plz">' + loadedJSON.name + '</h3></a> \
                             </div> \
-                            <button id="'+ loadedJSON.id + '" class="btn-storage" onclick=btn_click(this.id)>창고에 담기</button> \
+                            <button id="'+ recipeNumber + '" class="btn-storage" onclick=btn_click(this.id)>창고에 담기</button> \
                           </div> \
                         </div> \
                       </div>';
