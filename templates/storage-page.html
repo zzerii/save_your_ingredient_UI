@@ -51,12 +51,13 @@
 
   <style>
     .recipe-card {
-      border: 1px solid #d1d3d1;
       border-radius: 6px;
       width: 29%;
       height: 30%;
       margin: 0 20px 20px 10px;
       float: left;
+      border: 3px solid #ffd518;
+
     }
 
     .btn-storage {
@@ -91,12 +92,10 @@
         if (xhr.readyState === XMLHttpRequest.DONE) {
           if (xhr.status === 200) {
             let loadedJSON = JSON.parse(xhr.responseText);
-            console.log("되냐", loadedJSON);
             var wishRecipeList = [];
             for (var i = 0; i < loadedJSON.wish_recipes.length; i++) {
               wishRecipeList.push(loadedJSON.wish_recipes[i]);
             }
-            console.log("fjdkfjdkfj", wishRecipeList);
             $.each(wishRecipeList, function (index, recipeNumber) {
               var xhr2 = new XMLHttpRequest();
               var url = 'https://save-your-ingredient.s3.amazonaws.com/recipes/' + recipeNumber.reci_id + '.json';
@@ -209,16 +208,14 @@
     <div class="container">
       <div class="row">
         <div class="col-md-8">
-          <div class="latest_blog text-left">
+          <div class="latest_blog text-left" style="margin-bottom: 10px;">
             <img src="../img/recipe_chango.png">
-            <hr />
           </div>
         </div>
 
         <div class="col-md-4">
           <div class="latest_blog text-left">
             <h3 style="padding-left: 10px">이거 필요해?</h3>
-            <hr />
           </div>
         </div>
       </div>
