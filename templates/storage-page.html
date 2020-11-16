@@ -230,7 +230,7 @@
 
             <script>
 
-              var filteredArr=new Array;
+              var filteredArr = new Array;
               // 내 냉장고 재료 아이디 배열 가져오는 부분
               var refxhr = new XMLHttpRequest();
               refxhr.open("GET", "http://127.0.0.1:8000/stock/");
@@ -239,21 +239,21 @@
 
               refxhr.send();
               //재료 배열
-              var myStockArr= new Array;
+              var myStockArr = new Array;
               refxhr.onreadystatechange = function () {
                 if (refxhr.readyState !== XMLHttpRequest.DONE) return;
                 if (refxhr.status === 200) {
                   console.log("success");
                   responseObject = JSON.parse(refxhr.responseText);
                   // console.log("<<", responseObject);
-                  i=0;
+                  i = 0;
                   responseObject.forEach((user_rec) => {
-                    myStockArr[i]=user_rec.ingredient_id;
+                    myStockArr[i] = user_rec.ingredient_id;
                     i++;
                   });
                 };
               };
-              var reIngreArr=new Array;
+              var reIngreArr = new Array;
               var card = function (localStorage_recipe, selector) {
                 console.log("come in");
                 var output = localStorage.getItem(localStorage_recipe);
@@ -293,14 +293,14 @@
                                     </div> \
                               </li>';
                         $(selector).append(html);
-                        var temp=new Array;
-                        temp=loadedJSON.ingredient_ids;
-                        reIngreArr=$.merge(reIngreArr,temp);
-                        reIngreArr= Array.from(new Set(reIngreArr));
+                        var temp = new Array;
+                        temp = loadedJSON.ingredient_ids;
+                        reIngreArr = $.merge(reIngreArr, temp);
+                        reIngreArr = Array.from(new Set(reIngreArr));
                         // console.log(reIngreArr);
 
                         filteredArr = reIngreArr.filter((word) => !myStockArr.includes(word));
-                        
+
                         let newContent = '';
                         filteredArr.forEach((filteredArr) => {
                           newContent += `<div class="orderlist_board">
@@ -400,8 +400,8 @@
       }
     };
 
-    
-    
+
+
 
     // var rexhr = new XMLHttpRequest();
     // rexhr.open("GET", "http://127.0.0.1:8000/stock/");
