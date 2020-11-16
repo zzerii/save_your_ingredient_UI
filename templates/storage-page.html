@@ -80,6 +80,34 @@
 
 <body>
   <script>
+    {
+      var idxhr = new XMLHttpRequest();
+      idxhr.open("GET", "../data/ingredient.json")
+      idxhr.send();
+      idxhr.onreadystatechange = function () {
+        if (idxhr.readyState !== XMLHttpRequest.DONE) return;
+        if (idxhr.status === 200) {
+          localStorage.setItem('ingredient', idxhr.responseText);
+        }
+      }
+    }
+    function getIngredientName(ingId) {
+      let myIngreName = "";
+      let ing = localStorage.getItem('ingredient');
+      
+      let idObject = JSON.parse(ing);
+          idObject.forEach((idObject) => {
+            if (idObject.id == ingId) {
+              console.log("hi",ingId);
+              myIngreName = idObject.name;
+            }
+          });
+      return myIngreName;
+    }
+  </script>
+
+
+  <script>
     // storage recipe 뿌려주기 
     var Storage = function () {
       var xhr = new XMLHttpRequest();
@@ -88,6 +116,10 @@
       xhr.setRequestHeader('Authorization', 'jwt ' + localStorage.getItem('token'));
 
       xhr.send();
+      var myStockArr= new Array;
+      var recipeArr=new Array;
+      var orderIngreArr=new Array;
+
       xhr.onreadystatechange = function () {
         if (xhr.readyState === XMLHttpRequest.DONE) {
           if (xhr.status === 200) {
@@ -95,7 +127,37 @@
             var wishRecipeList = [];
             for (var i = 0; i < loadedJSON.wish_recipes.length; i++) {
               wishRecipeList.push(loadedJSON.wish_recipes[i]);
+              var arr = loadedJSON.wish_recipes[i].ingredient_ids.split(",");
+              myStockArr=$.merge(myStockArr,arr);
             }
+            myStockArr=myStockArr.filter(Number);
+            myStockArr=Array.from(new Set(myStockArr));
+            console.log("load", myStockArr);
+
+            var myStockNameArr=new Array;
+
+            var a;
+            for(a=0;a<myStockArr.length;a++){;
+              myStockNameArr.push(getIngredientName(myStockArr[a]));
+            };
+            console.log("c",myStockNameArr);
+
+            //OrderList
+            let newContent = '';
+            myStockNameArr.forEach((myStockNameArr) => {
+              console.log("dfjklj",myStockNameArr);
+              newContent += `<div class="orderlist_board">
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                          <a href="#" onclick="order_ingredient(${myStockNameArr})"><h4>${myStockNameArr}</h4></a>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                          <a href="#" onclick="order_ingredient('${myStockNameArr}')">주문하기</a>
+                        </div>
+                      </div>`;
+            });
+            document.getElementById("orderlist").innerHTML = newContent;
+
+            //recipe Stock
             $.each(wishRecipeList, function (index, recipeNumber) {
               var xhr2 = new XMLHttpRequest();
               var url = 'https://save-your-ingredient.s3.amazonaws.com/recipes/' + recipeNumber.reci_id + '.json';
@@ -112,17 +174,17 @@
                         <div class="blog_news" > \
                           <div class="recipe-card" style="width:29%;" > \
                             <div class="blog_img"> \
-                              <a href="detail_recipe.html""><img src="' + loadedJSON.thumbnail + '" alt=""/></a> \
+                              <a href="detail_recipe.html?reci-id='+ recipeNumber.reci_id +'"><img src="' + loadedJSON.thumbnail + '" alt=""/></a> \
                             </div> \
                             <div class="blog_content" style="text-align: left;"> \
-                                <a href="detail_recipe.html""><h3 id="plz">' + loadedJSON.name + '</h3></a> \
+                                <a href="detail_recipe.html?reci-id='+ recipeNumber.reci_id +'"><h3 id="plz">' + loadedJSON.name + '</h3></a> \
                             </div> \
                             <button id="'+ recipeNumber.reci_id + '" class="btn-storage" style="border-bottom-left-radius: 6px; border-right-color: #d1d3d1;" onclick=completeBtn(this.id)>완료</button> \
                             <button id="'+ recipeNumber.reci_id + '" class="btn-storage" style="border-bottom-right-radius: 6px;" onclick=deleteBtn(this.id)>삭제</button> \
                           </div> \
                         </div> \
                       </div>';
-
+                      
 
                     $('#stored_recipe').append(html);
                   }
@@ -138,68 +200,6 @@
     Storage();
   </script>
 
-
-
-  <script>
-    // 레시피 완료 
-    function completeBtn(that) {
-      /*
-      localhost:8000/experience-recipe/ (POST)
-      body: reci_id = recipe id
-      jwt
-      */
-      var data = {};
-      data.reci_id = that;
-      var json_data = JSON.stringify(data);
-      console.log("json_data", json_data);
-
-      var xhr = new XMLHttpRequest();
-      xhr.open("POST", 'http://127.0.0.1:8000/experience-recipe/');
-      xhr.setRequestHeader('Content-type', 'application/json');
-      xhr.setRequestHeader('Authorization', 'jwt ' + localStorage.getItem('token'));
-      xhr.send(json_data);
-
-
-
-      xhr.onreadystatechange = function (e) {
-        if (xhr.readyState !== XMLHttpRequest.DONE) return;
-
-        if (xhr.status === 200) {
-          $('#stored_recipe').empty();
-          Storage();
-        } else {
-          console.log("Error!");
-        }
-      }
-    }
-
-    // 창고에서 삭제
-    function deleteBtn(that) {
-      var data = {};
-      data.reci_id = that;
-      var json_data = JSON.stringify(data);
-      console.log("json_data", json_data);
-
-      var xhr = new XMLHttpRequest();
-      xhr.open("DELETE", 'http://127.0.0.1:8000/wish-recipe/');
-      xhr.setRequestHeader('Content-type', 'application/json');
-      xhr.setRequestHeader('Authorization', 'jwt ' + localStorage.getItem('token'));
-      xhr.send(json_data);
-
-
-
-      xhr.onreadystatechange = function (e) {
-        if (xhr.readyState !== XMLHttpRequest.DONE) return;
-
-        if (xhr.status === 200) {
-          $('#stored_recipe').empty();
-          Storage();
-        } else {
-          console.log("Error!");
-        }
-      }
-    }
-  </script>
 
   <nav class="include" include-html="./nav.html"></nav>
 
@@ -223,106 +223,8 @@
       <div class="row">
         <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
           <ul id="stored_recipe">
-            <script>
-
-              var filteredArr = new Array;
-              // 내 냉장고 재료 아이디 배열 가져오는 부분
-              var refxhr = new XMLHttpRequest();
-              refxhr.open("GET", "http://127.0.0.1:8000/stock/")
-              refxhr.setRequestHeader('Authorization', 'jwt ' + localStorage.getItem('token'));
-              refxhr.send();
-          
-              //재료 배열
-              var myStockArr = new Array;
-              refxhr.onreadystatechange = function () {
-                if (refxhr.readyState !== XMLHttpRequest.DONE) return;
-                if (refxhr.status === 200) {
-                  console.log("success");
-                  responseObject = JSON.parse(refxhr.responseText);
-                  // console.log("<<", responseObject);
-                  i = 0;
-                  responseObject.forEach((user_rec) => {
-                    myStockArr[i] = user_rec.ingredient_id;
-                    i++;
-                  });
-                };
-              };
-              //창고 레시피 기준 재료 아이디 가져오기위한 배열 선언
-              var reIngreArr=new Array;
-              //카드 생성
-              var card = function (localStorage_recipe, selector) {
-                console.log("come in");
-                var output = localStorage.getItem(localStorage_recipe);
-                var recipes = JSON.parse(output);
-                $.each(recipes, function (index, recipeNumber) {
-                  var xhr = new XMLHttpRequest();
-                  var url = 'https://save-your-ingredient.s3.amazonaws.com/recipes/' + recipeNumber + '.json';
-                  // console.log("url::", url);
-                  xhr.open('GET', url);
-                  xhr.send();
-          
-                  xhr.onreadystatechange = function () {
-                    if (xhr.readyState === XMLHttpRequest.DONE) {
-                      if (xhr.status === 200) {
-                        let loadedJSON = JSON.parse(xhr.responseText);
-                        // console.log(loadedJSON);
-                        var html = '<li> \
-                                    <div class="blog_news" > \
-                                      <div class="recipe-card"> \
-                                        <div class="blog_img"> \
-                                            <img src="' + loadedJSON.thumbnail + '" alt="" /> \
-                                        </div> \
-                                        <div class="blog_content" style="text-align: left;"> \
-                                          <a href=""><h3>' + loadedJSON.name + '</h3></a> \
-                                          <div class="expert"> \
-                                            <div class="left-side text-left"> \
-                                                <p class="left_side"> \
-                                                <span class="clock"><i class="fa fa-clock-o"></i></span> \
-                                                <span class="time">' + loadedJSON.time + '</span> \
-                                                </p> \
-                                            </div> \
-                                          </div> \
-                                        </div> \
-                                        <button id="'+ loadedJSON.id + '" class="btn-storage" style="border-bottom-left-radius: 6px; border-right-color: #d1d3d1;" onclick=completeBtn(this.id)>완료</button> \
-                                        <button id="'+ loadedJSON.id + '" class="btn-storage" style="border-bottom-right-radius: 6px;" onclick=deleteBtn(this.id)>삭제</button> \
-                                      </div> \
-                                    </div> \
-                              </li>';
-                        $(selector).append(html);
-                        var temp = new Array;
-                        temp = loadedJSON.ingredient_ids;
-                        reIngreArr = $.merge(reIngreArr, temp);
-                        reIngreArr = Array.from(new Set(reIngreArr));
-                        // console.log(reIngreArr);
-
-                        filteredArr = reIngreArr.filter((word) => !myStockArr.includes(word));
-
-                        let newContent = '';
-                        filteredArr.forEach((filteredArr) => {
-                          newContent += `<div class="orderlist_board">
-                                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-                                      <a href="${filteredArr.link}"><h4>${filteredArr}</h4></a>
-                                    </div>
-                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                      <a href="${filteredArr.link}"><h4>주문하기</h4></a>
-                                    </div>
-                                  </div>`;
-                        });
-                        document.getElementById("orderlist").innerHTML = newContent;
-          
-                      } else {
-                        console.log("error");
-                      }
-                    } 
-                  }
-                });
-              };
-              console.log(filteredArr);
-            </script>
           </ul>
         </div>
-
-
         <!-- 재료 주문 리스트 -->
         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" id="orderlist"></div>
       </div>
@@ -367,55 +269,28 @@
   </script>
 
   <script>
-    // 이 코드 뭔지..
-    var xhr = new XMLHttpRequest();
-    xhr.open("GET", "http://127.0.0.1:8000/stock/");
+    // Order Stock
+    function order_ingredient(that) {
+      console.log("mw!!!!!!!!",that);
+      var stockName;
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', 'http://localhost:5502/data/ingredient_euckr_v2.json');
+      xhr.send();
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState !== XMLHttpRequest.DONE) return;
 
-    xhr.setRequestHeader('Authorization', 'jwt ' + localStorage.getItem('token'));
+        if (xhr.status === 200) {
+          var responseObject = JSON.parse(xhr.responseText);
+          stockName = responseObject[that];
+          var url = 'https://www.kurly.com/shop/goods/goods_search.php?searched=Y&sword=' + stockName;
 
-    xhr.send();
-
-    xhr.onreadystatechange = function () {
-      if (xhr.readyState !== XMLHttpRequest.DONE) return;
-      if (xhr.status === 200) {
-        responseObject = JSON.parse(xhr.responseText);
-
-        let newContent = '';
-        responseObject.forEach((user_rec) => {
-          newContent += `<div class="orderlist_board">
-                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-                      <a href="#"><h4>${user_rec.id}</h4></a>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                      <a href="${user_rec.link}"><h4>주문하기</h4></a>
-                    </div>
-                  </div>`;
-        });
-
-        document.getElementById("orderlist").innerHTML = newContent;
-      } else {
-        console.log(`[${xhr.status}] : ${xhr.statusText}`);
+          var ret = window.open(url);
+        } else {
+          console.log("Error!");
+        }
       }
-    };
 
-
-
-
-    // var rexhr = new XMLHttpRequest();
-    // rexhr.open("GET", "http://127.0.0.1:8000/stock/");
-
-    // rexhr.setRequestHeader('Authorization', 'jwt ' + localStorage.getItem('token'));
-
-    // rexhr.send();
-    // var myStockArr= new Array;
-    // rexhr.onreadystatechange = function () {
-    //   if (rexhr.readyState !== XMLHttpRequest.DONE) return;
-    //   if (rexhr.status === 200) {
-    //     console.log("success");
-    //     responseObject = JSON.parse(rexhr.responseText);
-    //     console.log("<<", responseObject);
-
-
+    }
   </script>
 
 
