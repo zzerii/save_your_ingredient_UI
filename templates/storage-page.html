@@ -143,28 +143,35 @@
 
   <script>
     // 레시피 완료 
-    // TODO : 완료 클릭시 사라지게 
     function completeBtn(that) {
-      // 완료한 것들 completeRecipeId로 localStorage에 저장
-      if (localStorage.getItem('completeRecipeId') === null) {
-        var completeRecipes = [];
-      } else {
-        var output = localStorage.getItem("completeRecipeId");
-        var completeRecipes = JSON.parse(output);
+      /*
+      localhost:8000/experience-recipe/ (POST)
+      body: reci_id = recipe id
+      jwt
+      */
+      var data = {};
+      data.reci_id = that;
+      var json_data = JSON.stringify(data);
+      console.log("json_data", json_data);
+
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", 'http://127.0.0.1:8000/experience-recipe/');
+      xhr.setRequestHeader('Content-type', 'application/json');
+      xhr.setRequestHeader('Authorization', 'jwt ' + localStorage.getItem('token'));
+      xhr.send(json_data);
+
+
+
+      xhr.onreadystatechange = function (e) {
+        if (xhr.readyState !== XMLHttpRequest.DONE) return;
+
+        if (xhr.status === 200) {
+          $('#stored_recipe').empty();
+          Storage();
+        } else {
+          console.log("Error!");
+        }
       }
-
-
-      console.log(that);
-      if (completeRecipes.includes(that)) {
-        deleteBtn(that);
-        return;
-      } else {
-        completeRecipes.push(that);
-      }
-      localStorage.setItem("completeRecipeId", JSON.stringify(completeRecipes));
-
-      // 완료한 것들 창고에서 삭제
-      deleteBtn(that);
     }
 
     // 창고에서 삭제

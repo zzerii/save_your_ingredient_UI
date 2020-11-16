@@ -119,12 +119,12 @@
         if (xhr.readyState === XMLHttpRequest.DONE) {
           if (xhr.status === 200) {
             let loadedJSON = JSON.parse(xhr.responseText);
-            var previewRecipeStockArr = [];
+            var previewRecipeStockList = [];
             for (var i = 0; i < sizeOfRecipeArr; i++) {
               console.log("loaddd", loadedJSON.ids[i]);
-              previewRecipeStockArr.push(loadedJSON.ids[i]);
+              previewRecipeStockList.push(loadedJSON.ids[i]);
             }
-            $.each(previewRecipeStockArr, function (index, recipeNumber) {
+            $.each(previewRecipeStockList, function (index, recipeNumber) {
               var xhr2 = new XMLHttpRequest();
               var url = 'https://save-your-ingredient.s3.amazonaws.com/recipes/' + recipeNumber + '.json';
               xhr2.open('GET', url);
@@ -152,10 +152,7 @@
                           </div> \
                         </div> \
                       </div>';
-
-
                     $(selector).append(html);
-
                   } else {
                     console.log("error!!");
                   }
