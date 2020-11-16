@@ -360,7 +360,7 @@
     }
   </script>
   <script>
-    
+    //add data 뽑아와야해
     const de_xhr = new XMLHttpRequest();
     de_xhr.open('POST', 'http://127.0.0.1:8000/stock/');
     de_xhr.setRequestHeader('Content-type', 'application/json');
@@ -376,6 +376,7 @@
     //Delete Btn in List
     function delete_stock() {
       JSON.splice(this,1);
+      JSON.stringify(JSON);
         // $(this).parent().parent().parent().remove();
         alert("hi");
         return false;
