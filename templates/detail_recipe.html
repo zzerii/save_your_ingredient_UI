@@ -50,7 +50,7 @@
 <body>
     
     <nav class="include" include-html="./nav.html"></nav>
-    <div class="container" style="background-color: aliceblue;">
+    <div class="container" style="background-color: rgba(255, 254, 254, 0.445); border-radius: 30px; margin-top: 30px;">
         <div id="detail_list" style="text-align: center;"></div>
     </div>
     
@@ -103,26 +103,28 @@
                 </div>
                 <h2 style="margin:20px">[조리 방법]</h2>
                 <div id="recipe_way">`
+            var recipeArr= new Array;
+            var i=0;
+            var a=1;
+            var b=0;
             responseObject.recipe.forEach((recipe) => {
-                newContent += `
+                recipeArr[i]="<h3>"+recipe+"<h3>";
+                i=i+2;
+                });
+            responseObject.recipe_img.forEach((recipe_img) => {
+                recipeArr[a]="<img src=\""+recipe_img+"\">";
+                a=a+2;
+            });
+            console.log(recipeArr)
+            recipeArr.forEach(function(element){
+                    newContent += `
                     <div style="margin: 0px 20px 10px">
-                        <h4>${recipe}</h4>
+                        ${recipeArr[b]}
                     </div>
                         `;
-                });
-            newContent += `
-                </div>
-                <div id="recipe_img">
-               `;
-            responseObject.recipe_img.forEach((recipe_img) => {
-            newContent += `
-                <div style="margin: 20px">
-                    <img src="${recipe_img}" style="width: 500px">
-                </div>
-                    `;
+                    b++;
             });
-            newContent += `
-                </div>`
+            
             
             
   
