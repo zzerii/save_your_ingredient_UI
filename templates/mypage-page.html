@@ -39,9 +39,16 @@
         <![endif]-->
 
 
-
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300&display=swap" rel="stylesheet">
     <script src="../js/includeHTML.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Pro">
     <style>
+        body {
+            font-family: 'Crimson Pro', serif;
+            font-size: 48px;
+        }
+
         .btn-storage {
             border: 1px solid #ffd518;
             background-color: #ffd518;
@@ -54,15 +61,25 @@
             text-align: center;
             position: relative;
             bottom: 0px;
+
         }
 
         .recipe-card {
-            border: 1px solid #d1d3d1;
+            font-family: 'Noto Sans KR', sans-serif;
             border-radius: 6px;
             width: 45%;
             height: 385px;
             margin: 0 15px 20px 10px;
             float: left;
+            border: 3px solid #ffd518;
+
+        }
+
+        .mypage_top {
+            width: 100%;
+            padding: 30px 0;
+            background-color: #f7f7f7;
+            margin-top: 20px;
         }
     </style>
 </head>
@@ -127,18 +144,73 @@
         }
         MyPage();
     </script>
+    <script>
+        // 창고에 담기
+        function btn_click(that) {
+            // that : reci_id
+            console.log("레시피 번호", that);
+            var data = {};
+            data.reci_id = that;
+            var json_data = JSON.stringify(data);
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'http://localhost:8000/wish-recipe/');
+            xhr.setRequestHeader('Content-type', 'application/json');
+            xhr.setRequestHeader('Authorization', 'jwt ' + localStorage.getItem('token'));
+            xhr.send(json_data);
+        }
+    </script>
+    <script>
+        var myGrade = function () {
+            var xhr_my = new XMLHttpRequest();
+            xhr_my.open('GET', 'http://127.0.0.1:8000/user-detail/');
+            xhr_my.setRequestHeader('Authorization', 'jwt ' + localStorage.getItem('token'));
+            xhr_my.send();
+
+            xhr_my.onreadystatechange = function () {
+                if (xhr_my.readyState === XMLHttpRequest.DONE) {
+                    if (xhr_my.status === 200) {
+                        var loadedJSON_grade = JSON.parse(xhr_my.responseText);
+                        var totalExperienceRecipe = loadedJSON_grade.experience_recipes.length;
+                        var cookTime = loadedJSON_grade.total_time;
+                        $("#recp").attr('data-target', totalExperienceRecipe);
+                        $("#cookTime").attr('data-target', cookTime);
+
+                        if (cookTime > 0 && cookTime < 200) {
+                            html = '<img src="/img/micro.png" style="width: 50%;"> \
+                                    <div class="counter_text"><p> 전자파JMT</p></div>';
+                            $("#thirdGrade").append(html);
+                        }
+                        if (cookTime >= 200 && cookTime < 400) {
+                            html = '<img src="/img/pot.png" style="width: 50%;"> \
+                                    <div class="counter_text"><p> 고구마호박 조리 가능</p></div>';
+                            $("#secondGrade").append(html);
+                        }
+                        if (cookTime >= 400) {
+                            html = '<img src="/img/chef.png" style="width: 50%;"> \
+                                    <div class="counter_text"><p> 백종원 뺨테이커</p></div>';
+                            $("#firstGrade").append(html);
+                        }
+
+                    }
+
+                }
+            }
+        }
+        myGrade();
+    </script>
     <nav class="include" include-html="./nav.html"></nav>
 
 
     <section id="blog">
         <div class="container">
-            <div class="row"
-                style="padding-bottom: 20px; border-radius: 30px;background-color: rgba(252, 227, 0, 0.534)">
+            <div class="col-md-12 mypage_top">
                 <div class="col-md-4">
                     <!-- todo: 등급 표기 -->
-                    <div><img src="/img/chef.png" style="width: 60px; margin-top: 25px;"> 백종원 뺨테이커</div>
-                    <div><img src="/img/pot.png" style="width: 60px;"> 고구마호박 조리 가능</div>
-                    <div><img src="/img/micro.png" style="width: 60px;"> 전자파JMT</div>
+                    <div id="firstGrade" class="counter_item text-center" style="padding-top: 30px;"></div>
+                    <div id="secondGrade" class="counter_item text-center" style="padding-top: 30px;"></div>
+                    <div id="thirdGrade" class="counter_item text-center" style="padding-top: 30px;"></div>
+
                 </div>
 
                 <div class="col-md-4">
@@ -157,8 +229,8 @@
                         <div class="sigle_counter_item">
                             <img src="/img/clock_1.png" alt="" />
                             <div class="counter_text">
-                                <div id="recp" class="counter" data-target="1458">0</div>
-                                <p>총 요리 시간</p>
+                                <div id="cookTime" class="counter" data-target="1458">0</div>
+                                <p>총 요리 시간(분)</p>
                             </div>
                         </div>
                     </div>
@@ -266,6 +338,12 @@
     $(function () {
         let loaded = false;
         $('body').on('DOMNodeInserted', '#recp', function () {
+            if (!loaded) {
+                loaded = true;
+                dispCount($('.counter'));
+            }
+        })
+        $('body').on('DOMNodeInserted', '#cookTime', function () {
             if (!loaded) {
                 loaded = true;
                 dispCount($('.counter'));
