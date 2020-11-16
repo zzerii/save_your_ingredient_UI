@@ -33,38 +33,34 @@
     </div>
     <div class="col-md-12" style="height: 50px"></div>
     <div class="row">
-      <div class="col-md-6">
-        <div class="latest_blog text-left">
-          <h3 style="padding-left: 10px"><img src="../img/latest_recipe.png"></h3>
-          <hr />
-        </div>
-        <ul id="completeRecipes">
-          <!-- 최근에 해 먹은 레시피 -->
-          <script>
+      <div>
+        <h3 style="padding-left: 10px"><img src="../img/latest_recipe.png"></h3>
+        <hr />
+      </div>
+      <ul id="completeRecipes">
+        <!-- 최근에 해 먹은 레시피 -->
+        <script>
+          // TODO: json random으로 받아오기 
+          var output = localStorage.getItem("completeRecipeId");
+          var completeRecipes = JSON.parse(output);
+          console.log("my page", completeRecipes);
+          $.each(completeRecipes, function (index, recipeNumber) {
+            // var num = Math.floor(Math.random() * 1000000);
 
-            // TODO: json random으로 받아오기 
-            var output = localStorage.getItem("completeRecipeId");
-            var completeRecipes = JSON.parse(output);
-            console.log("my page", completeRecipes);
-            $.each(completeRecipes, function (index, recipeNumber) {
-              // var num = Math.floor(Math.random() * 1000000);
+            var xhr = new XMLHttpRequest();
+            var url = 'https://save-your-ingredient.s3.amazonaws.com/recipes/' + recipeNumber + '.json';
+            console.log("my page url: ", url);
+            xhr.open('GET', url);
+            xhr.send();
 
-              var xhr = new XMLHttpRequest();
-              var url = 'https://save-your-ingredient.s3.amazonaws.com/recipes/' + recipeNumber + '.json';
-              console.log("my page url: ", url);
-              xhr.open('GET', url);
-              xhr.send();
-
-              xhr.onreadystatechange = function () {
-                if (xhr.readyState === XMLHttpRequest.DONE) {
-
-
-                  if (xhr.status === 200) {
-                    let loadedJSON = JSON.parse(xhr.responseText);
-                    console.log("success");
-                    var html = "";
-                    html +=
-                      '<li> \
+            xhr.onreadystatechange = function () {
+              if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                  let loadedJSON = JSON.parse(xhr.responseText);
+                  console.log("success");
+                  var html = "";
+                  html +=
+                    '<li> \
                         <div class="blog_news" > \
                           <div class="recipe-card" > \
                             <div class="blog_img"> \
@@ -86,21 +82,15 @@
                         </div> \
                       </li>';
 
-
-                    $("#completeRecipes").append(html);
-
-                  } else {
-                    console.log("error!!");
-                  }
+                  $("#completeRecipes").append(html);
+                } else {
+                  console.log("error!!");
                 }
               }
-            });
-
-          </script>
-        </ul>
-      </div>
-
-
+            }
+          });
+        </script>
+      </ul>
     </div>
     <!--End of row-->
     <div class="row">
