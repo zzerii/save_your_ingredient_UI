@@ -59,17 +59,190 @@
         .recipe-card {
             border: 1px solid #d1d3d1;
             border-radius: 6px;
-            width: 22%;
+            width: 45%;
             height: 385px;
-            margin: 0 20px 20px 10px;
+            margin: 0 15px 20px 10px;
             float: left;
         }
     </style>
 </head>
 
 <body>
+    <script>
+        // mypage 최근에 해 먹은 레시피 뿌려주기
+        var MyPage = function () {
+            var xhr = new XMLHttpRequest();
+            var url = 'http://localhost:8000/user-detail/';
+            xhr.open('GET', url);
+            xhr.setRequestHeader('Authorization', 'jwt ' + localStorage.getItem('token'));
+
+            xhr.send();
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        let loadedJSON = JSON.parse(xhr.responseText);
+                        console.log("되냐", loadedJSON);
+                        var experienceRecipeList = [];
+                        for (var i = 0; i < loadedJSON.experience_recipes.length; i++) {
+                            experienceRecipeList.push(loadedJSON.experience_recipes[i]);
+                        }
+                        console.log("fjdkfjdkfj", experienceRecipeList);
+                        $.each(experienceRecipeList, function (index, recipeNumber) {
+                            var xhr2 = new XMLHttpRequest();
+                            var url = 'https://save-your-ingredient.s3.amazonaws.com/recipes/' + recipeNumber.reci_id + '.json';
+                            xhr2.open('GET', url);
+                            xhr2.send();
+
+                            xhr2.onreadystatechange = function () {
+                                if (xhr2.readyState === XMLHttpRequest.DONE) {
+                                    if (xhr2.status === 200) {
+                                        let loadedJSON = JSON.parse(xhr2.responseText);
+                                        var html = "";
+                                        html +=
+                                            '<div> \
+                        <div class="blog_news" > \
+                          <div class="recipe-card" style="width:22%; margin: 0 27px 20px 10px;" > \
+                            <div class="blog_img"> \
+                              <a href="detail_recipe.html""><img src="' + loadedJSON.thumbnail + '" alt=""/></a> \
+                            </div> \
+                            <div class="blog_content" style="text-align: left;"> \
+                                <a href="detail_recipe.html""><h3 id="plz">' + loadedJSON.name + '</h3></a> \
+                            </div> \
+                            <button id="'+ recipeNumber.reci_id + '" class="btn-storage" onclick=btn_click(this.id)>창고에 담기</button> \
+                          </div> \
+                        </div> \
+                      </div>';
+
+
+                                        $('#completeRecipes').append(html);
+                                    }
+                                }
+                            }
+                        });
+                    } else {
+                        console.log("Error");
+                    }
+                }
+            }
+        }
+        MyPage();
+    </script>
     <nav class="include" include-html="./nav.html"></nav>
-    <mypage class="include" include-html="./mypage.html"></mypage>
+
+
+    <section id="blog">
+        <div class="container">
+            <div class="row"
+                style="padding-bottom: 20px; border-radius: 30px;background-color: rgba(252, 227, 0, 0.534)">
+                <div class="col-md-4">
+                    <!-- todo: 등급 표기 -->
+                    <div><img src="/img/chef.png" style="width: 60px; margin-top: 25px;"> 백종원 뺨테이커</div>
+                    <div><img src="/img/pot.png" style="width: 60px;"> 고구마호박 조리 가능</div>
+                    <div><img src="/img/micro.png" style="width: 60px;"> 전자파JMT</div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="counter_item text-center">
+                        <div class="sigle_counter_item">
+                            <img src="/img/count_1.png" alt="" />
+                            <div class="counter_text">
+                                <div id="recp" class="counter" data-target="1542">0</div>
+                                <p>요리한 레시피 개수</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="counter_item text-center">
+                        <div class="sigle_counter_item">
+                            <img src="/img/clock_1.png" alt="" />
+                            <div class="counter_text">
+                                <div id="recp" class="counter" data-target="1458">0</div>
+                                <p>총 요리 시간</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12" style="height: 50px"></div>
+            <div class="row">
+                <div>
+                    <h3 style="padding-left: 10px"><img src="../img/latest_recipe.png"></h3>
+                    <hr />
+                </div>
+                <div id="completeRecipes">
+                    <!-- 최근에 해 먹은 레시피 -->
+                    <script>
+                        var mypage_recipe_id = [];
+                        var showRecipes = function () {
+                            var xhr = new XMLHttpRequest();
+                            xhr.open("GET", "http://127.0.0.1:5502/data/user_detail_ex.json");
+                            xhr.send();
+                            xhr.onreadystatechange = function () {
+                                if (xhr.readyState !== XMLHttpRequest.DONE) {
+                                    return;
+                                }
+
+                                if (xhr.status === 200) {
+                                    responseObject = JSON.parse(xhr.responseText);
+                                    responseObject.forEach(element => {
+                                        var mypage_recipe_size = element.experience_recipes.length;
+                                        console.log(mypage_recipe_size);
+                                        for (var i = 0; i < mypage_recipe_size; i++) {
+                                            mypage_recipe_id.push(element.experience_recipes[i].recipe_id);
+                                        }
+                                    });
+                                } else {
+                                    console.log("ERROR");
+                                }
+
+                                console.log("arr", mypage_recipe_id);
+                                $.each(mypage_recipe_id, function (index, recipeNumber) {
+                                    var xhr2 = new XMLHttpRequest();
+                                    var url = 'https://save-your-ingredient.s3.amazonaws.com/recipes/' + recipeNumber + '.json';
+                                    xhr2.open('GET', url);
+                                    xhr2.send();
+
+                                    xhr2.onreadystatechange = function () {
+                                        if (xhr2.readyState === XMLHttpRequest.DONE) {
+                                            if (xhr2.status === 200) {
+                                                let loadedJSON = JSON.parse(xhr2.responseText);
+                                                var html = "";
+                                                html += '<li> \
+                              <div class="blog_news" > \
+                                <div class="recipe-card" > \
+                                  <div class="blog_img"> \
+                                    <a href="detail_recipe.html""><img src="' + loadedJSON.thumbnail + '" alt=""/></a> \
+                                  </div> \
+                                  <div class="blog_content" style="text-align: left;"> \
+                                      <a href="detail_recipe.html""><h3 id="plz">' + loadedJSON.name + '</h3></a> \
+                                  </div> \
+                                  <button id="'+ loadedJSON.id + '" class="btn-storage" onclick=btn_click(this.id)>창고에 담기</button> \
+                                </div> \
+                              </div> \
+                            </li>';
+
+                                                $("#completeRecipes").append(html);
+                                            } else {
+                                                console.log("ERROR");
+                                            }
+                                        }
+                                    }
+                                });
+                            }
+                        }
+
+                        // showRecipes();
+                    </script>
+                </div>
+            </div>
+            <!--End of row-->
+
+        </div>
+        <!--End of container-->
+    </section>
+
+
     <footer class="include" include-html="./footer.html"></footer>
     <script src="../js/jquery-1.12.3.min.js"></script>
     <!--Back To Top-->

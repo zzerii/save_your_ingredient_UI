@@ -64,7 +64,6 @@
     .recipe-card {
       border: 1px solid #d1d3d1;
       border-radius: 6px;
-      width: 45%;
       height: 385px;
       margin: 0 15px 20px 10px;
       float: left;
@@ -91,30 +90,86 @@
   <script>
     // 창고에 담기
     function btn_click(that) {
-      if (localStorage.getItem('recipeId') === null) {
-        //init array
-        var recipes = [];
-        //add to array
-        // bookmarks.push(bookmark);
-        //set to Localstorage
-        // localStorage.setItem('bookmarks',JSON.stringify(bookmarks));
-      } else {
-        var output = localStorage.getItem("recipeId");
-        var recipes = JSON.parse(output);
-      }
+      // that : reci_id
+      console.log("레시피 번호", that);
+      var data = {};
+      data.reci_id = that;
+      var json_data = JSON.stringify(data);
 
-
-      console.log(that);
-      if (recipes.includes(that)) {
-        return;
-      } else {
-        recipes.push(that);
-      }
-      localStorage.setItem("recipeId", JSON.stringify(recipes));
-
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', 'http://localhost:8000/wish-recipe/');
+      xhr.setRequestHeader('Content-type', 'application/json');
+      xhr.setRequestHeader('Authorization', 'jwt ' + localStorage.getItem('token'));
+      xhr.send(json_data);
     }
   </script>
 
+
+  <script>
+    // 뿌려주기 
+    var Card = function (categoryOfRecipe, sizeOfRecipeArr, selector, width) {
+      var xhr = new XMLHttpRequest();
+      var url = 'http://localhost:8000/' + categoryOfRecipe + '/';
+      xhr.open('GET', url);
+      xhr.setRequestHeader('Authorization', 'jwt ' + localStorage.getItem('token'));
+
+      xhr.send();
+
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+          if (xhr.status === 200) {
+            let loadedJSON = JSON.parse(xhr.responseText);
+            var previewRecipeStockList = [];
+            for (var i = 0; i < sizeOfRecipeArr; i++) {
+              console.log("loaddd", loadedJSON.ids[i]);
+              previewRecipeStockList.push(loadedJSON.ids[i]);
+            }
+            $.each(previewRecipeStockList, function (index, recipeNumber) {
+              var xhr2 = new XMLHttpRequest();
+              var url = 'https://save-your-ingredient.s3.amazonaws.com/recipes/' + recipeNumber + '.json';
+              xhr2.open('GET', url);
+              xhr2.send();
+
+              xhr2.onreadystatechange = function () {
+                if (xhr2.readyState === XMLHttpRequest.DONE) {
+
+
+                  if (xhr2.status === 200) {
+                    let loadedJSON = JSON.parse(xhr2.responseText);
+
+                    var html = "";
+                    html +=
+                      '<div> \
+                        <div class="blog_news" > \
+                          <div class="recipe-card" style="width:'+ width + '" > \
+                            <div class="blog_img"> \
+                              <a href="detail_recipe.html""><img src="' + loadedJSON.thumbnail + '" alt=""/></a> \
+                            </div> \
+                            <div class="blog_content" style="text-align: left;"> \
+                                <a href="detail_recipe.html""><h3 id="plz">' + loadedJSON.name + '</h3></a> \
+                            </div> \
+                            <button id="'+ recipeNumber + '" class="btn-storage" onclick=btn_click(this.id)>창고에 담기</button> \
+                          </div> \
+                        </div> \
+                      </div>';
+                    $(selector).append(html);
+                  } else {
+                    console.log("error!!");
+                  }
+                }
+              }
+            });
+          } else {
+            console.log("Error");
+          }
+        }
+      }
+    }
+
+    Card('RecipeStock', 4, '#recent', '45%');
+    Card('RecipeRandom', 4, '#popular', '45%');
+
+  </script>
   <nav class="include" include-html="./nav.html"></nav>
 
 
@@ -125,110 +180,50 @@
     <div class="container">
       <!-- 최근 레시피 -->
 
-      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+      <div id="recentCardContainer" class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
         <div class="latest_blog text-left" style="margin-bottom: 10px;">
           <img src="../img/latest_recipe.png">
-          <div id="more" class="more-button" style="float: right;"><a href="recent-more-page.html">더 보기</a></div>
+          <button id="more" class="more-button" style="float: right;">더 보기</button>
+          <script>
+            $(document).on("click", "#more", function () {
+              $('#recentCardContainer').attr('class', 'col-lg-12 col-md-12 col-sm-12 col-xs-12');
+              $('#popularCardContainer').empty();
+              $('#recent').empty();
+              Card('RecipeStock', 20, '#recent', '22%');
+              $('#more').hide();
+            });
+          </script>
         </div>
         <!-- latest_blog -->
 
+        <!-- 추천 레시피 -->
+        <div id="recent">
 
-        <ul id="recent">
-          <script>
-            // TODO: json random으로 받아오기 
-            var items = [385717, 421942, 519510, 563115];
-            $.each(items, function (index, recipeNumber) {
-              // var num = Math.floor(Math.random() * 1000000);
-              var num = Math.floor(Math.random() * 10);
-              var jsonFile = String(recipeNumber);
-              var xhr = new XMLHttpRequest();
-              var url = 'https://save-your-ingredient.s3.amazonaws.com/recipes/' + recipeNumber + '.json';
-              xhr.open('GET', url);
-              xhr.send();
-
-              xhr.onreadystatechange = function () {
-                if (xhr.readyState === XMLHttpRequest.DONE) {
-
-
-                  if (xhr.status === 200) {
-                    let loadedJSON = JSON.parse(xhr.responseText);
-
-                    var html = "";
-                    html +=
-                      '<li> \
-                        <div class="blog_news" > \
-                          <div class="recipe-card" > \
-                            <div class="blog_img"> \
-                              <a href="detail_recipe.html""><img src="' + loadedJSON.thumbnail + '" alt=""/></a> \
-                            </div> \
-                            <div class="blog_content" style="text-align: left;"> \
-                                <a href="detail_recipe.html""><h3 id="plz">' + loadedJSON.name + '</h3></a> \
-                            </div> \
-                            <button id="'+ loadedJSON.id + '" class="btn-storage" onclick=btn_click(this.id)>창고에 담기</button> \
-                          </div> \
-                        </div> \
-                      </li>';
-
-
-                    $("#recent").append(html);
-
-                  } else {
-                    console.log("error!!");
-                  }
-                }
-              }
-            });
-
-
-          </script>
-        </ul>
+        </div>
       </div>
       <!-- col-md-6 -->
 
 
 
-      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+      <div id="popularCardContainer" class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
         <div class="latest_blog text-left" style="margin-bottom: 10px;">
           <img src="../img/ingi_recipe.png">
-          <div id="more" class="more-button" style="float: right;"><a href="recipe-page-exercise.html">더 보기</a></div>
+          <button id="moreP" class="more-button" style="float: right;">더 보기</button>
+          <script>
+            $(document).on("click", "#moreP", function () {
+              $('#popularCardContainer').attr('class', 'col-lg-12 col-md-12 col-sm-12 col-xs-12');
+              $('#recentCardContainer').empty();
+              $('#popular').empty();
+              Card('RecipeRandom', 20, '#popular', '22%');
+              $('#moreP').hide();
+            });
+          </script>
         </div>
         <!-- latest_blog -->
 
 
         <div id="popular">
-          <script>
-            $("#popular").ready(function () {
-              $.getJSON("recipe_example.json", function (data) {
-                var html = "";
-                $.each(data, function (entryIndex, item) {
-                  html +=
-                    '<div> \
-                        <div class="blog_news" > \
-                          <div class="recipe-card"> \
-                            <div class="blog_img"> \
-                              <a href="detail_recipe.html""><img src="' + item.thumbnail + '" alt="" /></a> \
-                            </div> \
-                            <div class="blog_content"> \
-                              <a href=""><h3>' + item.name + '</h3></a> \
-                              <div class="expert"> \
-                                <div class="left-side text-left"> \
-                                  <p class="left_side"> \
-                                    <span class="clock"><i class="fa fa-clock-o"></i></span> \
-                                    <span class="time">' + item.time + '</span> \
-                                  </p> \
-                                </div> \
-                              </div> \
-                            </div> \
-                            <button class="btn-storage">창고에 담기</button> \
-                          </div> \
-                        </div> \
-                      </div>';
-                }); // end each
-                $("#popular").html(html);
-              }); // end getJSON
-              return false;
-            });
-          </script>
+
         </div>
       </div>
     </div>
