@@ -1,12 +1,13 @@
 <html>
 
-<head>
-    <link href="../css/login.css" rel="stylesheet">
-    <style>
-        body {
-            background-image: url('../img/background_image.jpg');
-            background-size: cover;
-            background-position: center;
+    <head>
+        <meta charset="utf-8">
+        <link href="../css/login.css" rel="stylesheet">
+        <style>
+            body{
+                background-image: url('../img/background_image.jpg');
+                background-size: cover;
+                background-position: center;
         }
     </style>
 </head>
@@ -68,17 +69,17 @@
             console.log(password)
             xhr.send(JSON.stringify({ username: id, password: password }));
 
-            xhr.onreadystatechange = function () {
-                if (xhr.status === 200) { // 201: Created
-                    var obj = JSON.parse(xhr.responseText);
-                    console.log(obj.token)
-                    localStorage.setItem('token', obj.token)
-                    console.log(obj.user.pk)
-                    localStorage.setItem('user_pk', obj.user.pk)
-                    window.location.href = "index.html";
-                } else {
-                    console.log("Error!")
-                    window.location.href = "login.html";
+
+            xhr.onreadystatechange = function() {
+                    if(xhr.status === 200) { // 201: Created
+                        var obj = JSON.parse(xhr.responseText);
+                        console.log(obj.token)
+                        localStorage.setItem('token', obj.token)
+                        console.log(obj.user.pk)
+                        localStorage.setItem('user_pk',obj.user.pk)
+                        window.location.href = "index.html";
+                    } else {
+                        console.log("Error!")
                 }
             };
         }

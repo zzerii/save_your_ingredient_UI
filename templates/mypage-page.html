@@ -46,7 +46,6 @@
     <style>
         body {
             font-family: 'Crimson Pro', serif;
-            font-size: 48px;
         }
 
         .btn-storage {
@@ -170,7 +169,7 @@
                     if (xhr_my.status === 200) {
                         var loadedJSON = JSON.parse(xhr_my.responseText);
                         var totalExperienceRecipe = loadedJSON.experience_recipes.length;
-                        var cookTime = 100;
+                        var cookTime = 270;
                         console.log("totaltime", cookTime, "레시피 해먹은거", totalExperienceRecipe);
                         $("#recp").attr('data-target', totalExperienceRecipe);
                         $("#cookTime").attr('data-target', cookTime);
