@@ -89,7 +89,7 @@
         // mypage 최근에 해 먹은 레시피 뿌려주기
         var MyPage = function () {
             var xhr = new XMLHttpRequest();
-            var url = 'http://localhost:8000/user-detail/';
+            var url = 'http:///18.212.120.246:8000/user-detail/';
             xhr.open('GET', url);
             xhr.setRequestHeader('Authorization', 'jwt ' + localStorage.getItem('token'));
 
@@ -154,7 +154,7 @@
             var json_data = JSON.stringify(data);
 
             var xhr = new XMLHttpRequest();
-            xhr.open('POST', 'http://localhost:8000/wish-recipe/');
+            xhr.open('POST', 'http://18.212.120.246:8000/wish-recipe/');
             xhr.setRequestHeader('Content-type', 'application/json');
             xhr.setRequestHeader('Authorization', 'jwt ' + localStorage.getItem('token'));
             xhr.send(json_data);
@@ -163,7 +163,7 @@
     <script>
         var myGrade = function () {
             var xhr_my = new XMLHttpRequest();
-            xhr_my.open('GET', 'http://127.0.0.1:8000/user-detail/');
+            xhr_my.open('GET', 'http://18.212.120.246:8000/user-detail/');
             xhr_my.setRequestHeader('Authorization', 'jwt ' + localStorage.getItem('token'));
             xhr_my.send();
 
@@ -315,7 +315,6 @@
     </section>
 
 
-    <footer class="include" include-html="./footer.html"></footer>
     <script src="../js/jquery-1.12.3.min.js"></script>
     <!--Back To Top-->
     <script src="../js/backtotop.js"></script>

@@ -1,4 +1,5 @@
 <html>
+
     <head>
         <link href="../css/login.css" rel="stylesheet">
         <style>
@@ -19,51 +20,53 @@
                         <!-- <input type="hidden" name="returnUrl" value="https://www.kurly.com/shop/main/index.php">
                         <input type="hidden" name="return_url" value="">
                         <input type="hidden" name="close" value=""> -->
-                        <input type="text" id='id_input' name="m_id" size="20" tabindex="1" value="" placeholder="아이디를 입력해주세요">
-                        <input type="password" id='password_input' name="password" size="20" tabindex="2" placeholder="비밀번호를 입력해주세요">
-                        
-                        <button  class="btn_type1" onclick="login(document.getElementById('id_input').value, document.getElementById('password_input').value)"><span class="txt_type">로그인</span></button>
-                    <!-- </form> -->
-                    <a href="registeration.html" class="btn_type2"><span class="txt_type" style="color: #5f0080;">회원가입</span></a>
-                </div>
+                <input type="text" id='id_input' name="m_id" size="20" tabindex="1" value="" placeholder="아이디를 입력해주세요">
+                <input type="password" id='password_input' name="password" size="20" tabindex="2"
+                    placeholder="비밀번호를 입력해주세요">
+
+                <button class="btn_type1"
+                    onclick="login(document.getElementById('id_input').value, document.getElementById('password_input').value)"><span
+                        class="txt_type">로그인</span></button>
+                <!-- </form> -->
+                <a href="registeration.html" class="btn_type2"><span class="txt_type"
+                        style="color: #5f0080;">회원가입</span></a>
             </div>
         </div>
-        <script>
+    </div>
+    <script>
 
-            // const xhr = new XMLHttpRequest();
-            // xhr.open('GET', 'http://127.0.0.1:8000/stock');
-            // xhr.setRequestHeader('Authorization', 'JWT ' + localStorage.getItem('token'));
-            // xhr.send();
+        // const xhr = new XMLHttpRequest();
+        // xhr.open('GET', 'http://127.0.0.1:8000/stock');
+        // xhr.setRequestHeader('Authorization', 'JWT ' + localStorage.getItem('token'));
+        // xhr.send();
 
-            // xhr.onreadystatechange = function (e) {
-            // if (xhr.readyState !== XMLHttpRequest.DONE) return;
+        // xhr.onreadystatechange = function (e) {
+        // if (xhr.readyState !== XMLHttpRequest.DONE) return;
 
-            // if(xhr.status === 200) { // 200: OK => https://httpstatuses.com
-            //     console.log(xhr.responseText);
-            // } else {
-            //     console.log("Error!");
-            // }
-            
-            // };
+        // if(xhr.status === 200) { // 200: OK => https://httpstatuses.com
+        //     console.log(xhr.responseText);
+        // } else {
+        //     console.log("Error!");
+        // }
 
-            function isLogin(){
-                if ( localStorage.getItem('token') == ""){
-                    window.location.href='login.html'
-                } 
+        // };
+
+        function isLogin() {
+            if (localStorage.getItem('token') == "") {
+                window.location.href = 'login.html'
             }
-            isLogin();
-            
-            function login(id, password){
-                const xhr = new XMLHttpRequest();
-                // xhr.open("POST", "http://52.72.27.238:8000/rest-auth/login/");
-                xhr.open('POST', 'http://127.0.0.1:8000/rest-auth/login/');
-                xhr.setRequestHeader('Content-type', 'application/json');
-                console.log(id)
-                console.log(password)
-                xhr.send(JSON.stringify({username: id, password: password}));
+        }
+        isLogin();
 
-                xhr.onreadystatechange = function (e) {
-                    if (xhr.readyState !== XMLHttpRequest.DONE) return;
+        function login(id, password) {
+            const xhr = new XMLHttpRequest();
+            // xhr.open("POST", "http://52.72.27.238:8000/rest-auth/login/");
+            xhr.open('POST', 'http:///18.212.120.246:8000/rest-auth/login/');
+            xhr.setRequestHeader('Content-type', 'application/json');
+            console.log(id)
+            console.log(password)
+            xhr.send(JSON.stringify({ username: id, password: password }));
+
 
                     if(xhr.status === 200) { // 201: Created
                         var obj = JSON.parse(xhr.responseText);
@@ -77,8 +80,9 @@
                         window.location.href = "login.html";
                 }
             };
-            }
-        </script>
+        }
+    </script>
 
-    </body>
+</body>
+
 </html>

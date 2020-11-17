@@ -111,7 +111,7 @@
     // storage recipe 뿌려주기 
     var Storage = function () {
       var xhr = new XMLHttpRequest();
-      var url = 'http://localhost:8000/user-detail/';
+      var url = 'http:///18.212.120.246:8000/user-detail/';
       xhr.open('GET', url);
       xhr.setRequestHeader('Authorization', 'jwt ' + localStorage.getItem('token'));
 
@@ -201,6 +201,69 @@
   </script>
 
 
+  <script>
+    // 레시피 완료 
+    function completeBtn(that) {
+      /*
+      localhost:8000/experience-recipe/ (POST)
+      body: reci_id = recipe id
+      jwt
+      */
+      var data = {};
+      data.reci_id = that;
+      var json_data = JSON.stringify(data);
+      console.log("json_data", json_data);
+
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", 'http:///18.212.120.246:8000/experience-recipe/');
+      xhr.setRequestHeader('Content-type', 'application/json');
+      xhr.setRequestHeader('Authorization', 'jwt ' + localStorage.getItem('token'));
+      xhr.send(json_data);
+
+
+
+      xhr.onreadystatechange = function (e) {
+        if (xhr.readyState !== XMLHttpRequest.DONE) return;
+
+        if (xhr.status === 200) {
+          $('#stored_recipe').empty();
+          Storage();
+        } else {
+          console.log("Error!");
+        }
+      }
+    }
+
+    // 창고에서 삭제
+    function deleteBtn(that) {
+      var data = {};
+      data.reci_id = that;
+      var json_data = JSON.stringify(data);
+      console.log("json_data", json_data);
+
+      var xhr = new XMLHttpRequest();
+      xhr.open("DELETE", 'http:///18.212.120.246:8000/wish-recipe/');
+      xhr.setRequestHeader('Content-type', 'application/json');
+      xhr.setRequestHeader('Authorization', 'jwt ' + localStorage.getItem('token'));
+      xhr.send(json_data);
+
+
+
+      xhr.onreadystatechange = function (e) {
+        if (xhr.readyState !== XMLHttpRequest.DONE) return;
+
+        if (xhr.status === 200) {
+          console.log("삭제?");
+          $('#stored_recipe').empty();
+          Storage();
+        } else {
+          console.log("Error!");
+        }
+      }
+    }
+  </script>
+
+
   <nav class="include" include-html="./nav.html"></nav>
 
   <!-- storage.html 페이지 -->
@@ -231,7 +294,6 @@
       <!--End of container-->
   </section>
 
-  <footer class="include" include-html="./footer.html"></footer>
 
   <script src="../js/jquery-1.12.3.min.js"></script>
   <script type="text/javascript" src="../js/list.js"></script>
@@ -295,6 +357,7 @@
     });
   </script>
 
+
   <script>
     // Order Stock
     function order_ingredient(that) {
@@ -319,8 +382,6 @@
 
     }
   </script>
-
-
 </body>
 
 </html>
