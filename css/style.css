@@ -821,9 +821,9 @@ a.close-modal{
 
 /* modal */
 .modal_wrap {
-  display: none;
+  display: flex;
   width: 500px;
-  height: 500px;
+  max-height: 300px;
   position: absolute;
   top: 50%;
   left: 50%;

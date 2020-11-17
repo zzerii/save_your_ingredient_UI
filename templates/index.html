@@ -129,6 +129,7 @@
 
     function logout() {
         localStorage.removeItem('token');
+        localStorage.removeItem('user_pk')
         window.location.href = "login.html";
         // console.log(localStorage.getItem('token'))
     }
