@@ -67,7 +67,7 @@
             console.log(password)
             xhr.send(JSON.stringify({ username: id, password: password }));
 
-
+            xhr.onreadystatechange = function() {
                     if(xhr.status === 200) { // 201: Created
                         var obj = JSON.parse(xhr.responseText);
                         console.log(obj.token)
