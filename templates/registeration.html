@@ -29,28 +29,28 @@
                         class="txt_type">회원가입</span></button>
             </div>
         </div>
-    </div>
-    <script>
+        <script>
+            
+            function login(id, password1, password2){
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', 'http:///18.212.120.246:8000/rest-auth/registration/');
+                xhr.setRequestHeader('Content-type', 'application/json');
+                console.log(id)
+                console.log(password1)
+                xhr.send(JSON.stringify({username: id, password1: password1, password2: password2}));
 
-        function login(id, password1, password2) {
-            const xhr = new XMLHttpRequest();
-            xhr.open('POST', 'http://18.212.120.246:8000/rest-auth/registration/');
-            xhr.setRequestHeader('Content-type', 'application/json');
-            console.log(id)
-            console.log(password1)
-            xhr.send(JSON.stringify({ username: id, password1: password1, password2: password2 }));
+                xhr.onreadystatechange = function (e) {
+                    if (xhr.readyState !== XMLHttpRequest.DONE) return;
 
-            xhr.onreadystatechange = function (e) {
-                if (xhr.readyState !== XMLHttpRequest.DONE) return;
+                    if(xhr.status === 201) { // 201: Created
+                        window.location.href = "login.html";
+                        // var obj = JSON.parse(xhr.responseText);
+                        // console.log(obj.token)
+                        // localStorage.setItem('token', obj.token)
+                    } else {
+                        console.log("Error!")
+                        window.location.href = "registeration.html";
 
-                if (xhr.status === 201) { // 201: Created
-                    window.location.href = "login.html";
-                    // var obj = JSON.parse(xhr.responseText);
-                    // console.log(obj.token)
-                    // localStorage.setItem('token', obj.token)
-                } else {
-                    console.log("Error!")
-                    window.location.href = "registeration.html";
                 }
             };
         }
