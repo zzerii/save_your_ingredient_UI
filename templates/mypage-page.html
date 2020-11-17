@@ -98,12 +98,10 @@
                 if (xhr.readyState === XMLHttpRequest.DONE) {
                     if (xhr.status === 200) {
                         let loadedJSON = JSON.parse(xhr.responseText);
-                        console.log("되냐", loadedJSON);
                         var experienceRecipeList = [];
                         for (var i = 0; i < loadedJSON.experience_recipes.length; i++) {
                             experienceRecipeList.push(loadedJSON.experience_recipes[i]);
                         }
-                        console.log("fjdkfjdkfj", experienceRecipeList);
                         $.each(experienceRecipeList, function (index, recipeNumber) {
                             var xhr2 = new XMLHttpRequest();
                             var url = 'https://save-your-ingredient.s3.amazonaws.com/recipes/' + recipeNumber.reci_id + '.json';
@@ -170,9 +168,10 @@
             xhr_my.onreadystatechange = function () {
                 if (xhr_my.readyState === XMLHttpRequest.DONE) {
                     if (xhr_my.status === 200) {
-                        var loadedJSON_grade = JSON.parse(xhr_my.responseText);
-                        var totalExperienceRecipe = loadedJSON_grade.experience_recipes.length;
-                        var cookTime = loadedJSON_grade.total_time;
+                        var loadedJSON = JSON.parse(xhr_my.responseText);
+                        var totalExperienceRecipe = loadedJSON.experience_recipes.length;
+                        var cookTime = 100;
+                        console.log("totaltime", cookTime, "레시피 해먹은거", totalExperienceRecipe);
                         $("#recp").attr('data-target', totalExperienceRecipe);
                         $("#cookTime").attr('data-target', cookTime);
 
@@ -218,7 +217,7 @@
                         <div class="sigle_counter_item">
                             <img src="/img/count_1.png" alt="" />
                             <div class="counter_text">
-                                <div id="recp" class="counter" data-target="1542">0</div>
+                                <div id="recp" class="counter" data-target="9">0</div>
                                 <p>요리한 레시피 개수</p>
                             </div>
                         </div>
@@ -229,7 +228,7 @@
                         <div class="sigle_counter_item">
                             <img src="/img/clock_1.png" alt="" />
                             <div class="counter_text">
-                                <div id="cookTime" class="counter" data-target="1458">0</div>
+                                <div id="cookTime" class="counter" data-target="450">0</div>
                                 <p>총 요리 시간(분)</p>
                             </div>
                         </div>
@@ -243,69 +242,6 @@
                     <hr />
                 </div>
                 <div id="completeRecipes">
-                    <!-- 최근에 해 먹은 레시피 -->
-                    <script>
-                        var mypage_recipe_id = [];
-                        var showRecipes = function () {
-                            var xhr = new XMLHttpRequest();
-                            xhr.open("GET", "http://127.0.0.1:5502/data/user_detail_ex.json");
-                            xhr.send();
-                            xhr.onreadystatechange = function () {
-                                if (xhr.readyState !== XMLHttpRequest.DONE) {
-                                    return;
-                                }
-
-                                if (xhr.status === 200) {
-                                    responseObject = JSON.parse(xhr.responseText);
-                                    responseObject.forEach(element => {
-                                        var mypage_recipe_size = element.experience_recipes.length;
-                                        console.log(mypage_recipe_size);
-                                        for (var i = 0; i < mypage_recipe_size; i++) {
-                                            mypage_recipe_id.push(element.experience_recipes[i].recipe_id);
-                                        }
-                                    });
-                                } else {
-                                    console.log("ERROR");
-                                }
-
-                                console.log("arr", mypage_recipe_id);
-                                $.each(mypage_recipe_id, function (index, recipeNumber) {
-                                    var xhr2 = new XMLHttpRequest();
-                                    var url = 'https://save-your-ingredient.s3.amazonaws.com/recipes/' + recipeNumber + '.json';
-                                    xhr2.open('GET', url);
-                                    xhr2.send();
-
-                                    xhr2.onreadystatechange = function () {
-                                        if (xhr2.readyState === XMLHttpRequest.DONE) {
-                                            if (xhr2.status === 200) {
-                                                let loadedJSON = JSON.parse(xhr2.responseText);
-                                                var html = "";
-                                                html += '<li> \
-                              <div class="blog_news" > \
-                                <div class="recipe-card" > \
-                                  <div class="blog_img"> \
-                                    <a href="detail_recipe.html""><img src="' + loadedJSON.thumbnail + '" alt=""/></a> \
-                                  </div> \
-                                  <div class="blog_content" style="text-align: left;"> \
-                                      <a href="detail_recipe.html""><h3 id="plz">' + loadedJSON.name + '</h3></a> \
-                                  </div> \
-                                  <button id="'+ loadedJSON.id + '" class="btn-storage" onclick=btn_click(this.id)>창고에 담기</button> \
-                                </div> \
-                              </div> \
-                            </li>';
-
-                                                $("#completeRecipes").append(html);
-                                            } else {
-                                                console.log("ERROR");
-                                            }
-                                        }
-                                    }
-                                });
-                            }
-                        }
-
-                        // showRecipes();
-                    </script>
                 </div>
             </div>
             <!--End of row-->
@@ -342,13 +278,17 @@
                 dispCount($('.counter'));
             }
         })
+    });
+
+    $(function () {
+        let loaded = false;
         $('body').on('DOMNodeInserted', '#cookTime', function () {
             if (!loaded) {
                 loaded = true;
                 dispCount($('.counter'));
             }
         })
-    });
+    })
 </script>
 
 </html>

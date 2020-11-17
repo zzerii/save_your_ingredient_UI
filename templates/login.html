@@ -1,23 +1,24 @@
 <html>
 
-    <head>
-        <link href="../css/login.css" rel="stylesheet">
-        <style>
-            body{
-                background-image: url('../img/background_image.jpg');
-                background-size: cover;
-                background-position: center;
+<head>
+    <link href="../css/login.css" rel="stylesheet">
+    <style>
+        body {
+            background-image: url('../img/background_image.jpg');
+            background-size: cover;
+            background-position: center;
         }
-        </style>
-    </head>
-    <body>
-        <nav class="include" include-html="./nav.html"></nav>
-        <div class="section_login" style="margin-top:200px">
-            <h3 class="tit_login">로그인</h3>
-            <div class="write_form">
-                <div class="write_view login_view">
-                    <!-- <form method="post" name="form" id="form"> -->
-                        <!-- <input type="hidden" name="returnUrl" value="https://www.kurly.com/shop/main/index.php">
+    </style>
+</head>
+
+<body>
+    <nav class="include" include-html="./nav.html"></nav>
+    <div class="section_login" style="margin-top:200px">
+        <h3 class="tit_login">로그인</h3>
+        <div class="write_form">
+            <div class="write_view login_view">
+                <!-- <form method="post" name="form" id="form"> -->
+                <!-- <input type="hidden" name="returnUrl" value="https://www.kurly.com/shop/main/index.php">
                         <input type="hidden" name="return_url" value="">
                         <input type="hidden" name="close" value=""> -->
                 <input type="text" id='id_input' name="m_id" size="20" tabindex="1" value="" placeholder="아이디를 입력해주세요">
@@ -67,17 +68,17 @@
             console.log(password)
             xhr.send(JSON.stringify({ username: id, password: password }));
 
-
-                    if(xhr.status === 200) { // 201: Created
-                        var obj = JSON.parse(xhr.responseText);
-                        console.log(obj.token)
-                        localStorage.setItem('token', obj.token)
-                        console.log(obj.user.pk)
-                        localStorage.setItem('user_pk',obj.user.pk)
-                        window.location.href = "index.html";
-                    } else {
-                        console.log("Error!")
-                        window.location.href = "login.html";
+            xhr.onreadystatechange = function () {
+                if (xhr.status === 200) { // 201: Created
+                    var obj = JSON.parse(xhr.responseText);
+                    console.log(obj.token)
+                    localStorage.setItem('token', obj.token)
+                    console.log(obj.user.pk)
+                    localStorage.setItem('user_pk', obj.user.pk)
+                    window.location.href = "index.html";
+                } else {
+                    console.log("Error!")
+                    window.location.href = "login.html";
                 }
             };
         }
