@@ -341,7 +341,7 @@
       data.amount = addAmount;
       data.expiration_date = addExp;
       data.user_id = localStorage.getItem('user_pk');
-      data.ingredient_id = getIngredientName(localStorage.getItem('ingId'));
+      data.ingredient_id = localStorage.getItem('ingId');
       localStorage.removeItem('ingId');
 
       const addxhr = new XMLHttpRequest();
@@ -350,9 +350,8 @@
 
       addxhr.setRequestHeader('Content-type', 'application/json');
       addxhr.setRequestHeader('Authorization', 'jwt ' + localStorage.getItem('token'));
-      console.log(data);
       addxhr.send(JSON.stringify(data));
-
+      window.location.href = "myref.html";
       //addxhr.send(data);
     }
   </script>

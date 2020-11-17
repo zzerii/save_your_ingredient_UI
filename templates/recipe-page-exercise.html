@@ -121,11 +121,9 @@
       xhr.onreadystatechange = function () {
         if (xhr.readyState === XMLHttpRequest.DONE) {
           if (xhr.status === 200) {
-            console.log("fdklf쫓아내지마세요");
             let loadedJSON = JSON.parse(xhr.responseText);
             var previewRecipeStockList = [];
             for (var i = 0; i < sizeOfRecipeArr; i++) {
-              console.log("loaddd", loadedJSON.ids[i]);
               previewRecipeStockList.push(loadedJSON.ids[i]);
             }
             $.each(previewRecipeStockList, function (index, recipeNumber) {
@@ -267,7 +265,6 @@
     localStorage.removeItem('token');
     localStorage.removeItem('user_pk')
     window.location.href = "login.html";
-    // console.log(localStorage.getItem('token'))
   }
 
   $(function () {
