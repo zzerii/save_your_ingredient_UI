@@ -147,10 +147,10 @@
                         <div class="blog_news" > \
                           <div class="recipe-card" style="width:'+ width + '" > \
                             <div class="blog_img"> \
-                              <a href="detail_recipe.html""><img src="' + loadedJSON.thumbnail + '" alt=""/></a> \
+                              <a href="detail_recipe.html"><img src="' + loadedJSON.thumbnail + '" alt=""/></a> \
                             </div> \
                             <div class="blog_content" style="text-align: left;"> \
-                                <a href="detail_recipe.html""><h3 id="plz">' + loadedJSON.name + '</h3></a> \
+                              <a href="detail_recipe.html"><h3 id="plz">' + loadedJSON.name + '</h3></a> \
                             </div> \
                             <button id="'+ recipeNumber + '" class="btn-storage" onclick=btn_click(this.id)>창고에 담기</button> \
                           </div> \
@@ -256,28 +256,28 @@
 <script>
   includeHTML();
   function isLogin() {
-      if (!localStorage.getItem('token')) {
-          window.location.href = "login.html";
-      }
-      console.log(localStorage.getItem('token'))
+    if (!localStorage.getItem('token')) {
+      window.location.href = "login.html";
+    }
+    console.log(localStorage.getItem('token'))
   }
   isLogin();
 
   function logout() {
-      localStorage.removeItem('token');
-      localStorage.removeItem('user_pk')
-      window.location.href = "login.html";
-      // console.log(localStorage.getItem('token'))
+    localStorage.removeItem('token');
+    localStorage.removeItem('user_pk')
+    window.location.href = "login.html";
+    // console.log(localStorage.getItem('token'))
   }
 
   $(function () {
-      let loaded = false;
-      $('body').on('DOMNodeInserted', '#logout', function () {
-          if (!loaded) {
-              loaded = true;
-              logout();
-          }
-      })
+    let loaded = false;
+    $('body').on('DOMNodeInserted', '#logout', function () {
+      if (!loaded) {
+        loaded = true;
+        logout();
+      }
+    })
   });
 
 </script>

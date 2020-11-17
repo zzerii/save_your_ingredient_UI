@@ -101,35 +101,35 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
   <script>includeHTML();</script>
-  
+
   <script>
     includeHTML();
     function isLogin() {
-        if (!localStorage.getItem('token')) {
-            window.location.href = "login.html";
-        }
-        console.log(localStorage.getItem('token'))
+      if (!localStorage.getItem('token')) {
+        window.location.href = "login.html";
+      }
+      console.log(localStorage.getItem('token'))
     }
     isLogin();
 
     function logout() {
-        localStorage.removeItem('token');
-        localStorage.removeItem('user_pk')
-        window.location.href = "login.html";
-        // console.log(localStorage.getItem('token'))
+      localStorage.removeItem('token');
+      localStorage.removeItem('user_pk')
+      window.location.href = "login.html";
+      // console.log(localStorage.getItem('token'))
     }
 
     $(function () {
-        let loaded = false;
-        $('body').on('DOMNodeInserted', '#logout', function () {
-            if (!loaded) {
-                loaded = true;
-                logout();
-            }
-        })
+      let loaded = false;
+      $('body').on('DOMNodeInserted', '#logout', function () {
+        if (!loaded) {
+          loaded = true;
+          logout();
+        }
+      })
     });
 
-</script>
+  </script>
   <!-- Modal jQuery -->
   <script>
     $('a[href="#ex7"]').click(function (event) {
@@ -158,11 +158,11 @@
         // Deserializing (String → Object)
         responseObject = JSON.parse(modal_xhr.responseText);
         // JSON → HTML String
-        var count=0;
+        var count = 0;
         let newContent = '';
         responseObject.forEach((responseObject) => {
-          
-            newContent += `
+
+          newContent += `
                         <div class="item" >
                             <a class="name" href="#" id="getName">${responseObject.name}</a>
                         </div>`;
@@ -173,19 +173,19 @@
         console.log(`[${modal_xhr.status}] : ${modal_xhr.statusText}`);
       }
     };
-    
-    
+
+
     //<!-- Search -->
     function filter() {
       var value, name, item, i;
-      
+
 
       value = document.getElementById("modal_input_val").value.toUpperCase();
       item = document.getElementsByClassName("item");
       for (i = 0; i < item.length; i++) {
         name = item[i].getElementsByClassName("name");
         if (name[0].innerHTML.toUpperCase().indexOf(value) > -1) {
-            item[i].style.display = "flex";
+          item[i].style.display = "flex";
         } else {
           item[i].style.display = "none";
         }
@@ -199,13 +199,13 @@
     });
 
     $("#inputed_amount").change(onSelectChange);
-            function onSelectChange(){ 
-                var selected = $("#inputed_amount option:selected");
-                if(selected.val() != 0){  
-                addAmount =selected.text();
-                }
-                //console.log(addAmount);
-            }
+    function onSelectChange() {
+      var selected = $("#inputed_amount option:selected");
+      if (selected.val() != 0) {
+        addAmount = selected.text();
+      }
+      //console.log(addAmount);
+    }
 
     // 달력
     $(function () {
@@ -280,17 +280,17 @@
 
       function calMoveEvtFn() {
         //전달 클릭
-        addExp=moment(nowDate).format('YYYY-MM-DD');
+        addExp = moment(nowDate).format('YYYY-MM-DD');
         $(".custom_calendar_table").on("click", ".prev", function () {
           nowDate = new Date(nowDate.getFullYear(), nowDate.getMonth() - 1, nowDate.getDate());
-          addExp=moment(nowDate).format('YYYY-MM-DD');
+          addExp = moment(nowDate).format('YYYY-MM-DD');
           console.log(addExp);
           calendarMaker($(target), nowDate);
         });
         //다음날 클릭
         $(".custom_calendar_table").on("click", ".next", function () {
           nowDate = new Date(nowDate.getFullYear(), nowDate.getMonth() + 1, nowDate.getDate());
-          addExp=moment(nowDate).format('YYYY-MM-DD');
+          addExp = moment(nowDate).format('YYYY-MM-DD');
           console.log(addExp);
           calendarMaker($(target), nowDate);
         });
@@ -299,7 +299,7 @@
           $(".custom_calendar_table .select_day").removeClass("select_day");
           $(this).removeClass("select_day").addClass("select_day");
           addExp = new Date(nowDate.getFullYear(), nowDate.getMonth(), document.getElementsByClassName('select_day')[0].textContent);
-          addExp=moment(addExp).format('YYYY-MM-DD');
+          addExp = moment(addExp).format('YYYY-MM-DD');
           //console.log( document.getElementsByClassName('select_day')[0].textContent )
           //console.log(nowDate)
           //addExp=nowDate;
@@ -314,42 +314,45 @@
     });
 
     //get Id
-    function getingreId(){
-        var idxhr = new XMLHttpRequest();
-        idxhr.open("GET", "../data/ingredient.json")
-        idxhr.send();
-        idxhr.onreadystatechange = function () {
-          if (idxhr.readyState !== XMLHttpRequest.DONE) return;
-          if (idxhr.status === 200) {
-            console.log("success");
-            idObject = JSON.parse(idxhr.responseText);
-            idObject.forEach((idObject) => {
-            if (idObject.name==addName){
-              addId=idObject.id
+    function getingreId() {
+      var idxhr = new XMLHttpRequest();
+      idxhr.open("GET", "../data/ingredient.json")
+      idxhr.send();
+      idxhr.onreadystatechange = function () {
+        if (idxhr.readyState !== XMLHttpRequest.DONE) return;
+        if (idxhr.status === 200) {
+          console.log("success?");
+          idObject = JSON.parse(idxhr.responseText);
+          idObject.forEach((idObject) => {
+            if (idObject.name == addName) {
+              localStorage.setItem('ingId', idObject.id);
             }
           });
         }
       }
     }
-    
-  //console.log(addId);
 
-    function addStockData(){
+    //console.log(addId);
+
+    function addStockData() {
       getingreId();
       var data = {};
       //data.name = addName;
       data.amount = addAmount;
       data.expiration_date = addExp;
       data.user_id = localStorage.getItem('user_pk');
-      data.ingredient_id = addId;
-      
+      data.ingredient_id = getIngredientName(localStorage.getItem('ingId'));
+      localStorage.removeItem('ingId');
 
       const addxhr = new XMLHttpRequest();
+
       addxhr.open('POST', 'http:///18.212.120.246:8000/stock/');
+
       addxhr.setRequestHeader('Content-type', 'application/json');
       addxhr.setRequestHeader('Authorization', 'jwt ' + localStorage.getItem('token'));
       console.log(data);
       addxhr.send(JSON.stringify(data));
+
       //addxhr.send(data);
     }
   </script>
@@ -366,15 +369,16 @@
         }
       }
     }
+
     function getIngredientName(ingId) {
       let myIngreName = "";
       let ing = localStorage.getItem('ingredient');
       let idObject = JSON.parse(ing);
-          idObject.forEach((idObject) => {
-            if (idObject.id == ingId) {
-              myIngreName = idObject.name;
-            }
-          });
+      idObject.forEach((idObject) => {
+        if (idObject.id == ingId) {
+          myIngreName = idObject.name;
+        }
+      });
       return myIngreName;
     }
   </script>
@@ -383,7 +387,7 @@
   <!-- Read and GET Json -->
   <script>
     var myIngreName, myIngreId;
-    function getingreName(myIngreId){
+    function getingreName(myIngreId) {
       var idxhr = new XMLHttpRequest();
       idxhr.open("GET", "../data/ingredient.json")
       idxhr.send();
@@ -394,8 +398,8 @@
           idObject = JSON.parse(idxhr.responseText);
           //console.log(idObject);
           idObject.forEach((idObject) => {
-            if (idObject.id==myIngreId){
-              myIngreName=idObject.name;
+            if (idObject.id == myIngreId) {
+              myIngreName = idObject.name;
               //console.log(myIngreName);
             }
           });
@@ -407,12 +411,14 @@
     }
 
     // Stock List
-      var stockList = function () {
+    var stockList = function () {
       // XMLHttpRequest 객체의 생성
       var xhr = new XMLHttpRequest();
 
       // 비동기 방식으로 Request를 오픈한다
+
       xhr.open("GET", "http:///18.212.120.246:8000/stock/");
+
       xhr.setRequestHeader('Authorization', 'jwt ' + localStorage.getItem('token'));
       // Request를 전송한다
       xhr.send();
@@ -430,7 +436,7 @@
           let newContent = '';
           // 
           stockresponseObject.forEach((stockresponseObject) => {
-            console.log("재료 아이디 ",stockresponseObject.ingredient_id);
+            console.log("재료 아이디 ", stockresponseObject.ingredient_id);
             // var realIngreName=getingreName(stockresponseObject.ingredient_id);
             var realIngreName = getIngredientName(stockresponseObject.ingredient_id);
             console.log(realIngreName);
@@ -449,8 +455,8 @@
                                 <option value="적음">적음</option>\
                               </select>\
                           </div>\
-                          <div class="col-md-1" style="float: left; display:none">'+stockresponseObject.id+'</div>\
-                          <button id='+ stockresponseObject.ingredient_id + ' onclick=orderStock(this.id) value='+stockresponseObject.ingredient_id+' class="col-lg-1 col-md-1 col-sm-1 col-xs-1 order_btn">\
+                          <div class="col-md-1" style="float: left; display:none">'+ stockresponseObject.id + '</div>\
+                          <button id='+ stockresponseObject.ingredient_id + ' onclick=orderStock(this.id) value=' + stockresponseObject.ingredient_id + ' class="col-lg-1 col-md-1 col-sm-1 col-xs-1 order_btn">\
                               주문하기\
                           </button>\
                           <div id="btnDel" class="col-lg-1 col-md-1 col-sm-1 col-xs-1 ">\
@@ -473,7 +479,7 @@
       var amount = $(this).select().val();
       var expiration_date = $(this).parent().prev().prev().text();
       var id = $(this).parent().next().text();
-      var ingredient_id=$(this).parent().next().next().val();
+      var ingredient_id = $(this).parent().next().next().val();
 
       var data = {};
       data.id = id;
@@ -487,7 +493,9 @@
 
       var xhr = new XMLHttpRequest();
       // 비동기 방식으로 Request를 오픈한다
+
       var url = 'http:///18.212.120.246:8000/stock/' + id + '/';
+
       console.log(url);
       xhr.open("PUT", url);
       xhr.setRequestHeader('Content-type', 'application/json');
@@ -510,12 +518,14 @@
 
 
 
-     //Delete Btn in List
-     $(document).on("click", "#deleteBtn", function () {
+    //Delete Btn in List
+    $(document).on("click", "#deleteBtn", function () {
       var id = $(this).parent().prev().prev().text();
       var xhr = new XMLHttpRequest();
 
+
       var url = 'http:///18.212.120.246:8000/stock/' + id;
+
       xhr.open("DELETE", url);
       xhr.setRequestHeader('Authorization', 'jwt ' + localStorage.getItem('token'));
       console.log("url", url);
@@ -560,7 +570,9 @@
   </script>
   <script>
     const de_xhr = new XMLHttpRequest();
+
     de_xhr.open('POST', 'http:///18.212.120.246:8000/stock/');
+
     de_xhr.setRequestHeader('Content-type', 'application/json');
 
     function add_stock(modal_input_val, password1, inputed_amount) {
