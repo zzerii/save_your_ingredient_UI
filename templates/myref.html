@@ -345,7 +345,7 @@
       
 
       const addxhr = new XMLHttpRequest();
-      addxhr.open('POST', 'http://127.0.0.1:8000/stock/');
+      addxhr.open('POST', 'http:///18.212.120.246:8000/stock/');
       addxhr.setRequestHeader('Content-type', 'application/json');
       addxhr.setRequestHeader('Authorization', 'jwt ' + localStorage.getItem('token'));
       console.log(data);
@@ -412,7 +412,7 @@
       var xhr = new XMLHttpRequest();
 
       // 비동기 방식으로 Request를 오픈한다
-      xhr.open("GET", "http://127.0.0.1:8000/stock/");
+      xhr.open("GET", "http:///18.212.120.246:8000/stock/");
       xhr.setRequestHeader('Authorization', 'jwt ' + localStorage.getItem('token'));
       // Request를 전송한다
       xhr.send();
@@ -487,7 +487,7 @@
 
       var xhr = new XMLHttpRequest();
       // 비동기 방식으로 Request를 오픈한다
-      var url = 'http://127.0.0.1:8000/stock/' + id + '/';
+      var url = 'http:///18.212.120.246:8000/stock/' + id + '/';
       console.log(url);
       xhr.open("PUT", url);
       xhr.setRequestHeader('Content-type', 'application/json');
@@ -515,7 +515,7 @@
       var id = $(this).parent().prev().prev().text();
       var xhr = new XMLHttpRequest();
 
-      var url = 'http://127.0.0.1:8000/stock/' + id;
+      var url = 'http:///18.212.120.246:8000/stock/' + id;
       xhr.open("DELETE", url);
       xhr.setRequestHeader('Authorization', 'jwt ' + localStorage.getItem('token'));
       console.log("url", url);
@@ -560,7 +560,7 @@
   </script>
   <script>
     const de_xhr = new XMLHttpRequest();
-    de_xhr.open('POST', 'http://127.0.0.1:8000/stock/');
+    de_xhr.open('POST', 'http:///18.212.120.246:8000/stock/');
     de_xhr.setRequestHeader('Content-type', 'application/json');
 
     function add_stock(modal_input_val, password1, inputed_amount) {
